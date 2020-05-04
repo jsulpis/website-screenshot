@@ -5,21 +5,21 @@
 
 <p>
   
-[![Build Status](https://travis-ci.org/jsulpis/nuxtjs-template.svg?branch=master)](https://travis-ci.org/jsulpis/nuxtjs-template)
+[![Build Status](https://travis-ci.org/jsulpis/website-screenshot.svg?branch=master)](https://travis-ci.org/jsulpis/website-screenshot)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nuxt-template&metric=alert_status)](https://sonarcloud.io/dashboard?id=nuxt-template)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nuxt-template&metric=coverage)](https://sonarcloud.io/dashboard?id=nuxt-template)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 </p>
 
-<a href="https://nuxtjs-template.netlify.app">
-  <img class="repo-preview" src="https://raw.githubusercontent.com/jsulpis/nuxtjs-template/master/preview.png" alt="Screenshot image"/>
+<a href="https://website-screenshot.netlify.app">
+  <img class="repo-preview" src="https://raw.githubusercontent.com/jsulpis/website-screenshot/master/preview.png" alt="Screenshot image"/>
 </a>
 
 </span>
 
 **Deploy your own copy of this project on Netlify in just a few clicks:**
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/nuxtjs-template)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/website-screenshot)
 
 ## About
 
@@ -70,7 +70,7 @@ I built this template with all the tools I found useful to develop my own person
 Clone the repository and install the dependencies:
 
 ```shell
-git clone https://github.com/jsulpis/nuxtjs-template.git && cd nuxtjs-template && yarn
+git clone https://github.com/jsulpis/website-screenshot.git && cd website-screenshot && yarn
 ```
 
 ## Usage
@@ -102,18 +102,18 @@ yarn start
 
 This template is ready to be deployed on Netlify:
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/nuxtjs-template)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/website-screenshot)
 
-See the `Deployment` section of the [documentation](https://nuxtjs-template.netlify.app/documentation) for more information.
+See the `Deployment` section of the [documentation](https://website-screenshot.netlify.app/documentation) for more information.
 
 You can integrate Netlify with your GitHub account, which will allow it to deploy each branch and pull request to their own environment, and the master branch in production.
 
 ## Configuration
 
-See the [documentation](https://nuxtjs-template.netlify.app/documentation)
+See the [documentation](https://website-screenshot.netlify.app/documentation)
 
 ## License
 
 Although you don't _have_ to, if you reuse this template for your projects I would appreciate it if you would credit me and provide a link to my GitHub profile in the footer. Thanks !
 
-Released under the [MIT](https://github.com/jsulpis/nuxtjs-template/blob/master/LICENSE) license.
+Released under the [MIT](https://github.com/jsulpis/website-screenshot/blob/master/LICENSE) license.

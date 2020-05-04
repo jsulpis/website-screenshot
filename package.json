@@ -1,28 +1,23 @@
 {
-  "name": "nuxt-template",
+  "name": "website-screenshot",
   "version": "1.0.0",
-  "description": "Full-featured template for JAMstack websites using nuxt.js",
+  "description": "Take a screenshot of a website, and prettify it.",
   "author": "Julien Sulpis",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "serve:static": "serve dist -l 3000",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "analyze": "nuxt build --analyze",
-    "cy:verify": "cypress verify",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "analyze": "nuxt build --analyze"
   },
   "dependencies": {
     "nuxt": "^2.12.2",
-    "nuxt-i18n": "^6.9.1",
-    "serve": "^11.3.0"
+    "nuxt-i18n": "^6.9.1"
   },
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
@@ -39,8 +34,6 @@
     "babel-jest": "^25.4.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
-    "cross-env": "^7.0.2",
-    "cypress": "^4.4.1",
     "husky": "^4.2.5",
     "jest": "^25.4.0",
     "node-sass": "^4.13.1",

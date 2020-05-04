@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const APP_TITLE = "Nuxt.js Template";
+const APP_TITLE = "Website Screenshot";
 
 module.exports = {
   server: {
@@ -35,7 +35,7 @@ module.exports = {
     [
       // Doc: https://github.com/nuxt-community/fontawesome-module
       "@nuxtjs/fontawesome",
-      { icons: { solid: ["faHeart", "faCopy", "faMoon", "faDesktop", "faRainbow"], regular: ["faSun"] } }
+      { icons: { solid: ["faHeart", "faMoon"], regular: ["faSun"] } }
     ],
     [
       // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
@@ -56,8 +56,8 @@ module.exports = {
   },
   pwa: {
     manifest: {
-      name: "Nuxt.js Template",
-      short_name: "Nuxt.js Template"
+      name: APP_TITLE,
+      short_name: APP_TITLE
     }
   },
   /*
