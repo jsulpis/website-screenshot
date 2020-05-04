@@ -23,10 +23,8 @@ export default {
   data() {
     return {
       themes: [
-        { value: "system", icon: ["fas", "desktop"] },
         { value: "light", icon: ["far", "sun"] },
-        { value: "dark", icon: ["fas", "moon"] },
-        { value: "rainbow", icon: ["fas", "rainbow"] }
+        { value: "dark", icon: ["fas", "moon"] }
       ]
     };
   }
