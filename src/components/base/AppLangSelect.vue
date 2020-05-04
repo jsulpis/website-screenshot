@@ -3,7 +3,7 @@
     <app-button-select
       v-for="locale in $i18n.locales"
       :key="locale.code"
-      class="inline-flex items-center"
+      class="inline-flex items-center w-32"
       :class="{ active: $i18n.locale === locale.code }"
     >
       <img :src="`/icons/${locale.code}-flag-square-icon.png`" :alt="locale.code + ' flag'" class="h-3 mr-1" />

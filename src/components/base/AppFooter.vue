@@ -1,26 +1,22 @@
 <template>
   <footer class="relative py-6 text-sm bg-accent">
     <div class="container mx-auto">
-      <div class="flex flex-wrap items-end">
-        <div class="w-full text-base lg:w-6/12">
-          <app-lang-select />
-          <app-theme-select class="my-2" />
-        </div>
-        <div class="flex flex-wrap w-full px-4 lg:w-6/12 lg:text-left">
-          <div class="w-full px-4 mt-3 lg:w-5/12">
-            <ul class="list-unstyled">
-              <li>
-                <footer-link href="https://github.com/jsulpis/nuxtjs-template">
-                  {{ $t("footer.star-on-github") }}
-                </footer-link>
-              </li>
-              <li>
-                <footer-link href="https://github.com/jsulpis/nuxtjs-template/blob/master/LICENSE">
-                  {{ $t("footer.license") }}
-                </footer-link>
-              </li>
-            </ul>
-          </div>
+      <div class="flex flex-wrap items-end justify-evenly">
+        <app-lang-select class="mb-2" />
+        <app-theme-select class="mb-2" />
+        <div class="w-full px-4 text-center sm:w-auto">
+          <ul class="list-unstyled">
+            <li>
+              <footer-link href="https://github.com/jsulpis/website-screenshot">
+                {{ $t("footer.star-on-github") }}
+              </footer-link>
+            </li>
+            <li>
+              <footer-link href="https://github.com/jsulpis/website-screenshot/blob/master/LICENSE">
+                {{ $t("footer.license") }}
+              </footer-link>
+            </li>
+          </ul>
         </div>
       </div>
       <hr class="mt-3 mb-6 border-gray-400" />
