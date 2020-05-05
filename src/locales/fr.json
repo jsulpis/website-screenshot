@@ -17,6 +17,7 @@
     "preset": "Preset",
     "width": "Largeur",
     "height": "Hauteur",
-    "input-error": "Veuillez entrer un nombre compris entre {0} et {1}"
+    "input-error": "Veuillez entrer un nombre compris entre {0} et {1}",
+    "send": "Envoyer"
   }
 }

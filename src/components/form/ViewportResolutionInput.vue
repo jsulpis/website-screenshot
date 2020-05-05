@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto screen-dimensions sm:w-2/3">
+  <div class="screen-dimensions sm:w-2/3">
     <h4 class="mb-2 text-left">
       {{ $t("index.screen-dimensions") }}
     </h4>
