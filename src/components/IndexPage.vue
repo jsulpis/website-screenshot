@@ -2,7 +2,7 @@
   <div class="mt-16">
     <ViewportResolutionInput @resolution="resolution = $event" />
 
-    <p class="text-light">{{ resolution.width }} x {{ resolution.height }}</p>
+    <p class="mt-3 text-center text-light">{{ resolution.width }} x {{ resolution.height }}</p>
     <div class="mx-auto mt-1 sm:w-1/2">
       <ScreenshotPreview :resolution="resolution" />
     </div>

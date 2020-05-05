@@ -1,5 +1,5 @@
 <template>
-  <div class="screen-dimensions sm:w-1/2">
+  <div class="mx-auto screen-dimensions sm:w-2/3">
     <h4 class="mb-2 text-left">
       {{ $t("index.screen-dimensions") }}
     </h4>
@@ -8,39 +8,40 @@
       >{{ $t("index.screen-note") }}
     </p>
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
+
     <ul>
       <li :class="{ 'form-input--error': $v.width.$error }">
-        <div class="inline-block">
-          <label for="width" class="block text-light">{{ $t("index.width") }}</label>
-          <input
-            v-model.lazy.number="$v.width.$model"
-            type="number"
-            name="width"
-            id="width"
-            placeholder="1440"
-            class="w-24 form-control"
-          />
-          <span class="mr-2 text-sm opacity-50">px</span>
-        </div>
-        <p v-show="$v.width.$error" class="width-error">{{ $t("index.error", ["10", "20"]) }}</p>
+        <label for="width" class="block text-light">{{ $t("index.width") }}</label>
+        <input
+          v-model.lazy.number="$v.width.$model"
+          type="number"
+          name="width"
+          id="width"
+          placeholder="1440"
+          class="w-32 form-control"
+        />
+        <span class="mr-2 text-sm opacity-50">px</span>
       </li>
 
       <li :class="{ 'form-input--error': $v.height.$error }">
-        <div class="inline-block">
-          <label for="height" class="block text-light">{{ $t("index.height") }}</label>
-          <input
-            v-model.lazy.number="$v.height.$model"
-            type="number"
-            name="height"
-            id="height"
-            placeholder="900"
-            class="w-24 form-control"
-          />
-          <span class="mr-2 text-sm opacity-50">px</span>
-        </div>
-        <p v-show="$v.height.$error" class="height-error">{{ $t("index.error", ["10", "20"]) }}</p>
+        <label for="height" class="block text-light">{{ $t("index.height") }}</label>
+        <input
+          v-model.lazy.number="$v.height.$model"
+          type="number"
+          name="height"
+          id="height"
+          placeholder="900"
+          class="w-32 form-control"
+        />
+        <span class="mr-2 text-sm opacity-50">px</span>
       </li>
     </ul>
+    <p v-show="$v.width.$error" class="text-red-500 input-error">
+      {{ $t("index.error.width", ["360", "1920"]) }}
+    </p>
+    <p v-show="$v.height.$error" class="text-red-500 input-error">
+      {{ $t("index.error.height", ["640", "1366"]) }}
+    </p>
   </div>
 </template>
 
@@ -70,14 +71,10 @@ export default {
   },
   watch: {
     width() {
-      if (!this.$v.width.$error) {
-        this.emitResolution();
-      }
+      this.emitResolutionIfNoError();
     },
     height() {
-      if (!this.$v.height.$error) {
-        this.emitResolution();
-      }
+      this.emitResolutionIfNoError();
     }
   },
   methods: {
@@ -86,8 +83,10 @@ export default {
       this.width = +width;
       this.height = +height;
     },
-    emitResolution() {
-      this.$emit("resolution", { width: this.width, height: this.height });
+    emitResolutionIfNoError() {
+      if (!this.$v.width.$error && !this.$v.height.$error) {
+        this.$emit("resolution", { width: this.width, height: this.height });
+      }
     }
   }
 };
@@ -100,7 +99,7 @@ export default {
   }
 
   li {
-    @apply text-left mb-3;
+    @apply text-left mb-3 inline-block;
 
     &.form-input--error {
       @apply text-red-500;
