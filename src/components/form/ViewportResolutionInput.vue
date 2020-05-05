@@ -3,10 +3,14 @@
     <h4 class="mb-2 text-left">
       {{ $t("index.screen-dimensions") }}
     </h4>
-    <p class="px-2 py-1 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
-      <span class="inline-flex justify-center w-6 h-6 mr-2 font-serif font-bold border rounded-full bg-default">i</span
-      >{{ $t("index.screen-note") }}
-    </p>
+    <div class="px-3 py-2 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
+      <div
+        class="inline-flex justify-center w-5 h-5 mr-1 font-serif text-xs font-bold align-top border rounded-full bg-default"
+      >
+        i
+      </div>
+      <p class="inline-block w-11/12">{{ $t("index.screen-note") }}</p>
+    </div>
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
 
     <ul>
