@@ -1,16 +1,17 @@
 <template>
-  <div class="screen-dimensions">
-    <h4 class="mb-4 text-left">
+  <div class="screen-dimensions sm:w-1/2">
+    <h4 class="mb-2 text-left">
       {{ $t("index.screen-dimensions") }}
     </h4>
-    <p class="p-1 text-sm border rounded opacity-90 bg-surface">
-      <span class="font-bold">Note: </span>{{ $t("index.screen-note") }}
+    <p class="px-2 py-1 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
+      <span class="inline-flex justify-center w-6 h-6 mr-2 font-serif font-bold border rounded-full bg-default">i</span
+      >{{ $t("index.screen-note") }}
     </p>
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
     <ul>
       <li :class="{ 'form-input--error': $v.width.$error }">
         <div class="inline-block">
-          <label for="width" class="block">{{ $t("index.width") }}</label>
+          <label for="width" class="block text-light">{{ $t("index.width") }}</label>
           <input
             v-model.lazy.number="$v.width.$model"
             type="number"
@@ -26,7 +27,7 @@
 
       <li :class="{ 'form-input--error': $v.height.$error }">
         <div class="inline-block">
-          <label for="height" class="block">{{ $t("index.height") }}</label>
+          <label for="height" class="block text-light">{{ $t("index.height") }}</label>
           <input
             v-model.lazy.number="$v.height.$model"
             type="number"
@@ -40,7 +41,6 @@
         <p v-show="$v.height.$error" class="height-error">{{ $t("index.error", ["10", "20"]) }}</p>
       </li>
     </ul>
-    <p>{{ width }} x {{ height }}</p>
   </div>
 </template>
 
@@ -71,12 +71,12 @@ export default {
   watch: {
     width() {
       if (!this.$v.width.$error) {
-        this.$emit("width", this.width);
+        this.emitResolution();
       }
     },
     height() {
       if (!this.$v.height.$error) {
-        this.$emit("height", this.height);
+        this.emitResolution();
       }
     }
   },
@@ -85,6 +85,9 @@ export default {
       const [width, height] = event.split("x");
       this.width = +width;
       this.height = +height;
+    },
+    emitResolution() {
+      this.$emit("resolution", { width: this.width, height: this.height });
     }
   }
 };
@@ -92,10 +95,8 @@ export default {
 
 <style lang="scss">
 .screen-dimensions {
-  @apply w-1/2;
-
   label {
-    @apply opacity-75 text-sm mb-1;
+    @apply mb-1;
   }
 
   li {

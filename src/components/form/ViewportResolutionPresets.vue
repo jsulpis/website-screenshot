@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3 text-left">
-    <label for="preset">{{ $t("index.preset") }}</label>
+    <label for="preset" class="text-light">{{ $t("index.preset") }}</label>
     <div class="wrapper">
       <select
         name="preset"

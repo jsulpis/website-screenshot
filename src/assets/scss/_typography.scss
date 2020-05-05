@@ -14,3 +14,7 @@ p,
 .p {
   @apply leading-relaxed opacity-90;
 }
+
+.text-light {
+  @apply opacity-75 text-sm;
+}

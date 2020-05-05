@@ -15,14 +15,13 @@ describe("ViewportResolutionInput", () => {
   });
 
   it("should send the default resolution to the parent when mounted", () => {
-    expect(wrapper.emitted("width")[0]).toEqual([1440]);
-    expect(wrapper.emitted("height")[0]).toEqual([900]);
+    expect(wrapper.emitted("resolution")[0]).toEqual([{ width: 1440, height: 900 }]);
   });
 
   it("should send the resolution to the parent when changed", async () => {
     // Given
-    wrapper.find("#width").setValue(800);
-    wrapper.find("#height").setValue(1280);
+    wrapper.find("#width").setValue(1280);
+    wrapper.find("#height").setValue(800);
 
     // When
     wrapper.find("#width").trigger("blur");
@@ -30,8 +29,8 @@ describe("ViewportResolutionInput", () => {
     await wrapper.vm.$nextTick();
 
     // Then
-    expect(wrapper.emitted("width")[1]).toEqual([800]);
-    expect(wrapper.emitted("height")[1]).toEqual([1280]);
+    // Check the third event: two are emitted when receiving the default preset, and two when changing the width and height
+    expect(wrapper.emitted("resolution")[2]).toEqual([{ width: 1280, height: 800 }]);
   });
 
   it("should not send the resolution to the parent if changed with error", async () => {
@@ -45,8 +44,7 @@ describe("ViewportResolutionInput", () => {
     await wrapper.vm.$nextTick();
 
     // Then
-    expect(wrapper.emitted("width")[1]).toBeFalsy();
-    expect(wrapper.emitted("height")[1]).toBeFalsy();
+    expect(wrapper.emitted("resolution")[2]).toBeFalsy();
   });
 
   it("should display no error when mounted", async () => {
