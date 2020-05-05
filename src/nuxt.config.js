@@ -76,8 +76,8 @@ module.exports = {
         vueI18n: {
           fallbackLocale: "en",
           messages: {
-            en: require("./src/locales/en.json"),
-            fr: require("./src/locales/fr.json")
+            en: require("./locales/en.json"),
+            fr: require("./locales/fr.json")
           }
         },
         // Activate the language detection only on deployments
@@ -90,10 +90,6 @@ module.exports = {
    ** Plugins
    */
   plugins: [{ src: "~/plugins/vuelidate" }],
-  /*
-   ** Change the source directory
-   */
-  srcDir: "src/",
   /*
    ** Build configuration
    */
