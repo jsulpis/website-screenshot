@@ -21,3 +21,11 @@
     @apply outline-none;
   }
 }
+
+.form-control {
+  @apply px-3 py-2 text-sm rounded shadow bg-surface;
+
+  &:focus {
+    @apply outline-none shadow-outline;
+  }
+}

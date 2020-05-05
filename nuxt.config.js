@@ -87,6 +87,10 @@ module.exports = {
     ]
   ],
   /*
+   ** Plugins
+   */
+  plugins: [{ src: "~/plugins/vuelidate" }],
+  /*
    ** Change the source directory
    */
   srcDir: "src/",
