@@ -43,11 +43,8 @@
         <span class="text-sm opacity-50">px</span>
       </li>
     </ul>
-    <p v-show="$v.width.$error" class="text-red-500 width-error">
-      {{ $t("index.error.width", ["360", "1920"]) }}
-    </p>
-    <p v-show="$v.height.$error" class="text-red-500 height-error">
-      {{ $t("index.error.height", ["640", "1366"]) }}
+    <p v-show="$v.width.$error || $v.height.$error" class="inline-block text-sm text-red-500" id="input-error">
+      {{ $t("index.input-error", ["360", "1920"]) }}
     </p>
   </div>
 </template>
@@ -73,7 +70,7 @@ export default {
     },
     height: {
       required,
-      between: between(640, 1366)
+      between: between(360, 1920)
     }
   },
   watch: {
@@ -96,7 +93,9 @@ export default {
       }
     },
     switchAspectRatio() {
-      [this.width, this.height] = [this.height, this.width];
+      if (!this.$v.width.$error && !this.$v.height.$error) {
+        [this.width, this.height] = [this.height, this.width];
+      }
     }
   }
 };
@@ -119,10 +118,5 @@ export default {
       }
     }
   }
-}
-
-.width-error,
-.height-error {
-  @apply inline-block text-sm;
 }
 </style>

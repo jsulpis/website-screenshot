@@ -17,9 +17,6 @@
     "preset": "Preset",
     "width": "Width",
     "height": "Height",
-    "error": {
-      "width": "Please enter a width between {0} and {1}",
-      "height": "Please enter a height between {0} and {1}"
-    }
+    "input-error": "Please enter a number between {0} and {1}"
   }
 }

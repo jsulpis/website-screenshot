@@ -58,8 +58,7 @@ describe("ViewportResolutionInput", () => {
   it("should display no error when mounted", async () => {
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.find(".width-error").isVisible()).toBe(false);
-    expect(wrapper.find(".height-error").isVisible()).toBe(false);
+    expect(wrapper.find("#input-error").isVisible()).toBe(false);
   });
 
   it("should switch the aspect ratio when clicking on the arrows icon", async () => {
@@ -69,6 +68,24 @@ describe("ViewportResolutionInput", () => {
     expect(wrapper.emitted("resolution")[2]).toEqual([{ width: 900, height: 1440 }]);
   });
 
+  it("should not switch the aspect ratio if height is incorrect", async () => {
+    wrapper.find("#height").setValue(10);
+    wrapper.find("#height").trigger("blur");
+    wrapper.find(FontAwesomeIcon).trigger("click");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted("resolution")[2]).toBeFalsy();
+  });
+
+  it("should not switch the aspect ratio if width is incorrect", async () => {
+    wrapper.find("#width").setValue(10);
+    wrapper.find("#width").trigger("blur");
+    wrapper.find(FontAwesomeIcon).trigger("click");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted("resolution")[2]).toBeFalsy();
+  });
+
   describe("should display an error if the width", () => {
     const testWithInput = value => async () => {
       wrapper.find("#width").setValue(value);
@@ -76,7 +93,7 @@ describe("ViewportResolutionInput", () => {
 
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(".width-error").isVisible()).toBe(true);
+      expect(wrapper.find("#input-error").isVisible()).toBe(true);
     };
 
     it("is not defined", testWithInput(""));
@@ -92,13 +109,13 @@ describe("ViewportResolutionInput", () => {
 
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(".height-error").isVisible()).toBe(true);
+      expect(wrapper.find("#input-error").isVisible()).toBe(true);
     };
 
     it("is not defined", testWithInput(""));
     it("is not a number", testWithInput("123a"));
-    it("is below 640", testWithInput(639));
-    it("is above 1366", testWithInput(1367));
+    it("is below 360", testWithInput(359));
+    it("is above 1920", testWithInput(1921));
   });
 
   it("should display no error if valid width and valid height", async () => {
@@ -110,7 +127,6 @@ describe("ViewportResolutionInput", () => {
 
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.find(".width-error").isVisible()).toBe(false);
-    expect(wrapper.find(".height-error").isVisible()).toBe(false);
+    expect(wrapper.find("#input-error").isVisible()).toBe(false);
   });
 });
