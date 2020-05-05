@@ -20,8 +20,15 @@
           placeholder="1440"
           class="w-32 form-control"
         />
-        <span class="mr-2 text-sm opacity-50">px</span>
+        <span class="text-sm opacity-50">px</span>
       </li>
+
+      <FontAwesomeIcon
+        class="p-1 mx-3 border rounded-full shadow cursor-pointer bg-surface"
+        icon="arrows-alt-h"
+        size="lg"
+        @click="switchAspectRatio()"
+      />
 
       <li :class="{ 'form-input--error': $v.height.$error }">
         <label for="height" class="block text-light">{{ $t("index.height") }}</label>
@@ -33,13 +40,13 @@
           placeholder="900"
           class="w-32 form-control"
         />
-        <span class="mr-2 text-sm opacity-50">px</span>
+        <span class="text-sm opacity-50">px</span>
       </li>
     </ul>
-    <p v-show="$v.width.$error" class="text-red-500 input-error">
+    <p v-show="$v.width.$error" class="text-red-500 width-error">
       {{ $t("index.error.width", ["360", "1920"]) }}
     </p>
-    <p v-show="$v.height.$error" class="text-red-500 input-error">
+    <p v-show="$v.height.$error" class="text-red-500 height-error">
       {{ $t("index.error.height", ["640", "1366"]) }}
     </p>
   </div>
@@ -87,6 +94,9 @@ export default {
       if (!this.$v.width.$error && !this.$v.height.$error) {
         this.$emit("resolution", { width: this.width, height: this.height });
       }
+    },
+    switchAspectRatio() {
+      [this.width, this.height] = [this.height, this.width];
     }
   }
 };

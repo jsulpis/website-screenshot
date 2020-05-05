@@ -2,15 +2,23 @@ import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
 import ViewportResolutionInput from "../ViewportResolutionInput.vue";
 import ViewportResolutionPresets from "../ViewportResolutionPresets";
 import Vuelidate from "vuelidate";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faArrowsAltH } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(faArrowsAltH);
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
+localVue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 describe("ViewportResolutionInput", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(ViewportResolutionInput, { localVue });
+    wrapper = mount(ViewportResolutionInput, {
+      localVue
+    });
     wrapper.find(ViewportResolutionPresets).vm.$emit("change", "1440x900");
   });
 
@@ -52,6 +60,13 @@ describe("ViewportResolutionInput", () => {
 
     expect(wrapper.find(".width-error").isVisible()).toBe(false);
     expect(wrapper.find(".height-error").isVisible()).toBe(false);
+  });
+
+  it("should switch the aspect ratio when clicking on the arrows icon", async () => {
+    wrapper.find(FontAwesomeIcon).trigger("click");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted("resolution")[2]).toEqual([{ width: 900, height: 1440 }]);
   });
 
   describe("should display an error if the width", () => {

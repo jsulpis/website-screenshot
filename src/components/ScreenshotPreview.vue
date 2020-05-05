@@ -8,11 +8,7 @@
 export default {
   props: {
     resolution: {
-      type: Object,
-      default: {
-        width: 0,
-        height: 0
-      }
+      type: Object
     }
   },
   data() {
@@ -28,6 +24,11 @@ export default {
   },
   watch: {
     resolution() {
+      this.updateAspectRatio();
+    }
+  },
+  methods: {
+    updateAspectRatio() {
       const { width, height } = this.resolution;
       if (width > height) {
         const difference = ((width - height) / width) * 100;

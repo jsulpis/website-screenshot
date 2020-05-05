@@ -35,7 +35,7 @@ module.exports = {
     [
       // Doc: https://github.com/nuxt-community/fontawesome-module
       "@nuxtjs/fontawesome",
-      { icons: { solid: ["faHeart", "faMoon"], regular: ["faSun"] } }
+      { icons: { solid: ["faHeart", "faMoon", "faArrowsAltH"], regular: ["faSun"] } }
     ],
     [
       // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
