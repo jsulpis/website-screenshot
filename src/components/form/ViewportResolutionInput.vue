@@ -5,11 +5,11 @@
     </h4>
     <div class="px-3 py-2 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
       <div
-        class="inline-flex justify-center w-5 h-5 mr-1 font-serif text-xs font-bold align-top border rounded-full bg-default"
+        class="inline-flex justify-center float-left w-5 h-5 mr-2 font-serif text-xs font-bold align-top border rounded-full bg-default"
       >
         i
       </div>
-      <p class="inline-block w-11/12">{{ $t("index.screen-note") }}</p>
+      <p>{{ $t("index.screen-note") }}</p>
     </div>
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
 
@@ -22,7 +22,7 @@
           name="width"
           id="width"
           placeholder="1440"
-          class="w-32 form-control"
+          class="w-24 sm:w-32 form-control"
         />
         <span class="text-sm opacity-50">px</span>
       </li>
@@ -42,7 +42,7 @@
           name="height"
           id="height"
           placeholder="900"
-          class="w-32 form-control"
+          class="w-24 sm:w-32 form-control"
         />
         <span class="text-sm opacity-50">px</span>
       </li>

@@ -16,13 +16,6 @@ module.exports = {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   /*
-   ** Environment variables
-   */
-  env: {
-    appTitle: APP_TITLE,
-    appUrl: process.env.URL
-  },
-  /*
    ** Customize the progress bar color
    */
   loading: { color: "#3B8070" },
@@ -79,10 +72,7 @@ module.exports = {
             en: require("./locales/en.json"),
             fr: require("./locales/fr.json")
           }
-        },
-        // Activate the language detection only on deployments
-        // Mostly to avoid headache with the e2e tests
-        detectBrowserLanguage: !!process.env.NETLIFY
+        }
       }
     ]
   ],
