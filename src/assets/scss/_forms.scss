@@ -20,6 +20,10 @@
   &:focus {
     @apply outline-none;
   }
+
+  &[disabled] {
+    @apply opacity-75 cursor-default;
+  }
 }
 
 .form-control {

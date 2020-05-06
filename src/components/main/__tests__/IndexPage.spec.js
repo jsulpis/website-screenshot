@@ -23,7 +23,7 @@ describe("IndexPage", () => {
     expect(src.startsWith("data:image/gif;base64,")).toBe(false);
   });
 
-  it("should reset the image when the resolution changes", async () => {
+  it("should reset the image and (re)enable the button when the resolution changes", async () => {
     // Given
     wrapper.find("button").trigger("click");
     await wrapper.vm.$nextTick();
@@ -34,6 +34,7 @@ describe("IndexPage", () => {
 
     // Then
     const src = wrapper.find("img").element.src;
+    expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
     expect(src.startsWith("data:image/gif;base64,")).toBe(true);
   });
 
@@ -43,5 +44,13 @@ describe("IndexPage", () => {
     const wrapper = shallowMount(IndexPage);
 
     expect(wrapper.vm.$data.screenshotHeight).toBe(180);
+  });
+
+  it("should disable the button and display a spinner when submitting", async () => {
+    wrapper.find("button").trigger("click");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("button").attributes("disabled")).toBeTruthy();
+    expect(wrapper.find("#spinner").isVisible()).toBe(true);
   });
 });
