@@ -28,7 +28,7 @@
       </li>
 
       <FontAwesomeIcon
-        class="p-1 mx-3 border rounded-full shadow cursor-pointer bg-surface"
+        class="p-1 mx-3 border rounded-full cursor-pointer bg-surface"
         icon="arrows-alt-h"
         size="lg"
         @click="switchAspectRatio()"

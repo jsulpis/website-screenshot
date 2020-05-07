@@ -1,11 +1,11 @@
-import { shallowMount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import IndexPage from "@/components/main/IndexPage.vue";
 
 describe("IndexPage", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(IndexPage);
+    wrapper = mount(IndexPage, { stubs: ["ViewportResolutionForm"] });
   });
 
   it("should display a placeholder image when mounted", () => {
@@ -36,14 +36,6 @@ describe("IndexPage", () => {
     const src = wrapper.find("img").element.src;
     expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
     expect(src.startsWith("data:image/gif;base64,")).toBe(true);
-  });
-
-  it("should fix the screenshot height on small screens", () => {
-    global.innerWidth = 360;
-
-    const wrapper = shallowMount(IndexPage);
-
-    expect(wrapper.vm.$data.screenshotHeight).toBe(180);
   });
 
   it("should disable the button and display a spinner when submitting", async () => {

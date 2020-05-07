@@ -1,5 +1,5 @@
 import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
-import ViewportResolutionInput from "../ViewportResolutionInput.vue";
+import ViewportResolutionForm from "../ViewportResolutionForm.vue";
 import ViewportResolutionPresets from "../ViewportResolutionPresets";
 import Vuelidate from "vuelidate";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -12,11 +12,11 @@ const localVue = createLocalVue();
 localVue.use(Vuelidate);
 localVue.component("FontAwesomeIcon", FontAwesomeIcon);
 
-describe("ViewportResolutionInput", () => {
+describe("ViewportResolutionForm", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(ViewportResolutionInput, {
+    wrapper = mount(ViewportResolutionForm, {
       localVue
     });
     wrapper.find(ViewportResolutionPresets).vm.$emit("change", "1440x900");
