@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col items-center mt-16">
+    <WebsiteUrlInput @url="url = $event" />
     <ViewportResolutionForm @resolution="resolution = $event" />
 
     <button class="w-24 px-1 my-3 text-white btn bg-primary-700" :disabled="buttonDisabled" @click="fetchScreenshot()">
@@ -14,13 +15,15 @@
 <script>
 import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
+import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 
 const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 export default {
   components: {
     ViewportResolutionForm,
-    ScreenshotPreview
+    ScreenshotPreview,
+    WebsiteUrlInput
   },
   data() {
     return {
@@ -42,7 +45,7 @@ export default {
       this.loading = true;
       setTimeout(() => (this.loading = false), 2000); // Until I find a better option
       const { width, height } = this.resolution;
-      this.screenshotSrc = `${process.env.VERCEL_URL}/api/screenshot?url=nuxtjs-template.netlify.app&width=${width}&height=${height}`;
+      this.screenshotSrc = `${process.env.VERCEL_URL}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
     }
   }
 };

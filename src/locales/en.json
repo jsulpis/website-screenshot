@@ -12,6 +12,7 @@
   "index": {
     "title": "Website screenshot",
     "description": "Website screenshot, with extras.",
+    "website-url": "Website url:",
     "screen-dimensions": "Chose the resolution of the viewport to capture:",
     "screen-note": "The viewport resolution is different from the display resolution. For instance, on a MacBook Pro 15\", the display resolution is 2880x1800 and the viewport resolution is 1440x900.",
     "preset": "Preset",
