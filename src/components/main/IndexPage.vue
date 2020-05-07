@@ -3,10 +3,7 @@
     <WebsiteUrlInput @url="url = $event" />
     <ViewportResolutionForm @resolution="resolution = $event" />
 
-    <button class="w-24 px-1 my-3 text-white btn bg-primary-700" :disabled="buttonDisabled" @click="fetchScreenshot()">
-      <div v-if="loading" id="spinner"></div>
-      <span v-else>{{ $t("index.send") }}</span>
-    </button>
+    <SendButton :disabled="buttonDisabled" :loading="loading" @click.native="fetchScreenshot()" />
 
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
   </div>
@@ -16,6 +13,7 @@
 import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
+import SendButton from "@/components/main/SendButton.vue";
 
 const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
@@ -23,7 +21,8 @@ export default {
   components: {
     ViewportResolutionForm,
     ScreenshotPreview,
-    WebsiteUrlInput
+    WebsiteUrlInput,
+    SendButton
   },
   data() {
     return {
@@ -50,21 +49,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>
