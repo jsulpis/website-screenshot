@@ -12,7 +12,7 @@
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
 
     <ul>
-      <li :class="{ 'form-input--error': $v.width.$error }">
+      <li :class="{ 'form-group--error': $v.width.$error }">
         <label for="width" class="block text-light">{{ $t("index.width") }}</label>
         <input
           v-model.lazy.number="$v.width.$model"
@@ -32,7 +32,7 @@
         @click="switchAspectRatio()"
       />
 
-      <li :class="{ 'form-input--error': $v.height.$error }">
+      <li :class="{ 'form-group--error': $v.height.$error }">
         <label for="height" class="block text-light">{{ $t("index.height") }}</label>
         <input
           v-model.lazy.number="$v.height.$model"
@@ -45,7 +45,7 @@
         <span class="text-sm opacity-50">px</span>
       </li>
     </ul>
-    <p v-show="$v.width.$error || $v.height.$error" class="inline-block text-sm text-red-500" id="input-error">
+    <p v-show="$v.width.$error || $v.height.$error" class="inline-block text-sm text-error" id="input-error">
       {{ $t("index.input-error", ["360", "1920"]) }}
     </p>
   </div>
@@ -111,14 +111,6 @@ export default {
 
   li {
     @apply text-left mb-3 inline-block;
-
-    &.form-input--error {
-      @apply text-red-500;
-
-      input {
-        @apply border border-red-500;
-      }
-    }
   }
 }
 </style>

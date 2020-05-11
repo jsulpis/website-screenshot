@@ -32,4 +32,21 @@
   &:focus {
     @apply outline-none shadow-outline;
   }
+
+  &--error {
+    @apply text-red-500;
+    @apply border border-red-500;
+  }
+}
+
+.form-group--error {
+  @apply text-red-500;
+
+  input {
+    @apply border border-red-500;
+  }
+}
+
+.text-error {
+  @apply text-red-500;
 }

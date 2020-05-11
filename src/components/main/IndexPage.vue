@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center mt-16">
-    <WebsiteUrlInput @url="url = $event" />
+    <WebsiteUrlInput v-model.lazy="$v.url.$model" :error="$v.url.$error" />
     <ViewportResolutionForm @resolution="resolution = $event" />
 
     <SendButton :disabled="buttonDisabled" :loading="loading" @click.native="fetchScreenshot()" />
@@ -14,6 +14,8 @@ import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SendButton from "@/components/main/SendButton.vue";
+
+import { required, url } from "vuelidate/lib/validators";
 
 const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
@@ -32,6 +34,12 @@ export default {
       buttonDisabled: false,
       url: ""
     };
+  },
+  validations: {
+    url: {
+      required,
+      url
+    }
   },
   watch: {
     resolution() {

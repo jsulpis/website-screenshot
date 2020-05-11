@@ -1,13 +1,33 @@
-import { mount } from "@vue/test-utils";
+import { mount, createLocalVue } from "@vue/test-utils";
 import IndexPage from "@/components/main/IndexPage.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue";
+import Vuelidate from "vuelidate";
+
+const localVue = createLocalVue();
+localVue.use(Vuelidate);
 
 describe("IndexPage", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(IndexPage, { stubs: ["ViewportResolutionForm", "WebsiteUrlInput"] });
+    wrapper = mount(IndexPage, { localVue, stubs: ["ViewportResolutionForm"] });
+  });
+
+  describe("url", () => {
+    it("should be in error if empty", async () => {
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", "");
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(WebsiteUrlInput).props("error")).toBe(true);
+    });
+
+    it("should be in error if invalid url", async () => {
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", "notAnUrl");
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(WebsiteUrlInput).props("error")).toBe(true);
+    });
   });
 
   it("should display a placeholder image when mounted", () => {
