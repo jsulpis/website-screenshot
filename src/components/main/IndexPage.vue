@@ -1,7 +1,11 @@
 <template>
   <div class="flex flex-col items-center mt-16">
-    <WebsiteUrlInput v-model.lazy="$v.url.$model" :error="$v.url.$error" />
-    <ViewportResolutionForm @resolution="resolution = $event" />
+    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" />
+    <ViewportResolutionInput
+      v-model="$v.resolution.$model"
+      :widthError="$v.resolution.width.$error"
+      :heightError="$v.resolution.height.$error"
+    />
 
     <SendButton :disabled="buttonDisabled" :loading="loading" @click.native="fetchScreenshot()" />
 
@@ -10,25 +14,28 @@
 </template>
 
 <script>
-import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue";
+import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SendButton from "@/components/main/SendButton.vue";
 
-import { required, url } from "vuelidate/lib/validators";
+import { required, url, between } from "vuelidate/lib/validators";
 
 const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 export default {
   components: {
-    ViewportResolutionForm,
+    ViewportResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
     SendButton
   },
   data() {
     return {
-      resolution: {},
+      resolution: {
+        width: 0,
+        height: 0
+      },
       screenshotSrc: EMPTY_IMG,
       loading: false,
       buttonDisabled: false,
@@ -39,6 +46,16 @@ export default {
     url: {
       required,
       url
+    },
+    resolution: {
+      width: {
+        required,
+        between: between(360, 1920)
+      },
+      height: {
+        required,
+        between: between(360, 1920)
+      }
     }
   },
   watch: {

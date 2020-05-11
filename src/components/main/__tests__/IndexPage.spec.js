@@ -1,7 +1,7 @@
-import { mount, createLocalVue } from "@vue/test-utils";
+import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
 import IndexPage from "@/components/main/IndexPage.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
-import ViewportResolutionForm from "@/components/form/ViewportResolutionForm.vue";
+import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import Vuelidate from "vuelidate";
 
 const localVue = createLocalVue();
@@ -11,7 +11,7 @@ describe("IndexPage", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(IndexPage, { localVue, stubs: ["ViewportResolutionForm"] });
+    wrapper = shallowMount(IndexPage, { localVue });
   });
 
   describe("url", () => {
@@ -30,6 +30,47 @@ describe("IndexPage", () => {
     });
   });
 
+  describe("resolution", () => {
+    describe("should be in error if the width", () => {
+      const testWithInput = value => async () => {
+        wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: value, height: 800 });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(ViewportResolutionInput).props("widthError")).toBe(true);
+      };
+
+      it("is not defined", testWithInput(""));
+      it("is not a number", testWithInput("123a"));
+      it("is below 360", testWithInput(359));
+      it("is above 1920", testWithInput(1921));
+    });
+
+    describe("should be in error if the height", () => {
+      const testWithInput = value => async () => {
+        wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1280, height: value });
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(ViewportResolutionInput).props("heightError")).toBe(true);
+      };
+
+      it("is not defined", testWithInput(""));
+      it("is not a number", testWithInput("123a"));
+      it("is below 360", testWithInput(359));
+      it("is above 1920", testWithInput(1921));
+    });
+
+    it("should not be in error if width and height are valid", async () => {
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1280, height: 800 });
+
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(ViewportResolutionInput).props("widthError")).toBe(false);
+      expect(wrapper.find(ViewportResolutionInput).props("heightError")).toBe(false);
+    });
+  });
+
   it("should display a placeholder image when mounted", () => {
     const src = wrapper.find("img").element.src;
 
@@ -40,7 +81,7 @@ describe("IndexPage", () => {
     const url = "https://toto.com";
     const resolution = { width: 1280, height: 800 };
     wrapper.find(WebsiteUrlInput).vm.$emit("url", url);
-    wrapper.find(ViewportResolutionForm).vm.$emit("resolution", resolution);
+    wrapper.find(ViewportResolutionInput).vm.$emit("resolution", resolution);
     await wrapper.vm.$nextTick();
 
     wrapper.find("button").trigger("click");
@@ -60,7 +101,7 @@ describe("IndexPage", () => {
     await wrapper.vm.$nextTick();
 
     // When
-    wrapper.find(ViewportResolutionForm).vm.$emit("resolution", { width: 300, height: 300 });
+    wrapper.find(ViewportResolutionInput).vm.$emit("resolution", { width: 300, height: 300 });
     await wrapper.vm.$nextTick();
 
     // Then
