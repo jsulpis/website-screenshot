@@ -34,19 +34,32 @@ describe("IndexPage", () => {
     expect(src).toContain(`height=${resolution.height}`);
   });
 
-  it("should reset the image and (re)enable the button when the resolution changes", async () => {
-    // Given
+  it("should (re)enable the button when the resolution changes", async () => {
+    // Give
     wrapper.find("button").trigger("click");
     await wrapper.vm.$nextTick();
 
     // When
-    wrapper.vm.$data.resolution = { width: 300, height: 300 };
+    wrapper.find(ViewportResolutionForm).vm.$emit("resolution", { width: 300, height: 300 });
     await wrapper.vm.$nextTick();
 
     // Then
     const src = wrapper.find("img").element.src;
     expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
-    expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+  });
+
+  it("should (re)enable the button when the url changes", async () => {
+    // Given
+    wrapper.find("button").trigger("click");
+    await wrapper.vm.$nextTick();
+
+    // When
+    wrapper.find(WebsiteUrlInput).vm.$emit("url", "https://toto.com");
+    await wrapper.vm.$nextTick();
+
+    // Then
+    const src = wrapper.find("img").element.src;
+    expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
   });
 
   it("should disable the button and display a spinner when submitting", async () => {

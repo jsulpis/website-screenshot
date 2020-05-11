@@ -29,12 +29,15 @@ export default {
       resolution: {},
       screenshotSrc: EMPTY_IMG,
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: false,
+      url: ""
     };
   },
   watch: {
     resolution() {
-      this.screenshotSrc = EMPTY_IMG;
+      this.buttonDisabled = false;
+    },
+    url() {
       this.buttonDisabled = false;
     }
   },
