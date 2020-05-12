@@ -84,11 +84,11 @@ describe("IndexPage", () => {
   });
 
   describe("screenshot", () => {
-    it("should display a placeholder image when mounted", () => {
+    it("should have no source when mounted", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      expect(src).toBeFalsy();
     });
 
     it("should have a src updated with the form data when submitting", async () => {
@@ -104,7 +104,6 @@ describe("IndexPage", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(false);
       expect(src).toContain(`url=${url}`);
       expect(src).toContain(`width=${resolution.width}`);
       expect(src).toContain(`height=${resolution.height}`);
@@ -117,10 +116,10 @@ describe("IndexPage", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      expect(src).toBeFalsy();
     });
 
-    it("should reset the image when the resolution changes", async () => {
+    it("should reset the source when the resolution changes", async () => {
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find("form").trigger("submit"); // should disable the button
@@ -132,7 +131,7 @@ describe("IndexPage", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      expect(src).toBeFalsy();
     });
   });
 

@@ -1,11 +1,12 @@
 <template>
   <img
-    class="max-w-full mx-auto border preview bg-surface"
+    class="max-w-full mx-auto preview"
+    :class="{ 'border bg-surface': !src }"
     :style="{
       width: (screenshotHeight * resolution.width) / resolution.height + 'px',
       height: screenshotHeight + 'px'
     }"
-    :src="src"
+    :src="src || placeholder"
     alt="Screenshot preview"
   />
 </template>
@@ -26,7 +27,8 @@ export default {
   },
   data() {
     return {
-      screenshotHeight: 300
+      screenshotHeight: 300,
+      placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
     };
   },
   mounted() {

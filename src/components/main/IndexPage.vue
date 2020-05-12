@@ -21,7 +21,7 @@ import SubmitButton from "@/components/main/SubmitButton.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 
-const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+const EMPTY_SRC = "";
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
         width: 0,
         height: 0
       },
-      screenshotSrc: EMPTY_IMG,
+      screenshotSrc: EMPTY_SRC,
       loading: false,
       buttonDisabled: false,
       url: ""
@@ -61,7 +61,7 @@ export default {
   watch: {
     resolution() {
       this.buttonDisabled = false;
-      this.screenshotSrc = EMPTY_IMG;
+      this.screenshotSrc = EMPTY_SRC;
     },
     url() {
       this.buttonDisabled = false;
