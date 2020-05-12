@@ -12,13 +12,13 @@
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "baseUrl": "./src",
-    "outDir": "./dist",
+    "baseUrl": "src",
+    "outDir": "dist",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
     "types": ["@types/node", "@nuxt/types", "@types/jest"]
   },
-  "exclude": ["node_modules", ".nuxt", "dist", "cypress"]
+  "exclude": ["node_modules", ".nuxt", "dist"]
 }

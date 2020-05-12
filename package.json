@@ -1,13 +1,12 @@
 {
   "name": "website-screenshot",
   "version": "1.0.0",
-  "description": "Take a screenshot of a website, and prettify it.",
+  "description": "Website screenshot, with extras.",
   "author": "Julien Sulpis",
+  "license": "MIT",
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "dev": "nuxt src",
+    "generate": "nuxt generate src",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
@@ -17,7 +16,10 @@
   },
   "dependencies": {
     "nuxt": "^2.12.2",
-    "nuxt-i18n": "^6.9.1"
+    "nuxt-i18n": "^6.9.1",
+    "vuelidate": "^0.7.5",
+    "chrome-aws-lambda": "^2.1.1",
+    "puppeteer-core": "^3.0.2"
   },
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.13.0",

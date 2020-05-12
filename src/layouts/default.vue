@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <main class="flex items-center justify-center flex-grow transition-colors duration-150 bg-default">
-      <nuxt class="container h-full py-16 mx-auto" />
+      <nuxt class="container h-full mx-auto" />
     </main>
     <app-footer />
   </div>
@@ -26,7 +26,7 @@ export default Vue.extend({
       .title(this.$t(routeName + ".title"))
       // @ts-ignore
       .description(this.$t(routeName + ".description"))
-      .url(process.env.appUrl + this.$route.path)
+      .url(process.env.baseUrl + this.$route.path)
       .type("website")
       .twitterCard("summary")
       .build();

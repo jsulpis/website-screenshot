@@ -99,3 +99,5 @@ sw.*
 *.ntvs*
 *.njsproj
 *.sln
+
+.now

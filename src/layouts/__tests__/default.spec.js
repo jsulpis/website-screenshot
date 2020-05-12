@@ -4,13 +4,12 @@ import DefaultLayout from "@/layouts/default";
 describe("Default Layout", () => {
   // https://stackoverflow.com/questions/48033841/test-process-env-with-jest
   const OLD_ENV = process.env;
-  const APP_URL = "http://localhost:3000";
+  const BASE_URL = "http://localhost:3000";
   let wrapper;
 
   beforeEach(() => {
     jest.resetModules(); // this is important - it clears the cache
     process.env = { ...OLD_ENV };
-    delete process.env.NODE_ENV;
 
     wrapper = shallowMount(DefaultLayout, {
       stubs: ["nuxt"],
@@ -18,7 +17,7 @@ describe("Default Layout", () => {
         $nuxtI18nSeo: () => ({ meta: [{ property: "prop", content: "content" }] })
       }
     });
-    process.env.appUrl = APP_URL;
+    process.env.baseUrl = BASE_URL;
   });
 
   afterEach(() => {
@@ -45,7 +44,7 @@ describe("Default Layout", () => {
           property: "og:description",
           content: "contact.description"
         },
-        { hid: "og:url", property: "og:url", content: APP_URL + "/contact" },
+        { hid: "og:url", property: "og:url", content: BASE_URL + "/contact" },
         { hid: "og:type", property: "og:type", content: "website" },
         { hid: "twitter:card", name: "twitter:card", content: "summary" }
       ]
@@ -69,7 +68,7 @@ describe("Default Layout", () => {
           property: "og:description",
           content: "index.description"
         },
-        { hid: "og:url", property: "og:url", content: APP_URL + "/toto" },
+        { hid: "og:url", property: "og:url", content: BASE_URL + "/toto" },
         { hid: "og:type", property: "og:type", content: "website" },
         { hid: "twitter:card", name: "twitter:card", content: "summary" }
       ]
