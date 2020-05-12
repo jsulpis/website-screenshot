@@ -1,9 +1,9 @@
-const chrome = require("chrome-aws-lambda");
-const puppeteer = require("puppeteer-core");
+import { IncomingMessage, ServerResponse } from "http";
+import getScreenshot from "./_lib/getScreenshot";
 
 const URL_REGEXP = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
-module.exports = async function (req, res) {
+module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   const { query = {} } = require("url").parse(req.url, true);
   let { url, width = 1280, height = 800 } = query;
 
@@ -35,28 +35,10 @@ module.exports = async function (req, res) {
     return;
   }
 
-  const file = await getScreenshot(url, +width, +height);
+  const screenshot = await getScreenshot(url, +width, +height);
 
   res.statusCode = 200;
+  // res.setHeader("Content-Type", `text/plain`);
   res.setHeader("Content-Type", `image/png`);
-  res.end(file);
+  res.end(screenshot);
 };
-
-async function getScreenshot(url, width, height) {
-  const browser = await puppeteer.launch({
-    args: chrome.args,
-    executablePath: await chrome.executablePath,
-    headless: chrome.headless
-  });
-
-  const page = await browser.newPage();
-  await page.setViewport({
-    width,
-    height,
-    deviceScaleFactor: 1
-  });
-  await page.goto(url);
-  const file = await page.screenshot({ type: "png" });
-  await browser.close();
-  return file;
-}

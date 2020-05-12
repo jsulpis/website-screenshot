@@ -15,11 +15,11 @@
     "analyze": "nuxt build --analyze"
   },
   "dependencies": {
+    "chrome-aws-lambda": "^2.1.1",
     "nuxt": "^2.12.2",
     "nuxt-i18n": "^6.9.1",
-    "vuelidate": "^0.7.5",
-    "chrome-aws-lambda": "^2.1.1",
-    "puppeteer-core": "^3.0.2"
+    "puppeteer-core": "^3.0.2",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
@@ -32,6 +32,8 @@
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/tailwindcss": "^1.4.0",
     "@types/jest": "^25.2.1",
+    "@types/puppeteer": "^2.1.0",
+    "@types/puppeteer-core": "^2.0.0",
     "@vue/test-utils": "^1.0.0-beta.33",
     "babel-jest": "^25.4.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
