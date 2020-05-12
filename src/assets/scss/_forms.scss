@@ -27,7 +27,7 @@
 }
 
 .form-control {
-  @apply px-3 py-2 text-sm rounded shadow bg-surface;
+  @apply px-3 py-2 text-sm rounded shadow bg-surface border border-transparent;
 
   &:focus {
     @apply outline-none shadow-outline;
@@ -48,5 +48,5 @@
 }
 
 .text-error {
-  @apply text-red-500;
+  @apply text-red-500 text-sm;
 }

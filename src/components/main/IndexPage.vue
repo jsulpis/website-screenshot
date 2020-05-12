@@ -7,7 +7,7 @@
       :heightError="$v.resolution.height.$error"
     />
 
-    <SendButton :disabled="buttonDisabled" :loading="loading" />
+    <SendButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" />
 
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
   </form>
@@ -61,6 +61,7 @@ export default {
   watch: {
     resolution() {
       this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_IMG;
     },
     url() {
       this.buttonDisabled = false;
@@ -68,11 +69,14 @@ export default {
   },
   methods: {
     fetchScreenshot() {
-      this.buttonDisabled = true;
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 2000); // Until I find a better option
-      const { width, height } = this.resolution;
-      this.screenshotSrc = `${process.env.VERCEL_URL}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.buttonDisabled = true;
+        this.loading = true;
+        setTimeout(() => (this.loading = false), 2000); // Until I find a better option
+        const { width, height } = this.resolution;
+        this.screenshotSrc = `${process.env.VERCEL_URL}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+      }
     }
   }
 };

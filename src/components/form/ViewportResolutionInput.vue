@@ -43,7 +43,7 @@
         <span class="text-sm opacity-50">px</span>
       </li>
     </ul>
-    <p v-show="widthError || heightError" class="inline-block text-sm text-error">
+    <p v-show="widthError || heightError" class="inline-block text-error">
       {{ $t("index.input-error", ["360", "1920"]) }}
     </p>
   </div>

@@ -109,6 +109,31 @@ describe("IndexPage", () => {
       expect(src).toContain(`width=${resolution.width}`);
       expect(src).toContain(`height=${resolution.height}`);
     });
+
+    it("should not update the src when submitting with errors", async () => {
+      wrapper.find("form").trigger("submit"); // missing URL
+      await wrapper.vm.$nextTick();
+
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+
+      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+    });
+
+    it("should reset the image when the resolution changes", async () => {
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find("form").trigger("submit"); // should disable the button
+
+      // When
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      await wrapper.vm.$nextTick();
+
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+
+      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+    });
   });
 
   describe("button", () => {
@@ -120,12 +145,13 @@ describe("IndexPage", () => {
     });
 
     it("should be (re)enabled when the resolution changes", async () => {
-      // Give
-      wrapper.find("form").trigger("submit");
-      await wrapper.vm.$nextTick();
+      // Given
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find("form").trigger("submit"); // should disable the button
 
       // When
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 300, height: 300 });
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
       // Then
@@ -136,17 +162,25 @@ describe("IndexPage", () => {
 
     it("should be (re)enabled when the url changes", async () => {
       // Given
-      wrapper.find("form").trigger("submit");
-      await wrapper.vm.$nextTick();
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find("form").trigger("submit"); // should disable the button
 
       // When
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
       await wrapper.vm.$nextTick();
 
       // Then
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
       expect(wrapper.find(SendButton).props("disabled")).toBe(false);
+    });
+
+    it("should be disabled if dirty and any error", async () => {
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", "invalidUrl");
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(SendButton).props("disabled")).toBe(true);
     });
   });
 });
