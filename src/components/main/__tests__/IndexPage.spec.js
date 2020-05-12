@@ -1,10 +1,10 @@
-import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
+import { createLocalVue, shallowMount } from "@vue/test-utils";
 import Vuelidate from "vuelidate";
 import IndexPage from "@/components/main/IndexPage.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
-import SendButton from "@/components/main/SendButton.vue";
+import SubmitButton from "@/components/main/SubmitButton.vue";
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
@@ -141,7 +141,7 @@ describe("IndexPage", () => {
       wrapper.find("form").trigger("submit");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(SendButton).props("disabled")).toBe(true);
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
     });
 
     it("should be (re)enabled when the resolution changes", async () => {
@@ -155,9 +155,7 @@ describe("IndexPage", () => {
       await wrapper.vm.$nextTick();
 
       // Then
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
-      const src = screenshotComponent.props("src");
-      expect(wrapper.find(SendButton).props("disabled")).toBe(false);
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be (re)enabled when the url changes", async () => {
@@ -171,16 +169,14 @@ describe("IndexPage", () => {
       await wrapper.vm.$nextTick();
 
       // Then
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
-      const src = screenshotComponent.props("src");
-      expect(wrapper.find(SendButton).props("disabled")).toBe(false);
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be disabled if dirty and any error", async () => {
       wrapper.find(WebsiteUrlInput).vm.$emit("input", "invalidUrl");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(SendButton).props("disabled")).toBe(true);
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
     });
   });
 });

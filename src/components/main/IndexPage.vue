@@ -7,7 +7,7 @@
       :heightError="$v.resolution.height.$error"
     />
 
-    <SendButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" />
+    <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" />
 
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
   </form>
@@ -17,7 +17,7 @@
 import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
-import SendButton from "@/components/main/SendButton.vue";
+import SubmitButton from "@/components/main/SubmitButton.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 
@@ -28,7 +28,7 @@ export default {
     ViewportResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
-    SendButton
+    SubmitButton
   },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
         this.loading = true;
         setTimeout(() => (this.loading = false), 2000); // Until I find a better option
         const { width, height } = this.resolution;
-        this.screenshotSrc = `${process.env.VERCEL_URL}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+        this.screenshotSrc = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
       }
     }
   }

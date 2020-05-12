@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
+import { mount, createLocalVue } from "@vue/test-utils";
 import ViewportResolutionInput from "../ViewportResolutionInput.vue";
 import ViewportResolutionPresets from "../ViewportResolutionPresets";
 import Vuelidate from "vuelidate";

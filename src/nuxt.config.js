@@ -6,6 +6,9 @@ module.exports = {
   server: {
     host: "0.0.0.0" // Allow to connect other devices on the local network
   },
+  env: {
+    baseUrl: "https://" + process.env.VERCEL_URL
+  },
   /*
    ** Headers of the page
    */
@@ -65,7 +68,7 @@ module.exports = {
           { code: "fr", iso: "fr-FR", name: "Français" }
         ],
         defaultLocale: "en",
-        baseUrl: process.env.URL,
+        baseUrl: "https://" + process.env.VERCEL_URL,
         vueI18n: {
           fallbackLocale: "en",
           messages: {
