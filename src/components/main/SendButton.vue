@@ -1,5 +1,5 @@
 <template>
-  <button class="w-24 px-1 my-3 text-white btn bg-primary-700" :disabled="disabled">
+  <button type="submit" class="w-24 px-1 my-3 text-white btn bg-primary-700" :disabled="disabled">
     <div v-if="loading" id="spinner"></div>
     <span v-else>{{ $t("index.send") }}</span>
   </button>

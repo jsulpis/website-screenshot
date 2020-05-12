@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center mt-16">
+  <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
     <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" />
     <ViewportResolutionInput
       v-model="$v.resolution.$model"
@@ -7,10 +7,10 @@
       :heightError="$v.resolution.height.$error"
     />
 
-    <SendButton :disabled="buttonDisabled" :loading="loading" @click.native="fetchScreenshot()" />
+    <SendButton :disabled="buttonDisabled" :loading="loading" />
 
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
-  </div>
+  </form>
 </template>
 
 <script>
