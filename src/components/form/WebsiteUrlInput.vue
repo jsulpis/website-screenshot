@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full sm:w-2/3">
+  <div class="w-full">
     <h4>{{ $t("index.url.title") }}</h4>
     <input
       :value="value"

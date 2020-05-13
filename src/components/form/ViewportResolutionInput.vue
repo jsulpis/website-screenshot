@@ -1,5 +1,5 @@
 <template>
-  <div class="screen-dimensions sm:w-2/3">
+  <div class="screen-dimensions">
     <h4>{{ $t("index.screen-dimensions") }}</h4>
     <div class="px-3 py-2 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
       <div
@@ -101,7 +101,7 @@ export default {
   }
 
   li {
-    @apply text-left mb-3 inline-block;
+    @apply text-left inline-block;
   }
 }
 </style>

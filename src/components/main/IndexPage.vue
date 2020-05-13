@@ -6,8 +6,9 @@
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
     />
+    <ScreenshotShadowInput />
 
-    <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" />
+    <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
   </form>
@@ -18,6 +19,7 @@ import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.v
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -29,7 +31,8 @@ export default {
     ViewportResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
-    SubmitButton
+    SubmitButton,
+    ScreenshotShadowInput
   },
   data() {
     return {
@@ -89,3 +92,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+form > div {
+  @apply w-full;
+}
+
+@screen sm {
+  form > div {
+    @apply w-2/3;
+  }
+}
+</style>

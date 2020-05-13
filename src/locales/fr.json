@@ -22,6 +22,9 @@
     "width": "Largeur",
     "height": "Hauteur",
     "input-error": "Veuillez entrer un nombre compris entre {0} et {1}",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "shadow": {
+      "title": "Ombre"
+    }
   }
 }
