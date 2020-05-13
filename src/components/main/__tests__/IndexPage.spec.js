@@ -5,6 +5,10 @@ import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import fetch from "isomorphic-unfetch";
+import flushPromises from "flush-promises";
+
+jest.mock("isomorphic-unfetch");
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
@@ -17,6 +21,7 @@ describe("IndexPage", () => {
 
   beforeEach(() => {
     wrapper = shallowMount(IndexPage, { localVue });
+    fetch.mockResolvedValue({ text: () => Promise.resolve("") });
   });
 
   describe("url", () => {
@@ -91,22 +96,50 @@ describe("IndexPage", () => {
       expect(src).toBeFalsy();
     });
 
-    it("should have a src updated with the form data when submitting", async () => {
+    it("should reset the source when the resolution changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find("form").trigger("submit");
+
+      // When the resolution changes
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      await wrapper.vm.$nextTick();
+
+      // Then the source should be empty
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+
+      expect(src).toBeFalsy();
+    });
+  });
+
+  describe("on submit", () => {
+    it("should get the screenshot from the API using the form data", async () => {
+      // Given form data
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
       await wrapper.vm.$nextTick();
 
-      wrapper.find("form").trigger("submit");
-      await wrapper.vm.$nextTick();
+      // Given mock API
+      const apiResponse = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
+
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // Then
+      const actualFetchArgument = fetch.mock.calls[0][0];
+      expect(actualFetchArgument).toContain(`url=${url}`);
+      expect(actualFetchArgument).toContain(`width=${resolution.width}`);
+      expect(actualFetchArgument).toContain(`height=${resolution.height}`);
 
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
-
-      expect(src).toContain(`url=${url}`);
-      expect(src).toContain(`width=${resolution.width}`);
-      expect(src).toContain(`height=${resolution.height}`);
+      expect(src).toBe("data:image/gif;base64," + apiResponse);
     });
 
     it("should not update the src when submitting with errors", async () => {
@@ -118,28 +151,11 @@ describe("IndexPage", () => {
 
       expect(src).toBeFalsy();
     });
-
-    it("should reset the source when the resolution changes", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find("form").trigger("submit"); // should disable the button
-
-      // When
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
-      await wrapper.vm.$nextTick();
-
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
-      const src = screenshotComponent.props("src");
-
-      expect(src).toBeFalsy();
-    });
   });
 
   describe("button", () => {
     it("should be disabled when submitting", async () => {
-      wrapper.find("form").trigger("submit");
-      await wrapper.vm.$nextTick();
-
+      await wrapper.find("form").trigger("submit");
       expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
     });
 

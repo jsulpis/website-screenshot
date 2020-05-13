@@ -20,6 +20,7 @@ import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
+import fetch from "isomorphic-unfetch";
 
 const EMPTY_SRC = "";
 
@@ -71,11 +72,18 @@ export default {
     fetchScreenshot() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.buttonDisabled = true;
         this.loading = true;
-        setTimeout(() => (this.loading = false), 2000); // Until I find a better option
+        this.buttonDisabled = true;
+
         const { width, height } = this.resolution;
-        this.screenshotSrc = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+
+        fetch(apiUrl)
+          .then(res => res.text())
+          .then(res => {
+            this.loading = false;
+            this.screenshotSrc = "data:image/gif;base64," + res;
+          });
       }
     }
   }
