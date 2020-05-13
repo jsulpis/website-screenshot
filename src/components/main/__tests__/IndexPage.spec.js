@@ -5,6 +5,7 @@ import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
 import fetch from "isomorphic-unfetch";
 import flushPromises from "flush-promises";
 
@@ -21,6 +22,7 @@ describe("IndexPage", () => {
 
   beforeEach(() => {
     wrapper = shallowMount(IndexPage, { localVue });
+    jest.resetAllMocks();
     fetch.mockResolvedValue({ text: () => Promise.resolve("") });
   });
 
@@ -88,6 +90,16 @@ describe("IndexPage", () => {
     });
   });
 
+  describe("shadow", () => {
+    it("should be forwarded to the screenshot preview", async () => {
+      const shadow = "small";
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(ScreenshotPreview).props("shadow")).toBe(shadow);
+    });
+  });
+
   describe("screenshot", () => {
     it("should have no source when mounted", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
@@ -119,8 +131,12 @@ describe("IndexPage", () => {
       // Given form data
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      const shadow = "small";
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      await wrapper.vm.$nextTick();
       wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      await wrapper.vm.$nextTick();
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
       await wrapper.vm.$nextTick();
 
       // Given mock API
@@ -136,6 +152,7 @@ describe("IndexPage", () => {
       expect(actualFetchArgument).toContain(`url=${url}`);
       expect(actualFetchArgument).toContain(`width=${resolution.width}`);
       expect(actualFetchArgument).toContain(`height=${resolution.height}`);
+      expect(actualFetchArgument).toContain(`shadow=${shadow}`);
 
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");

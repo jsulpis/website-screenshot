@@ -6,11 +6,11 @@
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
     />
-    <ScreenshotShadowInput />
+    <ScreenshotShadowInput @change="shadow = $event" />
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
-    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
+    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" />
   </form>
 </template>
 
@@ -41,6 +41,7 @@ export default {
         height: 0
       },
       screenshotSrc: EMPTY_SRC,
+      shadow: "test",
       loading: false,
       buttonDisabled: false,
       url: ""
@@ -79,7 +80,8 @@ export default {
         this.buttonDisabled = true;
 
         const { width, height } = this.resolution;
-        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+        const { url, shadow } = this;
+        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${url}&width=${width}&height=${height}&shadow=${shadow}`;
 
         fetch(apiUrl)
           .then(res => res.text())

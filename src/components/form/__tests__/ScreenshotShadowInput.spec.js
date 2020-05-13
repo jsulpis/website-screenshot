@@ -11,10 +11,14 @@ describe("ScreenshotShadowInput", () => {
 
   it("should emit the value of the selected shadow", async () => {
     await wrapper.find(".shadow-small").trigger("click");
-    expect(wrapper.emitted("input")[0]).toEqual(["small"]);
+    expect(wrapper.emitted("change")[1]).toEqual(["small"]);
 
     await wrapper.find(".shadow-medium").trigger("click");
-    expect(wrapper.emitted("input")[1]).toEqual(["medium"]);
+    expect(wrapper.emitted("change")[2]).toEqual(["medium"]);
+  });
+
+  it("should emit its default value when mounted", () => {
+    expect(wrapper.emitted("change")[0]).toBeTruthy();
   });
 
   it("should have a visual indicator of the selected value", async () => {
