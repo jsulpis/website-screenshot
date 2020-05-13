@@ -15,6 +15,7 @@
 </template>
 
 <script>
+// purgecss whitelist: shadow-small shadow-medium shadow-large
 export default {
   data() {
     return {

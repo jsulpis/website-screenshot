@@ -4,11 +4,17 @@ import getScreenshot from "./_lib/getScreenshot";
 const URL_REGEXP = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 800;
-const DEFAULT_SHADOW = false;
+const DEFAULT_SHADOW = "";
 const MIN_VIEWPORT_WIDTH = 360;
 const MAX_VIEWPORT_WIDTH = 1920;
 const MIN_VIEWPORT_HEIGHT = 360;
 const MAX_VIEWPORT_HEIGHT = 1920;
+
+const AUTHORIZED_CORS_ORIGINS = [
+  "https://website-screenshot.now.sh",
+  "https://website-screenshot.juliensulpis.now.sh",
+  "http://localhost:3000"
+];
 
 module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   const { query = {} } = require("url").parse(req.url, true);
@@ -21,7 +27,13 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
-  const screenshot = await getScreenshot(url, +width, +height, !!shadow);
+  const origin = req.headers ? (req.headers.origin as string) : "";
+  if (AUTHORIZED_CORS_ORIGINS.indexOf(origin) !== -1) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  }
+
+  const screenshot = await getScreenshot(url, +width, +height, shadow);
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain");

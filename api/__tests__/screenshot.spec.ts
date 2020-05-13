@@ -1,5 +1,5 @@
 import getScreenshot from "../_lib/getScreenshot";
-import { ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
 const screenshotApi = require("../screenshot");
 
@@ -9,7 +9,7 @@ describe("screenshot API", () => {
   const URL = "https://toto.com";
   const WIDTH = 1280;
   const HEIGHT = 800;
-  const SHADOW = true;
+  const SHADOW = "medium";
   let res: Partial<ServerResponse>;
 
   beforeEach(() => {
@@ -63,7 +63,32 @@ describe("screenshot API", () => {
     expect(res.statusCode).toBe(400);
   });
 
-  const buildRequest = (url = URL, width = WIDTH, height = HEIGHT, shadow = SHADOW): { url: string } => ({
+  it("should set the CORS headers for valid origins", async () => {
+    const req = buildRequest();
+    req.headers = {
+      origin: "https://website-screenshot.juliensulpis.now.sh"
+    };
+    await screenshotApi(req, res);
+
+    expect(res.setHeader).toHaveBeenNthCalledWith(
+      1,
+      "Access-Control-Allow-Origin",
+      "https://website-screenshot.juliensulpis.now.sh"
+    );
+  });
+
+  it("should not set the CORS headers for invalid origins", async () => {
+    const req = buildRequest();
+    await screenshotApi(req, res);
+
+    expect(res.setHeader).not.toHaveBeenNthCalledWith(
+      1,
+      "Access-Control-Allow-Origin",
+      "https://website-screenshot.juliensulpis.now.sh"
+    );
+  });
+
+  const buildRequest = (url = URL, width = WIDTH, height = HEIGHT, shadow = SHADOW): Partial<IncomingMessage> => ({
     url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}`
   });
 });

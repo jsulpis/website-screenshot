@@ -41,7 +41,7 @@ export default {
         height: 0
       },
       screenshotSrc: EMPTY_SRC,
-      shadow: "test",
+      shadow: "",
       loading: false,
       buttonDisabled: false,
       url: ""
@@ -70,6 +70,10 @@ export default {
     },
     url() {
       this.buttonDisabled = false;
+    },
+    shadow() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
     }
   },
   methods: {
@@ -78,11 +82,9 @@ export default {
       if (!this.$v.$invalid) {
         this.loading = true;
         this.buttonDisabled = true;
-
         const { width, height } = this.resolution;
         const { url, shadow } = this;
         const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${url}&width=${width}&height=${height}&shadow=${shadow}`;
-
         fetch(apiUrl)
           .then(res => res.text())
           .then(res => {

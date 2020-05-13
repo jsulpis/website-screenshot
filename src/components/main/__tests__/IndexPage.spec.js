@@ -19,11 +19,12 @@ describe("IndexPage", () => {
   const VALID_URL = "https://toto.com";
   const VALID_WIDTH = 1280;
   const VALID_HEIGHT = 800;
+  const apiResponse = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
   beforeEach(() => {
     wrapper = shallowMount(IndexPage, { localVue });
     jest.resetAllMocks();
-    fetch.mockResolvedValue({ text: () => Promise.resolve("") });
+    fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
   });
 
   describe("url", () => {
@@ -113,6 +114,7 @@ describe("IndexPage", () => {
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find("form").trigger("submit");
+      await flushPromises();
 
       // When the resolution changes
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
@@ -124,6 +126,24 @@ describe("IndexPage", () => {
 
       expect(src).toBeFalsy();
     });
+
+    it("should reset the source when the shadow changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotShadowInput).vm.$emit("input", "small");
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // When the shadow changes
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
+      await wrapper.vm.$nextTick();
+
+      // Then the source should be empty
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+      expect(src).toBeFalsy();
+    });
   });
 
   describe("on submit", () => {
@@ -133,15 +153,10 @@ describe("IndexPage", () => {
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       const shadow = "small";
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      await wrapper.vm.$nextTick();
       wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
-      await wrapper.vm.$nextTick();
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
-      await wrapper.vm.$nextTick();
 
-      // Given mock API
-      const apiResponse = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-      fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
+      // Given mock API defined in beforeEach
 
       // When submitting
       await wrapper.find("form").trigger("submit");
@@ -198,6 +213,21 @@ describe("IndexPage", () => {
 
       // When
       wrapper.find(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
+      await wrapper.vm.$nextTick();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+    });
+
+    it("should be (re)enabled when the shadow changes", async () => {
+      // Given
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "small");
+      wrapper.find("form").trigger("submit");
+
+      // When
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
       await wrapper.vm.$nextTick();
 
       // Then

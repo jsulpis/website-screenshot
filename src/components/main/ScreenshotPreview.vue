@@ -1,7 +1,7 @@
 <template>
   <img
     class="max-w-full mx-auto preview"
-    :class="(!src ? 'border bg-surface' : '') + ' shadow-' + shadow"
+    :class="!src ? 'border bg-surface shadow-' + shadow : ''"
     :style="{
       width: (screenshotHeight * resolution.width) / resolution.height + 'px',
       height: screenshotHeight + 'px'
