@@ -10,12 +10,6 @@ const MAX_VIEWPORT_WIDTH = 1920;
 const MIN_VIEWPORT_HEIGHT = 360;
 const MAX_VIEWPORT_HEIGHT = 1920;
 
-const AUTHORIZED_CORS_ORIGINS = [
-  "https://website-screenshot.now.sh",
-  "https://website-screenshot.juliensulpis.now.sh",
-  "http://localhost:3000"
-];
-
 module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   const { query = {} } = require("url").parse(req.url, true);
   let { url, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, shadow = DEFAULT_SHADOW } = query;
@@ -28,7 +22,10 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   }
 
   const origin = req.headers ? (req.headers.origin as string) : "";
-  if (AUTHORIZED_CORS_ORIGINS.indexOf(origin) !== -1) {
+  if (
+    (origin.startsWith("https://website-screenshot") && origin.endsWith("now.sh")) ||
+    origin === "http://localhost:3000"
+  ) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   }
