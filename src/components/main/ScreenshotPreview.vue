@@ -1,11 +1,16 @@
 <template>
   <img
-    class="max-w-full mx-auto border preview bg-surface"
-    :style="{
-      width: (screenshotHeight * resolution.width) / resolution.height + 'px',
-      height: screenshotHeight + 'px'
-    }"
-    :src="src"
+    class="max-w-full mx-auto preview"
+    :class="!src ? 'border mt-3 mb-8 bg-surface shadow-' + shadow : ''"
+    :style="
+      !src
+        ? {
+            width: (screenshotHeight * resolution.width) / resolution.height + 'px',
+            height: screenshotHeight + 'px'
+          }
+        : {}
+    "
+    :src="src || placeholder"
     alt="Screenshot preview"
   />
 </template>
@@ -22,15 +27,19 @@ export default {
     },
     src: {
       type: String
+    },
+    shadow: {
+      type: String
     }
   },
   data() {
     return {
-      screenshotHeight: 300
+      screenshotHeight: 500,
+      placeholder: "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
     };
   },
   mounted() {
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 1024) {
       this.screenshotHeight = 180;
     }
   }

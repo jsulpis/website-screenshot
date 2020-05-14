@@ -22,6 +22,11 @@
     "width": "Width",
     "height": "Height",
     "input-error": "Please enter a number between {0} and {1}",
-    "send": "Send"
+    "request-error": "An error has occurred. Please try again later.",
+    "send": "Send",
+    "shadow": {
+      "title": "Shadow",
+      "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
+    }
   }
 }

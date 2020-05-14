@@ -6,10 +6,13 @@
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
     />
+    <ScreenshotShadowInput @change="shadow = $event" />
 
-    <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" />
+    <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
-    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" />
+    <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
+
+    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" />
   </form>
 </template>
 
@@ -18,17 +21,20 @@ import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.v
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
+import fetch from "isomorphic-unfetch";
 
-const EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+const EMPTY_SRC = "";
 
 export default {
   components: {
     ViewportResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
-    SubmitButton
+    SubmitButton,
+    ScreenshotShadowInput
   },
   data() {
     return {
@@ -36,10 +42,12 @@ export default {
         width: 0,
         height: 0
       },
-      screenshotSrc: EMPTY_IMG,
+      screenshotSrc: EMPTY_SRC,
+      shadow: "",
       loading: false,
       buttonDisabled: false,
-      url: ""
+      url: "",
+      displayRequestError: false
     };
   },
   validations: {
@@ -61,23 +69,48 @@ export default {
   watch: {
     resolution() {
       this.buttonDisabled = false;
-      this.screenshotSrc = EMPTY_IMG;
+      this.screenshotSrc = EMPTY_SRC;
     },
     url() {
       this.buttonDisabled = false;
+    },
+    shadow() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
     }
   },
   methods: {
     fetchScreenshot() {
       this.$v.$touch();
+      this.displayRequestError = false;
       if (!this.$v.$invalid) {
-        this.buttonDisabled = true;
         this.loading = true;
-        setTimeout(() => (this.loading = false), 2000); // Until I find a better option
+        this.buttonDisabled = true;
         const { width, height } = this.resolution;
-        this.screenshotSrc = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}`;
+        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}&shadow=${this.shadow}`;
+        fetch(apiUrl)
+          .then(res => res.text())
+          .then(res => {
+            this.screenshotSrc = "data:image/png;base64," + res;
+          })
+          .catch(() => {
+            this.displayRequestError = true;
+          })
+          .finally(() => (this.loading = false));
       }
     }
   }
 };
 </script>
+
+<style scoped>
+form > div {
+  @apply w-full;
+}
+
+@screen sm {
+  form > div {
+    @apply w-2/3;
+  }
+}
+</style>

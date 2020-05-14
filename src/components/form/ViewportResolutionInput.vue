@@ -1,14 +1,9 @@
 <template>
-  <div class="screen-dimensions sm:w-2/3">
+  <div class="screen-dimensions">
     <h4>{{ $t("index.screen-dimensions") }}</h4>
-    <div class="px-3 py-2 mb-2 text-sm text-left border rounded opacity-90 bg-surface">
-      <div
-        class="inline-flex justify-center float-left w-5 h-5 mr-2 font-serif text-xs font-bold align-top border rounded-full bg-default"
-      >
-        i
-      </div>
+    <InfoBox>
       <p>{{ $t("index.screen-note") }}</p>
-    </div>
+    </InfoBox>
     <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
 
     <ul>
@@ -51,10 +46,12 @@
 
 <script>
 import ViewportResolutionPresets from "@/components/form/ViewportResolutionPresets.vue";
+import InfoBox from "@/components/form/InfoBox.vue";
 
 export default {
   components: {
-    ViewportResolutionPresets
+    ViewportResolutionPresets,
+    InfoBox
   },
   props: {
     widthError: {
@@ -101,7 +98,7 @@ export default {
   }
 
   li {
-    @apply text-left mb-3 inline-block;
+    @apply text-left inline-block;
   }
 }
 </style>

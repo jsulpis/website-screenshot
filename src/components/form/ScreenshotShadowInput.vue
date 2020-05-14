@@ -1,0 +1,48 @@
+<template>
+  <div>
+    <h4>{{ $t("index.shadow.title") }}</h4>
+    <InfoBox v-if="displayInfo">
+      <p>{{ $t("index.shadow.info") }}</p>
+    </InfoBox>
+    <div class="flex flex-row flex-wrap justify-evenly">
+      <div
+        v-for="shadow in shadows"
+        class="flex items-center justify-center w-24 h-24 m-3 text-center cursor-pointer bg-surface"
+        :class="'shadow-' + shadow"
+        @click="selectValue(shadow)"
+      >
+        <FontAwesomeIcon v-show="shadow === value" icon="check-circle" size="lg" class="text-primary-500" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import InfoBox from "@/components/form/InfoBox.vue";
+
+// purgecss whitelist: shadow-small shadow-medium shadow-large
+export default {
+  components: {
+    InfoBox
+  },
+  data() {
+    return {
+      shadows: ["none", "small", "medium", "large"],
+      value: "medium",
+      displayInfo: false
+    };
+  },
+  mounted() {
+    this.$emit("change", this.value);
+    if (window.innerWidth < 1024) {
+      this.displayInfo = true;
+    }
+  },
+  methods: {
+    selectValue(val) {
+      this.value = val;
+      this.$emit("change", val);
+    }
+  }
+};
+</script>

@@ -5,6 +5,11 @@ import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
+import fetch from "isomorphic-unfetch";
+import flushPromises from "flush-promises";
+
+jest.mock("isomorphic-unfetch");
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
@@ -14,9 +19,12 @@ describe("IndexPage", () => {
   const VALID_URL = "https://toto.com";
   const VALID_WIDTH = 1280;
   const VALID_HEIGHT = 800;
+  const apiResponse = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
   beforeEach(() => {
     wrapper = shallowMount(IndexPage, { localVue });
+    jest.resetAllMocks();
+    fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
   });
 
   describe("url", () => {
@@ -83,31 +91,87 @@ describe("IndexPage", () => {
     });
   });
 
+  describe("shadow", () => {
+    it("should be forwarded to the screenshot preview", async () => {
+      const shadow = "small";
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(ScreenshotPreview).props("shadow")).toBe(shadow);
+    });
+  });
+
   describe("screenshot", () => {
-    it("should display a placeholder image when mounted", () => {
+    it("should have no source when mounted", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      expect(src).toBeFalsy();
     });
 
-    it("should have a src updated with the form data when submitting", async () => {
-      const url = VALID_URL;
-      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
-      await wrapper.vm.$nextTick();
-
+    it("should reset the source when the resolution changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // When the resolution changes
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
+      // Then the source should be empty
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(false);
-      expect(src).toContain(`url=${url}`);
-      expect(src).toContain(`width=${resolution.width}`);
-      expect(src).toContain(`height=${resolution.height}`);
+      expect(src).toBeFalsy();
+    });
+
+    it("should reset the source when the shadow changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotShadowInput).vm.$emit("input", "small");
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // When the shadow changes
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
+      await wrapper.vm.$nextTick();
+
+      // Then the source should be empty
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+      expect(src).toBeFalsy();
+    });
+  });
+
+  describe("on submit", () => {
+    it("should get the screenshot from the API using the form data", async () => {
+      // Given form data
+      const url = VALID_URL;
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      const shadow = "small";
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
+
+      // Given mock API defined in beforeEach
+
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // Then
+      const actualFetchArgument = fetch.mock.calls[0][0];
+      expect(actualFetchArgument).toContain(`url=${url}`);
+      expect(actualFetchArgument).toContain(`width=${resolution.width}`);
+      expect(actualFetchArgument).toContain(`height=${resolution.height}`);
+      expect(actualFetchArgument).toContain(`shadow=${shadow}`);
+
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+      expect(src).toBe("data:image/png;base64," + apiResponse);
     });
 
     it("should not update the src when submitting with errors", async () => {
@@ -117,30 +181,51 @@ describe("IndexPage", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      expect(src).toBeFalsy();
     });
 
-    it("should reset the image when the resolution changes", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find("form").trigger("submit"); // should disable the button
+    it("should reactivate the button and display an error message if the request fails", async () => {
+      // Given form data
+      const url = VALID_URL;
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
 
-      // When
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
-      await wrapper.vm.$nextTick();
+      // Given failing request
+      fetch.mockReturnValue(Promise.reject());
 
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
-      const src = screenshotComponent.props("src");
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
 
-      expect(src.startsWith("data:image/gif;base64,")).toBe(true);
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.find("#request-error").isVisible()).toBe(true);
+    });
+
+    it("should remove the error message", async () => {
+      // Given error message displayed
+      wrapper.vm.$data.displayRequestError = true;
+
+      // Given form data
+      const url = VALID_URL;
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.find("#request-error").exists()).toBe(false);
     });
   });
 
   describe("button", () => {
     it("should be disabled when submitting", async () => {
-      wrapper.find("form").trigger("submit");
-      await wrapper.vm.$nextTick();
-
+      await wrapper.find("form").trigger("submit");
       expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
     });
 
@@ -166,6 +251,21 @@ describe("IndexPage", () => {
 
       // When
       wrapper.find(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
+      await wrapper.vm.$nextTick();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+    });
+
+    it("should be (re)enabled when the shadow changes", async () => {
+      // Given
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "small");
+      wrapper.find("form").trigger("submit");
+
+      // When
+      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
       await wrapper.vm.$nextTick();
 
       // Then
