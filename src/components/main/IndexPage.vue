@@ -10,6 +10,8 @@
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
+    <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
+
     <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" />
   </form>
 </template>
@@ -44,7 +46,8 @@ export default {
       shadow: "",
       loading: false,
       buttonDisabled: false,
-      url: ""
+      url: "",
+      displayRequestError: false
     };
   },
   validations: {
@@ -79,18 +82,21 @@ export default {
   methods: {
     fetchScreenshot() {
       this.$v.$touch();
+      this.displayRequestError = false;
       if (!this.$v.$invalid) {
         this.loading = true;
         this.buttonDisabled = true;
         const { width, height } = this.resolution;
-        const { url, shadow } = this;
-        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${url}&width=${width}&height=${height}&shadow=${shadow}`;
+        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}&shadow=${this.shadow}`;
         fetch(apiUrl)
           .then(res => res.text())
           .then(res => {
-            this.loading = false;
             this.screenshotSrc = "data:image/png;base64," + res;
-          });
+          })
+          .catch(() => {
+            this.displayRequestError = true;
+          })
+          .finally(() => (this.loading = false));
       }
     }
   }

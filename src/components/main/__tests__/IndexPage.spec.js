@@ -183,6 +183,44 @@ describe("IndexPage", () => {
 
       expect(src).toBeFalsy();
     });
+
+    it("should reactivate the button and display an error message if the request fails", async () => {
+      // Given form data
+      const url = VALID_URL;
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+
+      // Given failing request
+      fetch.mockReturnValue(Promise.reject());
+
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.find("#request-error").isVisible()).toBe(true);
+    });
+
+    it("should remove the error message", async () => {
+      // Given error message displayed
+      wrapper.vm.$data.displayRequestError = true;
+
+      // Given form data
+      const url = VALID_URL;
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+
+      // When submitting
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.find("#request-error").exists()).toBe(false);
+    });
   });
 
   describe("button", () => {
