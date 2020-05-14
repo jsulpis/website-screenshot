@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       screenshotHeight: 300,
-      placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      placeholder: "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
     };
   },
   mounted() {

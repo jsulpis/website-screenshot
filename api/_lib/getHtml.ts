@@ -24,7 +24,7 @@ export default function getHtml(imageBase64: string, shadow: string) {
     <body>
        <img
         alt="Generated Image"
-        src="data:image/gif;base64,${imageBase64}"
+        src="data:image/png;base64,${imageBase64}"
         class="shadow-${shadow}"
     />
     </body>

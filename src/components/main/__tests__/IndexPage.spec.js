@@ -171,7 +171,7 @@ describe("IndexPage", () => {
 
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");
-      expect(src).toBe("data:image/gif;base64," + apiResponse);
+      expect(src).toBe("data:image/png;base64," + apiResponse);
     });
 
     it("should not update the src when submitting with errors", async () => {

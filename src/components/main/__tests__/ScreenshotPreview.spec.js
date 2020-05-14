@@ -7,7 +7,7 @@ describe("ScreenshotPreview", () => {
 
     const src = wrapper.find("img").attributes("src");
 
-    expect(src.startsWith("data:image/gif;base64")).toBe(true);
+    expect(src.startsWith("data:image/png;base64")).toBe(true);
   });
 
   it("should display the image with the source if provided in props", async () => {

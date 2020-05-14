@@ -89,7 +89,7 @@ export default {
           .then(res => res.text())
           .then(res => {
             this.loading = false;
-            this.screenshotSrc = "data:image/gif;base64," + res;
+            this.screenshotSrc = "data:image/png;base64," + res;
           });
       }
     }
