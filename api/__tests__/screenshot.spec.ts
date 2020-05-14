@@ -66,7 +66,7 @@ describe("screenshot API", () => {
   it("should set the CORS headers for valid origins", async () => {
     const req = buildRequest();
     req.headers = {
-      origin: "https://website-screenshot.juliensulpis.now.sh"
+      referer: "https://website-screenshot.juliensulpis.now.sh/"
     };
     await screenshotApi(req, res);
 

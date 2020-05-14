@@ -4,9 +4,10 @@ import chrome from "chrome-aws-lambda";
 import puppeteer from "puppeteer-core";
 
 const shadowSize = {
-  small: 12,
-  medium: 25,
-  large: 50
+  none: 0,
+  small: 25,
+  medium: 40,
+  large: 70
 };
 
 /**
@@ -38,18 +39,15 @@ export default async function getScreenshot(
   const screenshotBase64 = await page1.screenshot({ encoding: "base64" });
   let outputBase64: string;
 
-  if (!!shadow && shadow !== "none") {
-    const page2 = await browser.newPage();
-    await page2.setContent(getHtml(screenshotBase64, shadow));
-    await page2.setViewport({
-      width: width + shadowSize[shadow],
-      height: height + shadowSize[shadow],
-      deviceScaleFactor: 1
-    });
-    outputBase64 = await page2.screenshot({ encoding: "base64", omitBackground: true });
-  } else {
-    outputBase64 = screenshotBase64;
-  }
+  const page2 = await browser.newPage();
+  await page2.setContent(getHtml(screenshotBase64, shadow));
+  const aspectRatio = width / height;
+  await page2.setViewport({
+    width: 500 * aspectRatio + shadowSize[shadow],
+    height: 500 + shadowSize[shadow],
+    deviceScaleFactor: 1
+  });
+  outputBase64 = await page2.screenshot({ encoding: "base64", omitBackground: true });
 
   await browser.close();
 

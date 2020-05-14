@@ -1,11 +1,15 @@
 <template>
   <img
     class="max-w-full mx-auto preview"
-    :class="!src ? 'border bg-surface shadow-' + shadow : ''"
-    :style="{
-      width: (screenshotHeight * resolution.width) / resolution.height + 'px',
-      height: screenshotHeight + 'px'
-    }"
+    :class="!src ? 'border mt-3 mb-8 bg-surface shadow-' + shadow : ''"
+    :style="
+      !src
+        ? {
+            width: (screenshotHeight * resolution.width) / resolution.height + 'px',
+            height: screenshotHeight + 'px'
+          }
+        : {}
+    "
     :src="src || placeholder"
     alt="Screenshot preview"
   />
@@ -30,12 +34,12 @@ export default {
   },
   data() {
     return {
-      screenshotHeight: 300,
+      screenshotHeight: 500,
       placeholder: "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
     };
   },
   mounted() {
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 1024) {
       this.screenshotHeight = 180;
     }
   }

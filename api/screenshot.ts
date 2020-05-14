@@ -21,7 +21,7 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
-  const origin = req.headers ? (req.headers.origin as string) : "";
+  const origin = req.headers && req.headers.referer ? req.headers.referer.slice(0, -1) : "";
   if (
     (origin.startsWith("https://website-screenshot") && origin.endsWith("now.sh")) ||
     origin === "http://localhost:3000"

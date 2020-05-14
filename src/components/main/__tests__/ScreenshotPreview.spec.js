@@ -21,15 +21,15 @@ describe("ScreenshotPreview", () => {
     expect(src).toBe(url);
   });
 
-  it("should have a height of 300 on medium and large screens", () => {
+  it("should have a height of 500 on large screens", () => {
     global.innerWidth = 1280;
 
     const wrapper = mount(ScreenshotPreview);
 
-    expect(wrapper.vm.$data.screenshotHeight).toBe(300);
+    expect(wrapper.vm.$data.screenshotHeight).toBe(500);
   });
 
-  it("should have a height of 180 on medium and large screens", () => {
+  it("should have a height of 180 on medium and small screens", () => {
     global.innerWidth = 360;
 
     const wrapper = mount(ScreenshotPreview);

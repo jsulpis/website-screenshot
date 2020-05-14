@@ -26,7 +26,7 @@ describe("getScreenshot", () => {
   });
 
   it("should set the viewport dimensions according to the arguments", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT);
+    await getScreenshot(URL, WIDTH, HEIGHT, "none");
 
     expect(mockedPage.setViewport).toHaveBeenCalledWith({
       width: WIDTH,
@@ -35,15 +35,8 @@ describe("getScreenshot", () => {
     });
   });
 
-  it("should open a browser and take one screenshot if no shadow", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT);
-
-    expect(puppeteer.launch).toHaveBeenCalled();
-    expect(mockedPage.screenshot).toHaveBeenCalledTimes(1);
-  });
-
   it("should open a browser and take two screenshots if shadow", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT, true);
+    await getScreenshot(URL, WIDTH, HEIGHT, "small");
 
     expect(puppeteer.launch).toHaveBeenCalled();
     expect(mockedPage.screenshot).toHaveBeenCalledTimes(2);

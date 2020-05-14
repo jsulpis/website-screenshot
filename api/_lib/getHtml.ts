@@ -9,15 +9,21 @@ export default function getHtml(imageBase64: string, shadow: string) {
         body {
           display: flex;
           justify-content: center;
-          align-items: center;
+          height: 100vh;
+        }
+        img {
+          height: 500px;
         }
         .shadow-small {
+          margin-top: 5px;
           box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
         .shadow-medium {
+          margin-top: 10px;
           box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         .shadow-large {
+          margin-top: 15px;
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.1);
         }
     </style>

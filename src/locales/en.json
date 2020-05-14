@@ -24,7 +24,8 @@
     "input-error": "Please enter a number between {0} and {1}",
     "send": "Send",
     "shadow": {
-      "title": "Shadow"
+      "title": "Shadow",
+      "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
     }
   }
 }

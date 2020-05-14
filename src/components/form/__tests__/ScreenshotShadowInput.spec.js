@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
+import InfoBox from "@/components/form/InfoBox.vue";
 
 describe("ScreenshotShadowInput", () => {
   let wrapper;
@@ -28,5 +29,27 @@ describe("ScreenshotShadowInput", () => {
     expect(wrapper.find(".shadow-small > *").isVisible()).toBe(true);
     expect(wrapper.find(".shadow-medium > *").isVisible()).toBe(false);
     expect(wrapper.find(".shadow-large > *").isVisible()).toBe(false);
+  });
+
+  it("should display a message on medium and small screens about the scale of the shadow", async () => {
+    global.innerWidth = 768;
+
+    wrapper = mount(ScreenshotShadowInput, {
+      stubs: ["FontAwesomeIcon"]
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find(InfoBox).isVisible()).toBe(true);
+  });
+
+  it("should not display the info on large screens", async () => {
+    global.innerWidth = 1280;
+
+    wrapper = mount(ScreenshotShadowInput, {
+      stubs: ["FontAwesomeIcon"]
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find(InfoBox).exists()).toBe(false);
   });
 });
