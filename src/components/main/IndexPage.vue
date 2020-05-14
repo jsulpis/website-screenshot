@@ -8,6 +8,8 @@
     />
     <ScreenshotShadowInput @change="shadow = $event" />
 
+    <ScreenshotBorderRadius @change="" />
+
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
     <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
@@ -22,6 +24,7 @@ import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
+import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -34,7 +37,8 @@ export default {
     ScreenshotPreview,
     WebsiteUrlInput,
     SubmitButton,
-    ScreenshotShadowInput
+    ScreenshotShadowInput,
+    ScreenshotBorderRadius
   },
   data() {
     return {
