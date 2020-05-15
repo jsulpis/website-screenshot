@@ -6,6 +6,7 @@ import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.v
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
+import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
 import fetch from "isomorphic-unfetch";
 import flushPromises from "flush-promises";
 
@@ -101,6 +102,16 @@ describe("IndexPage", () => {
     });
   });
 
+  describe("radius", () => {
+    it("should be forwarded to the screenshot preview", async () => {
+      const radius = 8;
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", radius);
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(ScreenshotPreview).props("radius")).toBe(radius);
+    });
+  });
+
   describe("screenshot", () => {
     it("should have no source when mounted", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
@@ -152,9 +163,11 @@ describe("IndexPage", () => {
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       const shadow = "small";
+      const radius = 8;
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", radius);
 
       // Given mock API defined in beforeEach
 
@@ -168,6 +181,7 @@ describe("IndexPage", () => {
       expect(actualFetchArgument).toContain(`width=${resolution.width}`);
       expect(actualFetchArgument).toContain(`height=${resolution.height}`);
       expect(actualFetchArgument).toContain(`shadow=${shadow}`);
+      expect(actualFetchArgument).toContain(`radius=${radius}`);
 
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");

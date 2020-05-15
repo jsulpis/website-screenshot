@@ -21,7 +21,8 @@ export default async function getScreenshot(
   url: string,
   width: number,
   height: number,
-  shadow: "none" | "small" | "medium" | "large"
+  shadow: "none" | "small" | "medium" | "large",
+  radius: number
 ): Promise<string> {
   const browser = await puppeteer.launch({
     args: chrome.args,
@@ -40,7 +41,7 @@ export default async function getScreenshot(
   let outputBase64: string;
 
   const page2 = await browser.newPage();
-  await page2.setContent(getHtml(screenshotBase64, shadow));
+  await page2.setContent(getHtml(screenshotBase64, shadow, radius));
   const aspectRatio = width / height;
   await page2.setViewport({
     width: 500 * aspectRatio + shadowSize[shadow],

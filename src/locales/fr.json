@@ -27,6 +27,9 @@
     "shadow": {
       "title": "Ombre",
       "info": "L'ombre apparaîtra moins prononcée sur l'image finale à cause de l'échelle de la prévisualisation."
+    },
+    "border-radius": {
+      "title": "Coins arrondis"
     }
   }
 }

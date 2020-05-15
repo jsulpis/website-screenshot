@@ -1,4 +1,4 @@
-export default function getHtml(imageBase64: string, shadow: string) {
+export default function getHtml(imageBase64: string, shadow: string, radius: number) {
   return `
 <!DOCTYPE html>
 <html>
@@ -32,6 +32,7 @@ export default function getHtml(imageBase64: string, shadow: string) {
         alt="Generated Image"
         src="data:image/png;base64,${imageBase64}"
         class="shadow-${shadow}"
+        style="border-radius: ${radius}px"
     />
     </body>
 </html>`;

@@ -6,7 +6,8 @@
       !src
         ? {
             width: (screenshotHeight * resolution.width) / resolution.height + 'px',
-            height: screenshotHeight + 'px'
+            height: screenshotHeight + 'px',
+            borderRadius: radius + 'px'
           }
         : {}
     "
@@ -30,6 +31,9 @@ export default {
     },
     shadow: {
       type: String
+    },
+    radius: {
+      type: Number
     }
   },
   data() {

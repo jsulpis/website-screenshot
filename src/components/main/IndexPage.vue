@@ -8,11 +8,13 @@
     />
     <ScreenshotShadowInput @change="shadow = $event" />
 
+    <ScreenshotBorderRadius @change="radius = $event" />
+
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
     <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
 
-    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" />
+    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" :radius="radius" />
   </form>
 </template>
 
@@ -22,6 +24,7 @@ import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
+import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -34,7 +37,8 @@ export default {
     ScreenshotPreview,
     WebsiteUrlInput,
     SubmitButton,
-    ScreenshotShadowInput
+    ScreenshotShadowInput,
+    ScreenshotBorderRadius
   },
   data() {
     return {
@@ -44,6 +48,7 @@ export default {
       },
       screenshotSrc: EMPTY_SRC,
       shadow: "",
+      radius: 0,
       loading: false,
       buttonDisabled: false,
       url: "",
@@ -86,18 +91,30 @@ export default {
       if (!this.$v.$invalid) {
         this.loading = true;
         this.buttonDisabled = true;
-        const { width, height } = this.resolution;
-        const apiUrl = `${process.env.baseUrl}/api/screenshot?url=${this.url}&width=${width}&height=${height}&shadow=${this.shadow}`;
-        fetch(apiUrl)
+
+        fetch(this.fullApiUrl)
           .then(res => res.text())
-          .then(res => {
-            this.screenshotSrc = "data:image/png;base64," + res;
-          })
-          .catch(() => {
-            this.displayRequestError = true;
-          })
+          .then(res => (this.screenshotSrc = "data:image/png;base64," + res))
+          .catch(() => (this.displayRequestError = true))
           .finally(() => (this.loading = false));
       }
+    }
+  },
+  computed: {
+    fullApiUrl() {
+      const currentLocation = window ? window.location.origin : "";
+      let apiUrl = `${process.env.BASE_URL || currentLocation}/api/screenshot`;
+      const queryParams = {
+        url: this.url,
+        width: this.resolution.width,
+        height: this.resolution.height,
+        shadow: this.shadow,
+        radius: this.radius
+      };
+      Object.keys(queryParams).forEach(
+        (key, index) => (apiUrl += `${index === 0 ? "?" : "&"}${key}=${queryParams[key]}`)
+      );
+      return apiUrl;
     }
   }
 };
