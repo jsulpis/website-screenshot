@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import ViewportResolutionInput from "../ViewportResolutionInput.vue";
-import ViewportResolutionPresets from "../ViewportResolutionPresets";
+import ScreenshotResolutionInput from "../ScreenshotResolutionInput.vue";
+import ScreenshotResolutionPresets from "../ScreenshotResolutionPresets";
 import Vuelidate from "vuelidate";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faArrowsAltH } from "@fortawesome/free-solid-svg-icons";
@@ -12,14 +12,14 @@ const localVue = createLocalVue();
 localVue.use(Vuelidate);
 localVue.component("FontAwesomeIcon", FontAwesomeIcon);
 
-describe("ViewportResolutionInput", () => {
+describe("ScreenshotResolutionInput", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(ViewportResolutionInput, {
+    wrapper = mount(ScreenshotResolutionInput, {
       localVue
     });
-    wrapper.find(ViewportResolutionPresets).vm.$emit("change", "1440x900");
+    wrapper.find(ScreenshotResolutionPresets).vm.$emit("change", "1440x900");
   });
 
   it("should send the default resolution to the parent when mounted", () => {

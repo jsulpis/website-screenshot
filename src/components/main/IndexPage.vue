@@ -1,15 +1,15 @@
 <template>
   <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
     <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="section" />
-    <ViewportResolutionInput
+    <ScreenshotResolutionInput
       v-model="$v.resolution.$model"
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
       class="section"
     />
     <ScreenshotShadowInput @change="shadow = $event" class="section" />
-
-    <ScreenshotBorderRadius @change="radius = $event" class="section" />
+    <ScreenshotBorderRadiusInput @change="radius = $event" class="section" />
+    <ScreenshotWindowInput class="section" />
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
@@ -20,12 +20,13 @@
 </template>
 
 <script>
-import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
-import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotResolutionInput from "@/components/form/ScreenshotResolutionInput.vue";
+import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
-import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
+import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
+import ScreenshotWindowInput from "@/components/form/ScreenshotWindowInput.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -34,12 +35,13 @@ const EMPTY_SRC = "";
 
 export default {
   components: {
-    ViewportResolutionInput,
+    ScreenshotResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
     SubmitButton,
     ScreenshotShadowInput,
-    ScreenshotBorderRadius
+    ScreenshotBorderRadiusInput,
+    ScreenshotWindowInput
   },
   data() {
     return {

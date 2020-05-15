@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-full mx-auto overflow-hidden preview"
+    class="mx-auto overflow-hidden preview"
     :class="!src ? 'border border- mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
     :style="
       !src
@@ -12,25 +12,25 @@
         : {}
     "
   >
-    <MacOSWindow>
+    <WindowMacOs>
       <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
-    </MacOSWindow>
+    </WindowMacOs>
   </div>
 </template>
 
 <script>
-import MacOSWindow from "@/components/form/MacOSWindow.vue";
+import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
 
 export default {
   components: {
-    MacOSWindow
+    WindowMacOs
   },
   props: {
     resolution: {
       type: Object,
       default: () => ({
         width: 0,
-        height: 0
+        height: 1
       })
     },
     src: {

@@ -1,15 +1,15 @@
 import { mount } from "@vue/test-utils";
-import ViewportResolutionPresets from "../ViewportResolutionPresets.vue";
+import ScreenshotResolutionPresets from "../ScreenshotResolutionPresets.vue";
 
-describe("ViewportResolutionPresets", () => {
+describe("ScreenshotResolutionPresets", () => {
   it("should emit the resolution of the first preset when mounted", () => {
-    const wrapper = mount(ViewportResolutionPresets);
+    const wrapper = mount(ScreenshotResolutionPresets);
 
     expect(wrapper.emitted().change[0]).toBeTruthy();
   });
 
   it("should emit the selected resolution", () => {
-    const wrapper = mount(ViewportResolutionPresets);
+    const wrapper = mount(ScreenshotResolutionPresets);
 
     const options = wrapper.find("select").findAll("option");
     options.at(1).setSelected();

@@ -16,20 +16,21 @@
       "title": "Adresse du site:",
       "error": "URL invalide"
     },
-    "screen-dimensions": "Choisissez la définition de la fenêtre à capturer:",
-    "screen-note": "La définition de la fenêtre est en général bien inférieure à la définition de l'écran. Par exemple, sur un MacBook Pro 15\", la définition de l'écran est de 2880x1800 et celle de la fenêtre est 1440x900.",
-    "preset": "Preset",
-    "width": "Largeur",
-    "height": "Hauteur",
-    "input-error": "Veuillez entrer un nombre compris entre {0} et {1}",
+    "viewport-resolution": {
+      "title": "Définition de la fenêtre:",
+      "info": "La définition de la fenêtre est en général bien inférieure à la définition de l'écran. Par exemple, sur un MacBook Pro 15\", la définition de l'écran est de 2880x1800 et celle de la fenêtre est 1440x900.",
+      "preset": "Preset",
+      "width": "Largeur",
+      "height": "Hauteur",
+      "input-error": "Veuillez entrer un nombre compris entre {0} et {1}"
+    },
     "request-error": "Une erreur est survenue. Veuillez réessayer plus tard.",
     "send": "Envoyer",
     "shadow": {
       "title": "Ombre",
       "info": "L'ombre apparaîtra moins prononcée sur l'image finale à cause de l'échelle de la prévisualisation."
     },
-    "border-radius": {
-      "title": "Coins arrondis"
-    }
+    "border-radius": "Coins arrondis",
+    "window": "Fenêtre"
   }
 }

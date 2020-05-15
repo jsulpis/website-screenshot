@@ -1,11 +1,11 @@
 import { mount } from "@vue/test-utils";
-import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
+import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
 
-describe("ScreenshotBorderRadius", () => {
+describe("ScreenshotBorderRadiusInput", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(ScreenshotBorderRadius, {
+    wrapper = mount(ScreenshotBorderRadiusInput, {
       stubs: ["FontAwesomeIcon"]
     });
   });

@@ -11,7 +11,7 @@
         :class="'shadow-' + shadow"
         @click="selectValue(shadow)"
       >
-        <FontAwesomeIcon v-show="shadow === value" icon="check-circle" size="lg" class="text-primary-400" />
+        <CheckBox v-if="shadow === value" />
       </div>
     </div>
   </div>
@@ -19,11 +19,13 @@
 
 <script>
 import InfoBox from "@/components/form/InfoBox.vue";
+import CheckBox from "@/components/form/CheckBox.vue";
 
 // purgecss whitelist: shadow-small shadow-medium shadow-large
 export default {
   components: {
-    InfoBox
+    InfoBox,
+    CheckBox
   },
   data() {
     return {

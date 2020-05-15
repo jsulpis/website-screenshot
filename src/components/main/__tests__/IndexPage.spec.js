@@ -2,11 +2,11 @@ import { createLocalVue, shallowMount } from "@vue/test-utils";
 import Vuelidate from "vuelidate";
 import IndexPage from "@/components/main/IndexPage.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
-import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
+import ScreenshotResolutionInput from "@/components/form/ScreenshotResolutionInput.vue";
 import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
-import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
+import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
 import fetch from "isomorphic-unfetch";
 import flushPromises from "flush-promises";
 
@@ -54,11 +54,11 @@ describe("IndexPage", () => {
   describe("resolution", () => {
     describe("should be in error if the width", () => {
       const testWithInput = value => async () => {
-        wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: value, height: VALID_HEIGHT });
+        wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: value, height: VALID_HEIGHT });
 
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find(ViewportResolutionInput).props("widthError")).toBe(true);
+        expect(wrapper.find(ScreenshotResolutionInput).props("widthError")).toBe(true);
       };
 
       it("is not defined", testWithInput(""));
@@ -69,11 +69,11 @@ describe("IndexPage", () => {
 
     describe("should be in error if the height", () => {
       const testWithInput = value => async () => {
-        wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: value });
+        wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: value });
 
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find(ViewportResolutionInput).props("heightError")).toBe(true);
+        expect(wrapper.find(ScreenshotResolutionInput).props("heightError")).toBe(true);
       };
 
       it("is not defined", testWithInput(""));
@@ -83,12 +83,12 @@ describe("IndexPage", () => {
     });
 
     it("should not be in error if width and height are valid", async () => {
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
 
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(ViewportResolutionInput).props("widthError")).toBe(false);
-      expect(wrapper.find(ViewportResolutionInput).props("heightError")).toBe(false);
+      expect(wrapper.find(ScreenshotResolutionInput).props("widthError")).toBe(false);
+      expect(wrapper.find(ScreenshotResolutionInput).props("heightError")).toBe(false);
     });
   });
 
@@ -105,7 +105,7 @@ describe("IndexPage", () => {
   describe("radius", () => {
     it("should be forwarded to the screenshot preview", async () => {
       const radius = 8;
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", radius);
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
       await wrapper.vm.$nextTick();
 
       expect(wrapper.find(ScreenshotPreview).props("radius")).toBe(radius);
@@ -123,12 +123,12 @@ describe("IndexPage", () => {
     it("should reset the source when the resolution changes", async () => {
       // Given a resolution and form submitted
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the resolution changes
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
@@ -141,7 +141,7 @@ describe("IndexPage", () => {
     it("should reset the source when the shadow changes", async () => {
       // Given a resolution and form submitted
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find(ScreenshotShadowInput).vm.$emit("input", "small");
       await wrapper.find("form").trigger("submit");
       await flushPromises();
@@ -159,13 +159,13 @@ describe("IndexPage", () => {
     it("should reset the source when the radius changes", async () => {
       // Given a resolution and form submitted
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 4);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
       await wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the shadow changes
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 8);
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
@@ -183,9 +183,9 @@ describe("IndexPage", () => {
       const shadow = "small";
       const radius = 8;
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", radius);
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
 
       // Given mock API defined in beforeEach
 
@@ -221,7 +221,7 @@ describe("IndexPage", () => {
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
 
       // Given failing request
       fetch.mockReturnValue(Promise.reject());
@@ -243,7 +243,7 @@ describe("IndexPage", () => {
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
 
       // When submitting
       await wrapper.find("form").trigger("submit");
@@ -259,7 +259,7 @@ describe("IndexPage", () => {
       // Given
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
       await wrapper.vm.$nextTick();
 
       // When
@@ -273,14 +273,14 @@ describe("IndexPage", () => {
       // Given
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
       expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
       // Then
@@ -290,7 +290,7 @@ describe("IndexPage", () => {
     it("should be (re)enabled when the url changes", async () => {
       // Given
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
@@ -307,7 +307,7 @@ describe("IndexPage", () => {
     it("should be (re)enabled when the shadow changes", async () => {
       // Given
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", "small");
       await wrapper.vm.$nextTick();
 
@@ -325,15 +325,15 @@ describe("IndexPage", () => {
     it("should be (re)enabled when the radius changes", async () => {
       // Given
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 4);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
       expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 8);
+      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
       await wrapper.vm.$nextTick();
 
       // Then
