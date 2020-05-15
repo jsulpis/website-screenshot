@@ -103,7 +103,7 @@ export default {
   computed: {
     fullApiUrl() {
       const currentLocation = window ? window.location.origin : "";
-      let apiUrl = `${process.env.baseUrl || currentLocation}/api/screenshot`;
+      let apiUrl = `${process.env.BASE_URL || currentLocation}/api/screenshot`;
       const queryParams = {
         url: this.url,
         width: this.resolution.width,

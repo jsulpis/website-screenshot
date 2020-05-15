@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       radiuses: [0, 4, 8, 16],
-      value: 2
+      value: 8
     };
   },
   mounted() {
