@@ -1,14 +1,15 @@
 <template>
   <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
-    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" />
+    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="section" />
     <ViewportResolutionInput
       v-model="$v.resolution.$model"
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
+      class="section"
     />
-    <ScreenshotShadowInput @change="shadow = $event" />
+    <ScreenshotShadowInput @change="shadow = $event" class="section" />
 
-    <ScreenshotBorderRadius @change="radius = $event" />
+    <ScreenshotBorderRadius @change="radius = $event" class="section" />
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
@@ -133,7 +134,7 @@ form > div {
 }
 
 @screen sm {
-  form > div {
+  .section {
     @apply w-2/3;
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <img
-    class="max-w-full mx-auto preview"
-    :class="!src ? 'border mt-3 mb-8 bg-surface shadow-' + shadow : ''"
+  <div
+    class="w-full max-w-full mx-auto overflow-hidden preview"
+    :class="!src ? 'border border- mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
     :style="
       !src
         ? {
@@ -11,13 +11,20 @@
           }
         : {}
     "
-    :src="src || placeholder"
-    alt="Screenshot preview"
-  />
+  >
+    <MacOSWindow>
+      <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
+    </MacOSWindow>
+  </div>
 </template>
 
 <script>
+import MacOSWindow from "@/components/form/MacOSWindow.vue";
+
 export default {
+  components: {
+    MacOSWindow
+  },
   props: {
     resolution: {
       type: Object,
@@ -38,8 +45,7 @@ export default {
   },
   data() {
     return {
-      screenshotHeight: 500,
-      placeholder: "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      screenshotHeight: 500
     };
   },
   mounted() {

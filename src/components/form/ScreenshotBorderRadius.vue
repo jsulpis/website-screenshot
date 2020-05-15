@@ -8,7 +8,7 @@
         :style="{ 'border-radius': radius + 'px' }"
         @click="selectValue(radius)"
       >
-        <FontAwesomeIcon v-show="radius === value" icon="check-circle" size="lg" class="text-primary-500" />
+        <FontAwesomeIcon v-show="radius === value" icon="check-circle" size="lg" class="text-primary-400" />
       </div>
     </div>
   </div>
