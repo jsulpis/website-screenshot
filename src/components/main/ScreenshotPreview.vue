@@ -12,18 +12,20 @@
         : {}
     "
   >
-    <WindowMacOs>
+    <component :is="'window-' + window">
       <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
-    </WindowMacOs>
+    </component>
   </div>
 </template>
 
 <script>
 import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
+import WindowNone from "@/components/form/windows/WindowNone.vue";
 
 export default {
   components: {
-    WindowMacOs
+    WindowMacOs,
+    WindowNone
   },
   props: {
     resolution: {
@@ -41,6 +43,9 @@ export default {
     },
     radius: {
       type: Number
+    },
+    window: {
+      type: String
     }
   },
   data() {

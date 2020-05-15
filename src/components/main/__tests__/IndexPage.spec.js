@@ -7,6 +7,7 @@ import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
 import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
+import ScreenshotWindowInput from "@/components/form/ScreenshotWindowInput.vue";
 import fetch from "isomorphic-unfetch";
 import flushPromises from "flush-promises";
 
@@ -112,6 +113,16 @@ describe("IndexPage", () => {
     });
   });
 
+  describe("window", () => {
+    it("should be forwarded to the screenshot preview", async () => {
+      const window = "mac-os";
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", window);
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find(ScreenshotPreview).props("window")).toBe(window);
+    });
+  });
+
   describe("screenshot", () => {
     it("should have no source when mounted", () => {
       const screenshotComponent = wrapper.find(ScreenshotPreview);
@@ -182,10 +193,12 @@ describe("IndexPage", () => {
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       const shadow = "small";
       const radius = 8;
+      const window = "mac-os";
       wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
       wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
       wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", window);
 
       // Given mock API defined in beforeEach
 
@@ -200,6 +213,7 @@ describe("IndexPage", () => {
       expect(actualFetchArgument).toContain(`height=${resolution.height}`);
       expect(actualFetchArgument).toContain(`shadow=${shadow}`);
       expect(actualFetchArgument).toContain(`radius=${radius}`);
+      expect(actualFetchArgument).toContain(`window=${window}`);
 
       const screenshotComponent = wrapper.find(ScreenshotPreview);
       const src = screenshotComponent.props("src");

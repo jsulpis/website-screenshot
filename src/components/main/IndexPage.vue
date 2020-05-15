@@ -9,13 +9,19 @@
     />
     <ScreenshotShadowInput @change="shadow = $event" class="section" />
     <ScreenshotBorderRadiusInput @change="radius = $event" class="section" />
-    <ScreenshotWindowInput class="section" />
+    <ScreenshotWindowInput @change="window = $event" class="section" />
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
     <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
 
-    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" :radius="radius" />
+    <ScreenshotPreview
+      :resolution="resolution"
+      :src="screenshotSrc"
+      :shadow="shadow"
+      :radius="radius"
+      :window="window"
+    />
   </form>
 </template>
 
@@ -50,8 +56,9 @@ export default {
         height: 0
       },
       screenshotSrc: EMPTY_SRC,
-      shadow: "",
+      shadow: "none",
       radius: 0,
+      window: "none",
       loading: false,
       buttonDisabled: false,
       url: "",
@@ -119,7 +126,8 @@ export default {
         width: this.resolution.width,
         height: this.resolution.height,
         shadow: this.shadow,
-        radius: this.radius
+        radius: this.radius,
+        window: this.window
       };
       Object.keys(queryParams).forEach(
         (key, index) => (apiUrl += `${index === 0 ? "?" : "&"}${key}=${queryParams[key]}`)
