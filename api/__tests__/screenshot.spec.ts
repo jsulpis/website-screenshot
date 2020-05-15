@@ -10,6 +10,7 @@ describe("screenshot API", () => {
   const WIDTH = 1280;
   const HEIGHT = 800;
   const SHADOW = "medium";
+  const RADIUS = 8;
   let res: Partial<ServerResponse>;
 
   beforeEach(() => {
@@ -25,13 +26,13 @@ describe("screenshot API", () => {
 
     await screenshotApi(req, res);
 
-    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW);
+    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW, RADIUS);
     expect(res.statusCode).toBe(200);
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
     expect(res.end).toHaveBeenCalled();
   });
 
-  it("should have default width and height", async () => {
+  it("should have default values except url", async () => {
     const requestUrl = `https://api-url.com?url=${URL}`;
     const req = { url: requestUrl };
 
@@ -63,7 +64,26 @@ describe("screenshot API", () => {
     expect(res.statusCode).toBe(400);
   });
 
-  const buildRequest = (url = URL, width = WIDTH, height = HEIGHT, shadow = SHADOW): Partial<IncomingMessage> => ({
-    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}`
+  it("should reject requests with invalid shadow parameter", async () => {
+    const req = buildRequest(URL, WIDTH, HEIGHT, "invalid");
+    await screenshotApi(req, res);
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("should reject requests with invalid radius parameter", async () => {
+    // @ts-ignore
+    const req = buildRequest(URL, WIDTH, HEIGHT, SHADOW, "notANumber");
+    await screenshotApi(req, res);
+    expect(res.statusCode).toBe(400);
+  });
+
+  const buildRequest = (
+    url = URL,
+    width = WIDTH,
+    height = HEIGHT,
+    shadow = SHADOW,
+    radius = RADIUS
+  ): Partial<IncomingMessage> => ({
+    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}&radius=${radius}`
   });
 });
