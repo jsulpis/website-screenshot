@@ -155,6 +155,24 @@ describe("IndexPage", () => {
       const src = screenshotComponent.props("src");
       expect(src).toBeFalsy();
     });
+
+    it("should reset the source when the radius changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 4);
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // When the shadow changes
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 8);
+      await wrapper.vm.$nextTick();
+
+      // Then the source should be empty
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+      expect(src).toBeFalsy();
+    });
   });
 
   describe("on submit", () => {
@@ -232,22 +250,34 @@ describe("IndexPage", () => {
       await flushPromises();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
       expect(wrapper.find("#request-error").exists()).toBe(false);
     });
   });
 
   describe("button", () => {
-    it("should be disabled when submitting", async () => {
+    it("should be disabled after submitting", async () => {
+      // Given
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      await wrapper.vm.$nextTick();
+
+      // When
       await wrapper.find("form").trigger("submit");
+
+      // Then
       expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
     });
 
     it("should be (re)enabled when the resolution changes", async () => {
       // Given
+      const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find("form").trigger("submit"); // should disable the button
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", resolution);
+      await wrapper.vm.$nextTick();
+
+      await wrapper.find("form").trigger("submit"); // should disable the button
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
 
       // When
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
@@ -261,7 +291,10 @@ describe("IndexPage", () => {
       // Given
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find("form").trigger("submit"); // should disable the button
+      await wrapper.vm.$nextTick();
+
+      await wrapper.find("form").trigger("submit"); // should disable the button
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
 
       // When
       wrapper.find(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
@@ -276,10 +309,31 @@ describe("IndexPage", () => {
       wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
       wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", "small");
-      wrapper.find("form").trigger("submit");
+      await wrapper.vm.$nextTick();
+
+      await wrapper.find("form").trigger("submit"); // should disable the button
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
 
       // When
       wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
+      await wrapper.vm.$nextTick();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+    });
+
+    it("should be (re)enabled when the radius changes", async () => {
+      // Given
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ViewportResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 4);
+      await wrapper.vm.$nextTick();
+
+      await wrapper.find("form").trigger("submit"); // should disable the button
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+
+      // When
+      wrapper.find(ScreenshotBorderRadius).vm.$emit("change", 8);
       await wrapper.vm.$nextTick();
 
       // Then

@@ -82,6 +82,10 @@ export default {
     shadow() {
       this.buttonDisabled = false;
       this.screenshotSrc = EMPTY_SRC;
+    },
+    radius() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
     }
   },
   methods: {
@@ -89,13 +93,16 @@ export default {
       this.$v.$touch();
       this.displayRequestError = false;
       if (!this.$v.$invalid) {
-        this.loading = true;
         this.buttonDisabled = true;
+        this.loading = true;
 
         fetch(this.fullApiUrl)
           .then(res => res.text())
           .then(res => (this.screenshotSrc = "data:image/png;base64," + res))
-          .catch(() => (this.displayRequestError = true))
+          .catch(() => {
+            this.displayRequestError = true;
+            this.buttonDisabled = false;
+          })
           .finally(() => (this.loading = false));
       }
     }
