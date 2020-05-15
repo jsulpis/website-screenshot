@@ -63,31 +63,6 @@ describe("screenshot API", () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it("should set the CORS headers for valid origins", async () => {
-    const req = buildRequest();
-    req.headers = {
-      referer: "https://website-screenshot.juliensulpis.now.sh/"
-    };
-    await screenshotApi(req, res);
-
-    expect(res.setHeader).toHaveBeenNthCalledWith(
-      1,
-      "Access-Control-Allow-Origin",
-      "https://website-screenshot.juliensulpis.now.sh"
-    );
-  });
-
-  it("should not set the CORS headers for invalid origins", async () => {
-    const req = buildRequest();
-    await screenshotApi(req, res);
-
-    expect(res.setHeader).not.toHaveBeenNthCalledWith(
-      1,
-      "Access-Control-Allow-Origin",
-      "https://website-screenshot.juliensulpis.now.sh"
-    );
-  });
-
   const buildRequest = (url = URL, width = WIDTH, height = HEIGHT, shadow = SHADOW): Partial<IncomingMessage> => ({
     url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}`
   });

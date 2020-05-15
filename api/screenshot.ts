@@ -21,14 +21,8 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
-  const origin = req.headers && req.headers.referer ? req.headers.referer.slice(0, -1) : "";
-  if (
-    (origin.startsWith("https://website-screenshot") && origin.endsWith("now.sh")) ||
-    origin === "http://localhost:3000"
-  ) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  }
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
   const screenshot = await getScreenshot(url, +width, +height, shadow);
 
