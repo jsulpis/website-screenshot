@@ -184,6 +184,24 @@ describe("IndexPage", () => {
       const src = screenshotComponent.props("src");
       expect(src).toBeFalsy();
     });
+
+    it("should reset the source when the window changes", async () => {
+      // Given a resolution and form submitted
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "mac-os");
+      await wrapper.find("form").trigger("submit");
+      await flushPromises();
+
+      // When the shadow changes
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "none");
+      await wrapper.vm.$nextTick();
+
+      // Then the source should be empty
+      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const src = screenshotComponent.props("src");
+      expect(src).toBeFalsy();
+    });
   });
 
   describe("on submit", () => {
@@ -348,6 +366,24 @@ describe("IndexPage", () => {
 
       // When
       wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
+      await wrapper.vm.$nextTick();
+
+      // Then
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+    });
+
+    it("should be (re)enabled when the window changes", async () => {
+      // Given
+      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "mac-os");
+      await wrapper.vm.$nextTick();
+
+      await wrapper.find("form").trigger("submit"); // should disable the button
+      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+
+      // When
+      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "none");
       await wrapper.vm.$nextTick();
 
       // Then

@@ -96,6 +96,10 @@ export default {
     radius() {
       this.buttonDisabled = false;
       this.screenshotSrc = EMPTY_SRC;
+    },
+    window() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
     }
   },
   methods: {

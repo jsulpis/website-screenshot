@@ -17,7 +17,9 @@ export default {};
 
 <style lang="scss" scoped>
 .macos-window {
-  @apply flex h-6;
+  @apply flex;
+  height: 24px;
+  border-bottom: 1px solid theme("colors.gray.300");
   background-image: linear-gradient(#fff, #eee);
 }
 

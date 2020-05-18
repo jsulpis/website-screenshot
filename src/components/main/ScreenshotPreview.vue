@@ -12,7 +12,7 @@
         : {}
     "
   >
-    <component :is="'window-' + window">
+    <component :is="src ? 'window-none' : 'window-' + window">
       <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
     </component>
   </div>
