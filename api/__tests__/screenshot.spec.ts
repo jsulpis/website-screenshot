@@ -11,6 +11,7 @@ describe("screenshot API", () => {
   const HEIGHT = 800;
   const SHADOW = "medium";
   const RADIUS = 8;
+  const WINDOW = "mac-os";
   let res: Partial<ServerResponse>;
 
   beforeEach(() => {
@@ -26,7 +27,7 @@ describe("screenshot API", () => {
 
     await screenshotApi(req, res);
 
-    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW, RADIUS);
+    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW);
     expect(res.statusCode).toBe(200);
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
     expect(res.end).toHaveBeenCalled();
@@ -77,13 +78,21 @@ describe("screenshot API", () => {
     expect(res.statusCode).toBe(400);
   });
 
+  it("should reject requests with invalid window parameter", async () => {
+    // @ts-ignore
+    const req = buildRequest(URL, WIDTH, HEIGHT, SHADOW, RADIUS, "invalid");
+    await screenshotApi(req, res);
+    expect(res.statusCode).toBe(400);
+  });
+
   const buildRequest = (
     url = URL,
     width = WIDTH,
     height = HEIGHT,
     shadow = SHADOW,
-    radius = RADIUS
+    radius = RADIUS,
+    window = WINDOW
   ): Partial<IncomingMessage> => ({
-    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}&radius=${radius}`
+    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}&radius=${radius}&window=${window}`
   });
 });

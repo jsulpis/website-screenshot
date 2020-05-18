@@ -3,8 +3,6 @@ import HtmlPage from "../HtmlPage";
 describe("HtmlPage", () => {
   let page: HtmlPage;
   const imgSrc = "data:image/png;base64,SRCBASE64";
-  const imgClass = "class";
-  const imgStyle = "style";
 
   beforeEach(() => {
     page = new HtmlPage();
@@ -18,7 +16,13 @@ describe("HtmlPage", () => {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style></style>
-    <body></body>
+    <body>
+      <div class="container">
+        <img
+          alt="Generated Image"
+          src=""
+        /></div>
+    </body>
 </html>`);
   });
 
@@ -49,12 +53,18 @@ describe("HtmlPage", () => {
       img {
         height: 500px;
       }</style>
-    <body></body>
+    <body>
+      <div class="container">
+        <img
+          alt="Generated Image"
+          src=""
+        /></div>
+    </body>
 </html>`);
   });
 
   it("can add an image in the body", () => {
-    page.addImage(imgSrc, imgClass, imgStyle);
+    page.addImageSrc(imgSrc);
 
     expect(page.html).toBe(`
 <!DOCTYPE html>
@@ -63,17 +73,18 @@ describe("HtmlPage", () => {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style></style>
-    <body><img
-        alt="Generated Image"
-        src="${imgSrc}"
-        class="${imgClass}"
-        style="${imgStyle}"
-    /></body>
+    <body>
+      <div class="container">
+        <img
+          alt="Generated Image"
+          src="${imgSrc}"
+        /></div>
+    </body>
 </html>`);
   });
 
   it("can add a wrapper around the image", () => {
-    page.addImage(imgSrc, imgClass, imgStyle);
+    page.addImageSrc(imgSrc);
     page.addWrapper(content => `<wrapper>${content}</wrapper>`);
 
     expect(page.html).toBe(`
@@ -83,12 +94,13 @@ describe("HtmlPage", () => {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style></style>
-    <body><wrapper><img
-        alt="Generated Image"
-        src="${imgSrc}"
-        class="${imgClass}"
-        style="${imgStyle}"
-    /></wrapper></body>
+    <body>
+      <div class="container"><wrapper>
+        <img
+          alt="Generated Image"
+          src="${imgSrc}"
+        /></wrapper></div>
+    </body>
 </html>`);
   });
 });

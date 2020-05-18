@@ -65,7 +65,7 @@ module.exports = {
           { code: "fr", iso: "fr-FR", name: "Français" }
         ],
         defaultLocale: "en",
-        baseUrl: "https://" + process.env.VERCEL_URL,
+        baseUrl: process.env.BASE_URL,
         vueI18n: {
           fallbackLocale: "en",
           messages: {
