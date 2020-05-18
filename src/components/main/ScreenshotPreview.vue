@@ -1,7 +1,7 @@
 <template>
   <div
     class="mx-auto overflow-hidden preview"
-    :class="!src ? 'border border- mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
+    :class="!src ? 'border mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
     :style="
       !src
         ? {

@@ -17,6 +17,7 @@ describe("getHtml", () => {
       display: flex;
       justify-content: center;
       height: 100vh;
+      margin: 0;
     }
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
@@ -52,6 +53,7 @@ describe("getHtml", () => {
       display: flex;
       justify-content: center;
       height: 100vh;
+      margin: 0;
     }
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;

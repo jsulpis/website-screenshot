@@ -9,6 +9,7 @@ export default function getHtml(imageBase64: string, shadow?: ShadowOption, radi
       display: flex;
       justify-content: center;
       height: 100vh;
+      margin: 0;
     }
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
