@@ -1,7 +1,7 @@
 <template>
-  <img
-    class="max-w-full mx-auto preview"
-    :class="!src ? 'border mt-3 mb-8 bg-surface shadow-' + shadow : ''"
+  <div
+    class="mx-auto overflow-hidden preview"
+    :class="!src ? 'border mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
     :style="
       !src
         ? {
@@ -11,19 +11,28 @@
           }
         : {}
     "
-    :src="src || placeholder"
-    alt="Screenshot preview"
-  />
+  >
+    <component :is="src || !window ? 'window-none' : 'window-' + window">
+      <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
+    </component>
+  </div>
 </template>
 
 <script>
+import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
+import WindowNone from "@/components/form/windows/WindowNone.vue";
+
 export default {
+  components: {
+    WindowMacOs,
+    WindowNone
+  },
   props: {
     resolution: {
       type: Object,
       default: () => ({
         width: 0,
-        height: 0
+        height: 1
       })
     },
     src: {
@@ -34,12 +43,14 @@ export default {
     },
     radius: {
       type: Number
+    },
+    window: {
+      type: String
     }
   },
   data() {
     return {
-      screenshotHeight: 500,
-      placeholder: "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      screenshotHeight: 500
     };
   },
   mounted() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{ $t("index.border-radius.title") }}</h4>
+    <h4>{{ $t("index.border-radius") }}</h4>
     <div class="flex flex-row flex-wrap justify-evenly">
       <div
         v-for="radius in radiuses"
@@ -8,14 +8,19 @@
         :style="{ 'border-radius': radius + 'px' }"
         @click="selectValue(radius)"
       >
-        <FontAwesomeIcon v-show="radius === value" icon="check-circle" size="lg" class="text-primary-500" />
+        <CheckBox v-if="radius === value" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import CheckBox from "@/components/form/CheckBox.vue";
+
 export default {
+  components: {
+    CheckBox
+  },
   data() {
     return {
       radiuses: [0, 4, 8, 16],

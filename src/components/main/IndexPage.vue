@@ -1,30 +1,38 @@
 <template>
   <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
-    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" />
-    <ViewportResolutionInput
+    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="section" />
+    <ScreenshotResolutionInput
       v-model="$v.resolution.$model"
       :widthError="$v.resolution.width.$error"
       :heightError="$v.resolution.height.$error"
+      class="section"
     />
-    <ScreenshotShadowInput @change="shadow = $event" />
-
-    <ScreenshotBorderRadius @change="radius = $event" />
+    <ScreenshotShadowInput @change="shadow = $event" class="section" />
+    <ScreenshotBorderRadiusInput @change="radius = $event" class="section" />
+    <ScreenshotWindowInput @change="window = $event" class="section" />
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
     <p class="text-error" id="request-error" v-if="displayRequestError">{{ $t("index.request-error") }}</p>
 
-    <ScreenshotPreview :resolution="resolution" :src="screenshotSrc" :shadow="shadow" :radius="radius" />
+    <ScreenshotPreview
+      :resolution="resolution"
+      :src="screenshotSrc"
+      :shadow="shadow"
+      :radius="radius"
+      :window="window"
+    />
   </form>
 </template>
 
 <script>
-import ViewportResolutionInput from "@/components/form/ViewportResolutionInput.vue";
-import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import WebsiteUrlInput from "@/components/form/WebsiteUrlInput.vue";
 import SubmitButton from "@/components/main/SubmitButton.vue";
+import ScreenshotResolutionInput from "@/components/form/ScreenshotResolutionInput.vue";
+import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
-import ScreenshotBorderRadius from "@/components/form/ScreenshotBorderRadius.vue";
+import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
+import ScreenshotWindowInput from "@/components/form/ScreenshotWindowInput.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -33,12 +41,13 @@ const EMPTY_SRC = "";
 
 export default {
   components: {
-    ViewportResolutionInput,
+    ScreenshotResolutionInput,
     ScreenshotPreview,
     WebsiteUrlInput,
     SubmitButton,
     ScreenshotShadowInput,
-    ScreenshotBorderRadius
+    ScreenshotBorderRadiusInput,
+    ScreenshotWindowInput
   },
   data() {
     return {
@@ -47,8 +56,9 @@ export default {
         height: 0
       },
       screenshotSrc: EMPTY_SRC,
-      shadow: "",
+      shadow: "none",
       radius: 0,
+      window: "none",
       loading: false,
       buttonDisabled: false,
       url: "",
@@ -82,6 +92,14 @@ export default {
     shadow() {
       this.buttonDisabled = false;
       this.screenshotSrc = EMPTY_SRC;
+    },
+    radius() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
+    },
+    window() {
+      this.buttonDisabled = false;
+      this.screenshotSrc = EMPTY_SRC;
     }
   },
   methods: {
@@ -89,13 +107,16 @@ export default {
       this.$v.$touch();
       this.displayRequestError = false;
       if (!this.$v.$invalid) {
-        this.loading = true;
         this.buttonDisabled = true;
+        this.loading = true;
 
         fetch(this.fullApiUrl)
           .then(res => res.text())
           .then(res => (this.screenshotSrc = "data:image/png;base64," + res))
-          .catch(() => (this.displayRequestError = true))
+          .catch(() => {
+            this.displayRequestError = true;
+            this.buttonDisabled = false;
+          })
           .finally(() => (this.loading = false));
       }
     }
@@ -109,7 +130,8 @@ export default {
         width: this.resolution.width,
         height: this.resolution.height,
         shadow: this.shadow,
-        radius: this.radius
+        radius: this.radius,
+        window: this.window
       };
       Object.keys(queryParams).forEach(
         (key, index) => (apiUrl += `${index === 0 ? "?" : "&"}${key}=${queryParams[key]}`)
@@ -126,7 +148,7 @@ form > div {
 }
 
 @screen sm {
-  form > div {
+  .section {
     @apply w-2/3;
   }
 }

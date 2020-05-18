@@ -16,20 +16,21 @@
       "title": "Website url:",
       "error": "Invalid URL"
     },
-    "screen-dimensions": "Chose the resolution of the viewport to capture:",
-    "screen-note": "The viewport resolution is different from the display resolution. For instance, on a MacBook Pro 15\", the display resolution is 2880x1800 and the viewport resolution is 1440x900.",
-    "preset": "Preset",
-    "width": "Width",
-    "height": "Height",
-    "input-error": "Please enter a number between {0} and {1}",
+    "viewport-resolution": {
+      "title": "Viewport resolution:",
+      "info": "The viewport resolution is different from the display resolution. For instance, on a MacBook Pro 15\", the display resolution is 2880x1800 and the viewport resolution is 1440x900.",
+      "preset": "Preset",
+      "width": "Width",
+      "height": "Height",
+      "input-error": "Please enter a number between {0} and {1}"
+    },
     "request-error": "An error has occurred. Please try again later.",
     "send": "Send",
     "shadow": {
       "title": "Shadow",
       "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
     },
-    "border-radius": {
-      "title": "Border radius"
-    }
+    "border-radius": "Border radius",
+    "window": "Window"
   }
 }

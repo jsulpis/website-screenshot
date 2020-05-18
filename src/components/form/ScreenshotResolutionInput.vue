@@ -1,14 +1,14 @@
 <template>
   <div class="screen-dimensions">
-    <h4>{{ $t("index.screen-dimensions") }}</h4>
+    <h4>{{ $t("index.viewport-resolution.title") }}</h4>
     <InfoBox>
-      <p>{{ $t("index.screen-note") }}</p>
+      <p>{{ $t("index.viewport-resolution.info") }}</p>
     </InfoBox>
-    <ViewportResolutionPresets @change="updateDataFromPreset($event)" />
+    <ScreenshotResolutionPresets @change="updateDataFromPreset($event)" />
 
     <ul>
       <li :class="{ 'form-group--error': widthError }">
-        <label for="width" class="block text-light">{{ $t("index.width") }}</label>
+        <label for="width" class="block text-light">{{ $t("index.viewport-resolution.width") }}</label>
         <input
           v-model.lazy.number="width"
           type="number"
@@ -27,7 +27,7 @@
       />
 
       <li :class="{ 'form-group--error': heightError }">
-        <label for="height" class="block text-light">{{ $t("index.height") }}</label>
+        <label for="height" class="block text-light">{{ $t("index.viewport-resolution.height") }}</label>
         <input
           v-model.lazy.number="height"
           type="number"
@@ -39,18 +39,18 @@
       </li>
     </ul>
     <p v-show="widthError || heightError" class="inline-block text-error">
-      {{ $t("index.input-error", ["360", "1920"]) }}
+      {{ $t("index.viewport-resolution.input-error", ["360", "1920"]) }}
     </p>
   </div>
 </template>
 
 <script>
-import ViewportResolutionPresets from "@/components/form/ViewportResolutionPresets.vue";
+import ScreenshotResolutionPresets from "@/components/form/ScreenshotResolutionPresets.vue";
 import InfoBox from "@/components/form/InfoBox.vue";
 
 export default {
   components: {
-    ViewportResolutionPresets,
+    ScreenshotResolutionPresets,
     InfoBox
   },
   props: {

@@ -9,9 +9,13 @@ const shadowSize = {
   medium: 40,
   large: 70
 };
+export type ShadowOption = "none" | "small" | "medium" | "large";
+export type WindowOption = "none" | "mac-os";
+export const OUTPUT_IMAGE_HEIGHT = 500;
+export const WINDOW_TOP_BAR_HEIGHT = 24;
 
 /**
- * Take a screenshot of a website and add graphic elements to it
+ * Take a screenshot of a website and add style to it
  *
  * @param url url of the website to capture
  * @param width width of the screenshot
@@ -21,8 +25,9 @@ export default async function getScreenshot(
   url: string,
   width: number,
   height: number,
-  shadow: "none" | "small" | "medium" | "large",
-  radius: number
+  shadow: ShadowOption,
+  radius: number,
+  window: WindowOption
 ): Promise<string> {
   const browser = await puppeteer.launch({
     args: chrome.args,
@@ -30,27 +35,82 @@ export default async function getScreenshot(
     headless: chrome.headless
   });
 
-  const page1 = await browser.newPage();
-  await page1.setViewport({
+  const websiteScreenshotBase64 = await takeFirstScreenshot(browser, width, height, url, window);
+  const outputBase64 = await takeSecondScreenshot(
+    browser,
+    websiteScreenshotBase64,
+    shadow,
+    radius,
     width,
     height,
-    deviceScaleFactor: 1
-  });
-  await page1.goto(url);
-  const screenshotBase64 = await page1.screenshot({ encoding: "base64" });
-  let outputBase64: string;
-
-  const page2 = await browser.newPage();
-  await page2.setContent(getHtml(screenshotBase64, shadow, radius));
-  const aspectRatio = width / height;
-  await page2.setViewport({
-    width: 500 * aspectRatio + shadowSize[shadow],
-    height: 500 + shadowSize[shadow],
-    deviceScaleFactor: 1
-  });
-  outputBase64 = await page2.screenshot({ encoding: "base64", omitBackground: true });
+    window
+  );
 
   await browser.close();
 
   return outputBase64;
+}
+
+/**
+ * Take a screenshot of the website at the requested resolution
+ */
+async function takeFirstScreenshot(
+  browser: puppeteer.Browser,
+  width: number,
+  height: number,
+  url: string,
+  window: WindowOption
+) {
+  const page1 = await browser.newPage();
+
+  // Viewport size
+  let firstScreenshotHeight = height;
+  if (window && window !== "none") {
+    const topBarHeight = Math.ceil((height * WINDOW_TOP_BAR_HEIGHT) / OUTPUT_IMAGE_HEIGHT);
+    firstScreenshotHeight = height - topBarHeight;
+  }
+
+  await page1.setViewport({
+    width,
+    height: firstScreenshotHeight,
+    deviceScaleFactor: 1
+  });
+
+  // Content
+  await page1.goto(url);
+
+  // Screenshot
+  return await page1.screenshot({ encoding: "base64" });
+}
+
+/**
+ * Take a second screenshot to apply scale and add styling: shadow, window top bar...
+ */
+async function takeSecondScreenshot(
+  browser: puppeteer.Browser,
+  websiteScreenshotBase64: string,
+  shadow: ShadowOption,
+  radius: number,
+  width: number,
+  height: number,
+  window: WindowOption
+) {
+  const page2 = await browser.newPage();
+
+  // Viewport size
+  const aspectRatio = width / height;
+  const secondScreenshotHeight = OUTPUT_IMAGE_HEIGHT + shadowSize[shadow];
+  const secondScreenshotWidth = Math.floor(secondScreenshotHeight * aspectRatio);
+  await page2.setViewport({
+    width: secondScreenshotWidth,
+    height: secondScreenshotHeight,
+    deviceScaleFactor: 1
+  });
+
+  // Content
+  const html = getHtml(websiteScreenshotBase64, shadow, radius, window);
+  await page2.setContent(html);
+
+  // Screenshot
+  return await page2.screenshot({ encoding: "base64", omitBackground: true });
 }

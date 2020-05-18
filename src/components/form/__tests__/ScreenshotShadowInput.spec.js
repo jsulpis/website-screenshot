@@ -25,10 +25,10 @@ describe("ScreenshotShadowInput", () => {
   it("should have a visual indicator of the selected value", async () => {
     await wrapper.find(".shadow-small").trigger("click");
 
-    expect(wrapper.find(".shadow-none > *").isVisible()).toBe(false);
+    expect(wrapper.find(".shadow-none > *").exists()).toBe(false);
     expect(wrapper.find(".shadow-small > *").isVisible()).toBe(true);
-    expect(wrapper.find(".shadow-medium > *").isVisible()).toBe(false);
-    expect(wrapper.find(".shadow-large > *").isVisible()).toBe(false);
+    expect(wrapper.find(".shadow-medium > *").exists()).toBe(false);
+    expect(wrapper.find(".shadow-large > *").exists()).toBe(false);
   });
 
   it("should display a message on medium and small screens about the scale of the shadow", async () => {

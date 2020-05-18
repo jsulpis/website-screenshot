@@ -6,6 +6,7 @@ const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 800;
 const DEFAULT_SHADOW = "none";
 const DEFAULT_RADIUS = 0;
+const DEFAULT_WINDOW = "none";
 const MIN_VIEWPORT_WIDTH = 360;
 const MAX_VIEWPORT_WIDTH = 1920;
 const MIN_VIEWPORT_HEIGHT = 360;
@@ -13,9 +14,16 @@ const MAX_VIEWPORT_HEIGHT = 1920;
 
 module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   const { query = {} } = require("url").parse(req.url, true);
-  let { url, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, shadow = DEFAULT_SHADOW, radius = DEFAULT_RADIUS } = query;
+  let {
+    url,
+    width = DEFAULT_WIDTH,
+    height = DEFAULT_HEIGHT,
+    shadow = DEFAULT_SHADOW,
+    radius = DEFAULT_RADIUS,
+    window = DEFAULT_WINDOW
+  } = query;
 
-  const { statusCode, errorMessage } = checkArguments(url, width, height, shadow, radius);
+  const { statusCode, errorMessage } = checkArguments(url, width, height, shadow, radius, window);
   if (!!errorMessage) {
     res.statusCode = statusCode;
     res.end(errorMessage);
@@ -25,7 +33,7 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-  const screenshot = await getScreenshot(url, +width, +height, shadow, +radius);
+  const screenshot = await getScreenshot(url, +width, +height, shadow, +radius, window);
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain");
@@ -37,7 +45,8 @@ function checkArguments(
   width: number,
   height: number,
   shadow: string,
-  radius: number
+  radius: number,
+  window: string
 ): { statusCode: number; errorMessage?: string } {
   if (!url) {
     return {
@@ -78,6 +87,13 @@ function checkArguments(
     return {
       statusCode: 400,
       errorMessage: `Invalid radius: ${radius}. Please provide a number`
+    };
+  }
+
+  if (["none", "mac-os"].indexOf(window) === -1) {
+    return {
+      statusCode: 400,
+      errorMessage: `Invalid window: ${radius}.  The accepted values are: none, mac-os`
     };
   }
 
