@@ -97,9 +97,6 @@ $content-selector: "~ .content > section";
 .tabs {
   position: relative;
   min-width: #{$tab-count * 60px};
-  input[name="tab-control"] {
-    display: none;
-  }
 
   .content section h2,
   ul li label {
@@ -126,7 +123,6 @@ $content-selector: "~ .content > section";
       text-align: center;
 
       label {
-        transition: all 0.3s ease-in-out;
         padding: 5px auto;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -202,6 +198,8 @@ $content-selector: "~ .content > section";
   }
 
   input[name="tab-control"] {
+    display: none;
+
     @include tabs {
       > label {
         opacity: 1;
