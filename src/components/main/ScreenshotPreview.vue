@@ -20,11 +20,13 @@
 
 <script>
 import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
+import WindowMacOsDark from "@/components/form/windows/WindowMacOsDark.vue";
 import WindowNone from "@/components/form/windows/WindowNone.vue";
 
 export default {
   components: {
     WindowMacOs,
+    WindowMacOsDark,
     WindowNone
   },
   props: {

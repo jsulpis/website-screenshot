@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MacOsTopBar class="mac-os-light" />
+    <MacOsTopBar class="mac-os-dark" />
     <slot />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mac-os-light {
-  background-image: linear-gradient(#fff, #eee);
+.mac-os-dark {
+  background-image: linear-gradient(#888, #444);
 }
 </style>

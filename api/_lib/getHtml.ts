@@ -52,13 +52,13 @@ export default function getHtml(imageBase64: string, shadow?: ShadowOption, radi
     }`);
   }
 
-  if (window === "mac-os") {
+  if (window && window.startsWith("mac-os")) {
+    const dark = window.indexOf("dark") !== -1;
     page.addGlobalStyle(`
       .macos-window {
         display: flex;
         height: ${WINDOW_TOP_BAR_HEIGHT}px;
-        border-bottom: 1px solid #e2e8f0;
-        background-image: linear-gradient(#fff, #eee);
+        background-image: ${dark ? "linear-gradient(#888, #444)" : "linear-gradient(#fff, #eee)"};
       }
 
       .macos-buttons {

@@ -17,19 +17,21 @@
 </template>
 
 <script>
-import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
 import WindowNone from "@/components/form/windows/WindowNone.vue";
+import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
+import WindowMacOsDark from "@/components/form/windows/WindowMacOsDark.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 
 export default {
   components: {
     WindowMacOs,
+    WindowMacOsDark,
     WindowNone,
     CheckBox
   },
   data() {
     return {
-      windows: ["none", "mac-os"],
+      windows: ["none", "mac-os", "mac-os-dark"],
       value: "mac-os"
     };
   },
