@@ -1,6 +1,7 @@
 <template>
   <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
-    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="section" />
+    <h1 class="mb-3 h3">{{ $t("index.title") }}</h1>
+    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="mb-3 section" />
     <ScreenshotResolutionInput
       v-model="$v.resolution.$model"
       :widthError="$v.resolution.width.$error"

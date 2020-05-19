@@ -14,7 +14,7 @@
     "title": "Website screenshot",
     "description": "Website screenshot for READMEs and og:image.",
     "url": {
-      "title": "Website url:",
+      "placeholder": "Enter your url...",
       "error": "Invalid URL"
     },
     "viewport-resolution": {

@@ -14,7 +14,7 @@
     "title": "Capture d'écran web",
     "description": "Capture d'écran web pour les READMEs et og:image.",
     "url": {
-      "title": "Adresse du site:",
+      "placeholder": "Entrez votre url...",
       "error": "URL invalide"
     },
     "viewport-resolution": {
