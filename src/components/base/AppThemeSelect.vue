@@ -1,10 +1,10 @@
 <template>
-  <div class="inline-flex">
+  <div>
     <app-button-select
       v-for="theme in themes"
       :key="theme.value"
       @click="$colorMode.preference = theme.value"
-      class="inline-flex flex-wrap items-center justify-center"
+      class="theme-button"
       :class="{ active: $colorMode.preference === theme.value }"
     >
       <FontAwesomeIcon :icon="theme.icon" size="sm" class="mr-1" />
@@ -30,3 +30,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.theme-button {
+  width: 7rem;
+}
+</style>

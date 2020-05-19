@@ -1,9 +1,10 @@
 {
   "footer": {
     "star-on-github": "Voir sur GitHub",
-    "license": "Licence MIT",
     "made-with": "Fait avec",
-    "by": "par"
+    "by": "par",
+    "project-bootstrapped-with": "Projet initialisé avec",
+    "nuxt-template": "Template Nuxt"
   },
   "theme": {
     "light": "Clair",
