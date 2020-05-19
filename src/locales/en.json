@@ -18,7 +18,7 @@
       "error": "Invalid URL"
     },
     "viewport-resolution": {
-      "title": "Viewport resolution:",
+      "title": "Resolution",
       "info": "The viewport resolution is different from the display resolution. For instance, on a MacBook Pro 15\", the display resolution is 2880x1800 and the viewport resolution is 1440x900.",
       "preset": "Preset",
       "width": "Width",

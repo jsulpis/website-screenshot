@@ -40,6 +40,7 @@
     "babel-jest": "^25.4.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
+    "bourbon": "^7.0.0",
     "flush-promises": "^1.0.2",
     "husky": "^4.2.5",
     "jest": "^25.4.0",

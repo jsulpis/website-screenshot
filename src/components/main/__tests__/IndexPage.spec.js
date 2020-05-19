@@ -24,7 +24,7 @@ describe("IndexPage", () => {
   const apiResponse = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
   beforeEach(() => {
-    wrapper = shallowMount(IndexPage, { localVue });
+    wrapper = shallowMount(IndexPage, { localVue, stubs: ["FontAwesomeIcon"] });
     jest.resetAllMocks();
     fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
   });

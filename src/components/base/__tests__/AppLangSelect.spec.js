@@ -30,8 +30,8 @@ describe("AppLangSelect.vue", () => {
 
   it("contains two link with labels", () => {
     expect(wrapper.findAll(NuxtLink).length).toBe(2);
-    expect(wrapper.findAll(NuxtLink).at(0).text()).toBe("English");
-    expect(wrapper.findAll(NuxtLink).at(1).text()).toBe("Français");
+    expect(wrapper.findAll(NuxtLink).at(0).text()).toBe("En");
+    expect(wrapper.findAll(NuxtLink).at(1).text()).toBe("Fr");
   });
 
   it("contains one active button", () => {

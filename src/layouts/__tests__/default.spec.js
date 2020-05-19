@@ -17,7 +17,7 @@ describe("Default Layout", () => {
         $nuxtI18nSeo: () => ({ meta: [{ property: "prop", content: "content" }] })
       }
     });
-    process.env.baseUrl = BASE_URL;
+    process.env.BASE_URL = BASE_URL;
   });
 
   afterEach(() => {

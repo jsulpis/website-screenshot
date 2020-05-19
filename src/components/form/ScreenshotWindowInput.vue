@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h4>{{ $t("index.window") }}</h4>
-
     <div class="flex flex-row flex-wrap justify-evenly">
       <component
         v-for="window in windows"

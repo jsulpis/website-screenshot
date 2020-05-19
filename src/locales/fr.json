@@ -18,7 +18,7 @@
       "error": "URL invalide"
     },
     "viewport-resolution": {
-      "title": "Définition de la fenêtre:",
+      "title": "Définition",
       "info": "La définition de la fenêtre est en général bien inférieure à la définition de l'écran. Par exemple, sur un MacBook Pro 15\", la définition de l'écran est de 2880x1800 et celle de la fenêtre est 1440x900.",
       "preset": "Preset",
       "width": "Largeur",

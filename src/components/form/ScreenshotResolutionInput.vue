@@ -1,46 +1,47 @@
 <template>
   <div class="screen-dimensions">
-    <h4>{{ $t("index.viewport-resolution.title") }}</h4>
     <InfoBox>
       <p>{{ $t("index.viewport-resolution.info") }}</p>
     </InfoBox>
-    <ScreenshotResolutionPresets @change="updateDataFromPreset($event)" />
+    <div class="sm:flex justify-evenly">
+      <ScreenshotResolutionPresets class="mr-10 sm:inline-block" @change="updateDataFromPreset($event)" />
 
-    <ul>
-      <li :class="{ 'form-group--error': widthError }">
-        <label for="width" class="block text-light">{{ $t("index.viewport-resolution.width") }}</label>
-        <input
-          v-model.lazy.number="width"
-          type="number"
-          name="width"
-          placeholder="1440"
-          class="w-24 sm:w-32 form-control"
+      <ul class="sm:inline-block">
+        <li :class="{ 'form-group--error': widthError }">
+          <label for="width" class="block text-light">{{ $t("index.viewport-resolution.width") }}</label>
+          <input
+            v-model.lazy.number="width"
+            type="number"
+            name="width"
+            placeholder="1440"
+            class="w-24 sm:w-32 form-control"
+          />
+          <span class="text-sm opacity-50">px</span>
+        </li>
+
+        <FontAwesomeIcon
+          class="p-1 mx-3 border rounded-full cursor-pointer bg-surface"
+          icon="arrows-alt-h"
+          size="lg"
+          @click="switchAspectRatio()"
         />
-        <span class="text-sm opacity-50">px</span>
-      </li>
 
-      <FontAwesomeIcon
-        class="p-1 mx-3 border rounded-full cursor-pointer bg-surface"
-        icon="arrows-alt-h"
-        size="lg"
-        @click="switchAspectRatio()"
-      />
-
-      <li :class="{ 'form-group--error': heightError }">
-        <label for="height" class="block text-light">{{ $t("index.viewport-resolution.height") }}</label>
-        <input
-          v-model.lazy.number="height"
-          type="number"
-          name="height"
-          placeholder="900"
-          class="w-24 sm:w-32 form-control"
-        />
-        <span class="text-sm opacity-50">px</span>
-      </li>
-    </ul>
-    <p v-show="widthError || heightError" class="inline-block text-error">
-      {{ $t("index.viewport-resolution.input-error", ["360", "1920"]) }}
-    </p>
+        <li :class="{ 'form-group--error': heightError }">
+          <label for="height" class="block text-light">{{ $t("index.viewport-resolution.height") }}</label>
+          <input
+            v-model.lazy.number="height"
+            type="number"
+            name="height"
+            placeholder="900"
+            class="w-24 sm:w-32 form-control"
+          />
+          <span class="text-sm opacity-50">px</span>
+        </li>
+      </ul>
+      <p v-show="widthError || heightError" class="inline-block text-error">
+        {{ $t("index.viewport-resolution.input-error", ["360", "1920"]) }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -93,6 +94,7 @@ export default {
 
 <style lang="scss">
 .screen-dimensions {
+  margin-bottom: -21px; // yeah this is bad, sorry
   label {
     @apply mb-1;
   }
