@@ -90,10 +90,10 @@ function checkArguments(
     };
   }
 
-  if (["none", "mac-os"].indexOf(window) === -1) {
+  if (["none", "mac-os", "mac-os-dark"].indexOf(window) === -1) {
     return {
       statusCode: 400,
-      errorMessage: `Invalid window: ${radius}.  The accepted values are: none, mac-os`
+      errorMessage: `Invalid window: ${window}.  The accepted values are: none, mac-os, mac-os-dark`
     };
   }
 

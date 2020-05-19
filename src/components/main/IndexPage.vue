@@ -1,15 +1,30 @@
 <template>
   <form class="flex flex-col items-center mt-16" @submit.prevent="fetchScreenshot()">
-    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="section" />
-    <ScreenshotResolutionInput
-      v-model="$v.resolution.$model"
-      :widthError="$v.resolution.width.$error"
-      :heightError="$v.resolution.height.$error"
-      class="section"
-    />
-    <ScreenshotShadowInput @change="shadow = $event" class="section" />
-    <ScreenshotBorderRadiusInput @change="radius = $event" class="section" />
-    <ScreenshotWindowInput @change="window = $event" class="section" />
+    <h1 class="mb-3 h3">{{ $t("index.title") }}</h1>
+    <WebsiteUrlInput v-model="$v.url.$model" :error="$v.url.$error" class="mb-3 section" />
+
+    <Tabs class="mt-5 section" :tabsLabels="tabsLabels">
+      <section>
+        <h2 class="mb-3">{{ $t("index.viewport-resolution.title") }}</h2>
+        <ScreenshotResolutionInput
+          v-model="$v.resolution.$model"
+          :widthError="$v.resolution.width.$error"
+          :heightError="$v.resolution.height.$error"
+        />
+      </section>
+      <section>
+        <h2 class="mb-3">{{ $t("index.shadow.title") }}</h2>
+        <ScreenshotShadowInput @change="shadow = $event" />
+      </section>
+      <section>
+        <h2>{{ $t("index.border-radius") }}</h2>
+        <ScreenshotBorderRadiusInput @change="radius = $event" />
+      </section>
+      <section>
+        <h2>{{ $t("index.window") }}</h2>
+        <ScreenshotWindowInput @change="window = $event" />
+      </section>
+    </Tabs>
 
     <SubmitButton :disabled="buttonDisabled || $v.$anyError" :loading="loading" class="mt-8" />
 
@@ -33,6 +48,7 @@ import ScreenshotPreview from "@/components/main/ScreenshotPreview.vue";
 import ScreenshotShadowInput from "@/components/form/ScreenshotShadowInput.vue";
 import ScreenshotBorderRadiusInput from "@/components/form/ScreenshotBorderRadiusInput.vue";
 import ScreenshotWindowInput from "@/components/form/ScreenshotWindowInput.vue";
+import Tabs from "@/components/main/Tabs.vue";
 
 import { required, url, between } from "vuelidate/lib/validators";
 import fetch from "isomorphic-unfetch";
@@ -47,7 +63,8 @@ export default {
     SubmitButton,
     ScreenshotShadowInput,
     ScreenshotBorderRadiusInput,
-    ScreenshotWindowInput
+    ScreenshotWindowInput,
+    Tabs
   },
   data() {
     return {
@@ -62,7 +79,25 @@ export default {
       loading: false,
       buttonDisabled: false,
       url: "",
-      displayRequestError: false
+      displayRequestError: false,
+      tabsLabels: [
+        {
+          icon: "expand",
+          text: this.$t("index.viewport-resolution.title")
+        },
+        {
+          icon: "layer-group",
+          text: this.$t("index.shadow.title")
+        },
+        {
+          icon: "square",
+          text: this.$t("index.border-radius")
+        },
+        {
+          icon: "window-maximize",
+          text: this.$t("index.window")
+        }
+      ]
     };
   },
   validations: {
@@ -142,7 +177,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 form > div {
   @apply w-full;
 }

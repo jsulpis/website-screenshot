@@ -1,16 +1,15 @@
 <template>
-  <div class="w-full">
-    <h4>{{ $t("index.url.title") }}</h4>
+  <div class="text-center">
     <input
       :value="value"
       @change="$emit('input', $event.target.value)"
       type="text"
       name="url"
-      placeholder="https://..."
-      class="inline-block w-full mr-2 sm:w-1/2 form-control"
+      :placeholder="$t('index.url.placeholder')"
+      class="w-full mx-auto transform sm:w-2/3 form-control sm:scale-110"
       :class="{ 'form-control--error': error }"
     />
-    <p class="inline-block text-error" v-show="error">{{ $t("index.url.error") }}</p>
+    <p class="mt-1 text-error" v-show="error">{{ $t("index.url.error") }}</p>
   </div>
 </template>
 

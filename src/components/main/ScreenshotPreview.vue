@@ -1,7 +1,7 @@
 <template>
   <div
-    class="mx-auto overflow-hidden preview"
-    :class="!src ? 'border mx-auto mt-5 mb-8 bg-surface shadow-' + shadow : ''"
+    class="mx-auto mb-8 overflow-hidden preview"
+    :class="!src ? 'border mx-auto mt-5 bg-surface shadow-' + shadow : ''"
     :style="
       !src
         ? {
@@ -20,11 +20,13 @@
 
 <script>
 import WindowMacOs from "@/components/form/windows/WindowMacOs.vue";
+import WindowMacOsDark from "@/components/form/windows/WindowMacOsDark.vue";
 import WindowNone from "@/components/form/windows/WindowNone.vue";
 
 export default {
   components: {
     WindowMacOs,
+    WindowMacOsDark,
     WindowNone
   },
   props: {
@@ -54,8 +56,14 @@ export default {
     };
   },
   mounted() {
-    if (window.innerWidth < 1024) {
-      this.screenshotHeight = 180;
+    this.adjustPreviewHeight();
+    window.addEventListener("resize", () => {
+      this.adjustPreviewHeight();
+    });
+  },
+  methods: {
+    adjustPreviewHeight() {
+      this.screenshotHeight = window.innerWidth < 1024 ? 180 : 500;
     }
   }
 };

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4>{{ $t("index.border-radius") }}</h4>
     <div class="flex flex-row flex-wrap justify-evenly">
       <div
         v-for="radius in radiuses"

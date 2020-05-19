@@ -72,7 +72,6 @@ describe("getHtml", () => {
       .macos-window {
         display: flex;
         height: 24px;
-        border-bottom: 1px solid #e2e8f0;
         background-image: linear-gradient(#fff, #eee);
       }
 

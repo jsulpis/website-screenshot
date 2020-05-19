@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import AppLangSelect from "@/components/base/AppLangSelect";
 
 const NuxtLink = {
@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 describe("AppLangSelect.vue", () => {
-  const wrapper = shallowMount(AppLangSelect, {
+  const wrapper = mount(AppLangSelect, {
     mocks: {
       $i18n: {
         locales: [
@@ -29,12 +29,12 @@ describe("AppLangSelect.vue", () => {
   });
 
   it("contains two link with labels", () => {
-    expect(wrapper.findAll(NuxtLink).length).toBe(2);
-    expect(wrapper.findAll(NuxtLink).at(0).text()).toBe("English");
-    expect(wrapper.findAll(NuxtLink).at(1).text()).toBe("Français");
+    expect(wrapper.findAll("button").length).toBe(2);
+    expect(wrapper.findAll("button").at(0).text()).toBe("En");
+    expect(wrapper.findAll("button").at(1).text()).toBe("Fr");
   });
 
   it("contains one active button", () => {
-    expect(wrapper.findAll("app-button-select-stub.active").length).toBe(1);
+    expect(wrapper.findAll("button.active").length).toBe(1);
   });
 });

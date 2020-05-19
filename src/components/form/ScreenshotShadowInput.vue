@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4>{{ $t("index.shadow.title") }}</h4>
     <InfoBox v-if="displayInfo">
       <p>{{ $t("index.shadow.info") }}</p>
     </InfoBox>

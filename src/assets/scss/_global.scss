@@ -4,7 +4,8 @@ body,
 #__nuxt,
 #__layout,
 #__layout > div {
-  @apply h-full;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
 }
 
 // Page Transitions

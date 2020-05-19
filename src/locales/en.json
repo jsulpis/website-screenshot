@@ -1,9 +1,10 @@
 {
   "footer": {
     "star-on-github": "Star On GitHub",
-    "license": "MIT License",
     "made-with": "Made with",
-    "by": "by"
+    "by": "by",
+    "project-bootstrapped-with": "Project bootstrapped with",
+    "nuxt-template": "Nuxt Template"
   },
   "theme": {
     "light": "Light",
@@ -11,13 +12,13 @@
   },
   "index": {
     "title": "Website screenshot",
-    "description": "Website screenshot, with extras.",
+    "description": "Website screenshot for READMEs and og:image.",
     "url": {
-      "title": "Website url:",
+      "placeholder": "Enter your url...",
       "error": "Invalid URL"
     },
     "viewport-resolution": {
-      "title": "Viewport resolution:",
+      "title": "Resolution",
       "info": "The viewport resolution is different from the display resolution. For instance, on a MacBook Pro 15\", the display resolution is 2880x1800 and the viewport resolution is 1440x900.",
       "preset": "Preset",
       "width": "Width",
@@ -30,7 +31,7 @@
       "title": "Shadow",
       "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
     },
-    "border-radius": "Border radius",
+    "border-radius": "Corners",
     "window": "Window"
   }
 }

@@ -12,8 +12,7 @@ module.exports = {
   head: {
     // Only headers common to all pages and all languages.
     // The others are defined in the layout component.
-    meta: [{ charset: "utf-8" }, { name: "viewport", content: "width=device-width, initial-scale=1" }],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    meta: [{ charset: "utf-8" }, { name: "viewport", content: "width=device-width, initial-scale=1" }]
   },
   /*
    ** Customize the progress bar color
@@ -28,7 +27,21 @@ module.exports = {
     [
       // Doc: https://github.com/nuxt-community/fontawesome-module
       "@nuxtjs/fontawesome",
-      { icons: { solid: ["faHeart", "faMoon", "faArrowsAltH", "faCheckCircle"], regular: ["faSun"] } }
+      {
+        icons: {
+          solid: [
+            "faHeart",
+            "faMoon",
+            "faArrowsAltH",
+            "faCheckCircle",
+            "faExpand",
+            "faLayerGroup",
+            "faSquare",
+            "faWindowMaximize"
+          ],
+          regular: ["faSun"]
+        }
+      }
     ],
     [
       // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
