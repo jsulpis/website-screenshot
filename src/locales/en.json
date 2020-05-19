@@ -31,7 +31,7 @@
       "title": "Shadow",
       "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
     },
-    "border-radius": "Border radius",
+    "border-radius": "Corners",
     "window": "Window"
   }
 }

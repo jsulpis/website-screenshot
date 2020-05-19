@@ -54,8 +54,14 @@ export default {
     };
   },
   mounted() {
-    if (window.innerWidth < 1024) {
-      this.screenshotHeight = 180;
+    this.adjustPreviewHeight();
+    window.addEventListener("resize", () => {
+      this.adjustPreviewHeight();
+    });
+  },
+  methods: {
+    adjustPreviewHeight() {
+      this.screenshotHeight = window.innerWidth < 1024 ? 180 : 500;
     }
   }
 };

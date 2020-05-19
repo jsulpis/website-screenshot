@@ -3,10 +3,10 @@
     <InfoBox>
       <p>{{ $t("index.viewport-resolution.info") }}</p>
     </InfoBox>
-    <div class="sm:flex justify-evenly">
-      <ScreenshotResolutionPresets class="mr-10 sm:inline-block" @change="updateDataFromPreset($event)" />
+    <div class="lg:flex justify-evenly">
+      <ScreenshotResolutionPresets class="mr-10 lg:inline-block" @change="updateDataFromPreset($event)" />
 
-      <ul class="sm:inline-block">
+      <ul class="lg:inline-block">
         <li :class="{ 'form-group--error': widthError }">
           <label for="width" class="block text-light">{{ $t("index.viewport-resolution.width") }}</label>
           <input
@@ -14,7 +14,7 @@
             type="number"
             name="width"
             placeholder="1440"
-            class="w-24 sm:w-32 form-control"
+            class="w-24 lg:w-32 form-control"
           />
           <span class="text-sm opacity-50">px</span>
         </li>
