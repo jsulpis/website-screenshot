@@ -1,5 +1,5 @@
 <template>
-  <footer class="relative py-6 text-sm text-center bg-accent">
+  <footer class="py-6 text-sm text-center bg-accent">
     <div class="container mx-auto">
       <div class="flex flex-wrap items-center justify-around mx-auto lg:w-2/3">
         <app-lang-select class="w-full mb-2 sm:w-auto" />
