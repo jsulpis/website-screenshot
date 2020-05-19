@@ -11,8 +11,8 @@
     "dark": "Sombre"
   },
   "index": {
-    "title": "Capture d'écran de site web",
-    "description": "Capture d'écran de site web, avec extras.",
+    "title": "Capture d'écran web",
+    "description": "Capture d'écran web pour les READMEs et og:image.",
     "url": {
       "title": "Adresse du site:",
       "error": "URL invalide"
