@@ -26,7 +26,7 @@ describe("IndexPage", () => {
   beforeEach(() => {
     wrapper = shallowMount(IndexPage, { localVue, stubs: ["FontAwesomeIcon"] });
     jest.resetAllMocks();
-    fetch.mockResolvedValue({ text: () => Promise.resolve(apiResponse) });
+    fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve(apiResponse) });
   });
 
   describe("url", () => {
@@ -256,7 +256,7 @@ describe("IndexPage", () => {
       wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
 
       // Given failing request
-      fetch.mockReturnValue(Promise.reject());
+      fetch.mockResolvedValue({ ok: false });
 
       // When submitting
       await wrapper.find("form").trigger("submit");
