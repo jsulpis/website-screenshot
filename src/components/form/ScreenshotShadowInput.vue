@@ -35,14 +35,18 @@ export default {
   },
   mounted() {
     this.$emit("change", this.value);
-    if (window.innerWidth < 1024) {
-      this.displayInfo = true;
-    }
+    this.displayInfoIfSmallScreen();
+    window.addEventListener("resize", () => {
+      this.displayInfoIfSmallScreen();
+    });
   },
   methods: {
     selectValue(val) {
       this.value = val;
       this.$emit("change", val);
+    },
+    displayInfoIfSmallScreen() {
+      this.displayInfo = window.innerWidth < 1024;
     }
   }
 };
