@@ -17,6 +17,6 @@ export default {
 
 <style lang="scss" scoped>
 .mac-os-light {
-  background-image: linear-gradient(#fff, #eee);
+  background-image: linear-gradient(#f8f8f8, #ddd);
 }
 </style>

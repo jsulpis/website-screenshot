@@ -14,6 +14,9 @@ export default function getHtml(imageBase64: string, shadow?: ShadowOption, radi
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
     }
+    .container {
+      border: 1px solid #ddd;
+    }
     img {
       height: ${window && window !== "none" ? OUTPUT_IMAGE_HEIGHT - WINDOW_TOP_BAR_HEIGHT : OUTPUT_IMAGE_HEIGHT}px;
     }`);
@@ -58,7 +61,7 @@ export default function getHtml(imageBase64: string, shadow?: ShadowOption, radi
       .macos-window {
         display: flex;
         height: ${WINDOW_TOP_BAR_HEIGHT}px;
-        background-image: ${dark ? "linear-gradient(#888, #444)" : "linear-gradient(#fff, #eee)"};
+        background-image: ${dark ? "linear-gradient(#888, #444)" : "linear-gradient(#f8f8f8, #ddd)"};
       }
 
       .macos-buttons {

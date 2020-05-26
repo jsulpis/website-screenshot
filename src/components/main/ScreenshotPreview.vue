@@ -1,7 +1,7 @@
 <template>
   <div
     class="mx-auto mb-8 overflow-hidden preview"
-    :class="!src ? 'border mx-auto mt-5 bg-surface shadow-' + shadow : ''"
+    :class="!src ? 'preview--empty shadow-' + shadow : ''"
     :style="
       !src
         ? {
@@ -72,6 +72,11 @@ export default {
 <style lang="scss" scoped>
 .preview {
   animation: 1s appear;
+
+  &--empty {
+    border: 1px solid #ddd;
+    @apply mt-5 bg-surface;
+  }
 }
 
 @keyframes appear {

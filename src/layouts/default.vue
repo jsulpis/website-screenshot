@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <main class="flex items-center justify-center flex-grow transition-colors duration-150 bg-default">
+    <main class="flex justify-center flex-grow transition-colors duration-150 bg-default">
       <nuxt class="container h-full mx-auto" />
     </main>
     <app-footer />
