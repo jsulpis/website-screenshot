@@ -22,6 +22,7 @@
 [![Deploy](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/jsulpis/website-screenshot)
 
 See the `Deployment` section for more information.
+
 </span>
 
 ## Installation

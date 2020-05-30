@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       shadows: ["none", "small", "medium", "large"],
-      value: "medium",
+      value: "large",
       displayInfo: false
     };
   },
