@@ -45,8 +45,10 @@ describe("Default Layout", () => {
           content: "contact.description"
         },
         { hid: "og:url", property: "og:url", content: BASE_URL + "/contact" },
+        { hid: "og:image", property: "og:image", content: BASE_URL + "/og-image.png" },
+        { hid: "twitter:image", property: "twitter:image", content: BASE_URL + "/og-image.png" },
         { hid: "og:type", property: "og:type", content: "website" },
-        { hid: "twitter:card", name: "twitter:card", content: "summary" }
+        { hid: "twitter:card", name: "twitter:card", content: "summary_large_image" }
       ]
     });
   });
@@ -69,8 +71,10 @@ describe("Default Layout", () => {
           content: "index.description"
         },
         { hid: "og:url", property: "og:url", content: BASE_URL + "/toto" },
+        { hid: "og:image", property: "og:image", content: BASE_URL + "/og-image.png" },
+        { hid: "twitter:image", property: "twitter:image", content: BASE_URL + "/og-image.png" },
         { hid: "og:type", property: "og:type", content: "website" },
-        { hid: "twitter:card", name: "twitter:card", content: "summary" }
+        { hid: "twitter:card", name: "twitter:card", content: "summary_large_image" }
       ]
     });
   });
