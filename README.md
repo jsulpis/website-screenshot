@@ -1,69 +1,29 @@
 <span align="center">
   
-<h1>Nuxt.js Template</h1>
-<h3>Full-featured template for JAMstack websites using nuxt.js</h3>
+<h1>Website Screenshot</h1>
+<h3>Small and pretty website screenshots for READMEs and og:image</h3>
 
 <p>
   
 [![Build Status](https://travis-ci.org/jsulpis/website-screenshot.svg?branch=master)](https://travis-ci.org/jsulpis/website-screenshot)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nuxt-template&metric=alert_status)](https://sonarcloud.io/dashboard?id=nuxt-template)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nuxt-template&metric=coverage)](https://sonarcloud.io/dashboard?id=nuxt-template)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=website-screenshot&metric=alert_status)](https://sonarcloud.io/dashboard?id=website-screenshot)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=website-screenshot&metric=coverage)](https://sonarcloud.io/dashboard?id=website-screenshot)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 </p>
 
-<a href="https://website-screenshot.netlify.app">
+<a href="https://website-screenshot.now.sh">
   <img class="repo-preview" src="https://raw.githubusercontent.com/jsulpis/website-screenshot/master/preview.png" alt="Screenshot image"/>
 </a>
 
+<p>Picture generated with this application.</p>
+
+**Deploy your own copy of this project on Vercel in just a few clicks:**
+
+[![Deploy](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/jsulpis/website-screenshot)
+
+See the `Deployment` section for more information.
+
 </span>
-
-**Deploy your own copy of this project on Netlify in just a few clicks:**
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/website-screenshot)
-
-## About
-
-I built this template with all the tools I found useful to develop my own personal projects, so it can be a bit biased. If you find something that you think is not relevant or could be improved, please open an issue or a pull request to fix it.
-
-## Features
-
-**Vue.js + TypeScript**
-
-- Because I love strongly typed languages (I'm a bit of a java developer at heart)
-
-**Linting**
-
-- Don't bother with linting ever again. Let Prettier handle it for you. Pre-commit hook included to lint your staged files.
-
-**Testing Setup**
-
-- Unit tests with Jest and Vue Test Utils
-- E2e tests with Cypress (runs in the CI)
-
-**UI**
-
-- Multiple color themes
-- Leverage the power of Tailwind CSS to build beautiful interfaces. You will find a Tailwind config file that you can customize to build your own theme.
-- You can also use conventional scss style in the components.
-- FontAwesome icons ready to use.
-
-**SEO**
-
-- Populate each page header metadata with name, description, image, etc.
-
-**Accessibility**
-
-- i18n preconfigured with two locales (English and French)
-
-**PWA**
-
-- Users can install the application on their device and run it offline
-
-**Deployment**
-
-- Example of CI with Travis-CI
-- Ready to deploy on Netlify using git integration
-- Google global site tag (gtag.js) for sending data to Google Analytics
 
 ## Installation
 
@@ -72,6 +32,8 @@ Clone the repository and install the dependencies:
 ```shell
 git clone https://github.com/jsulpis/website-screenshot.git && cd website-screenshot && yarn
 ```
+
+The API url is made from the base url of the application, which is either defined in the environment variable `BASE_URL`, or `window.location` if the variable is not defined. For local development, I use the API already deployed on my dev environment, so I have `BASE_URL=https://website-screenshot.juliensulpis.now.sh` in a `.env` file in the `src` folder. You can (and are encouraged to!) deploy your own copy of the project and use your API instead.
 
 ## Usage
 
@@ -100,20 +62,18 @@ yarn start
 
 ## Deployment
 
-This template is ready to be deployed on Netlify:
+This template is ready to be deployed on Vercel:
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/jsulpis/website-screenshot)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/jsulpis/website-screenshot)
 
-See the `Deployment` section of the [documentation](https://website-screenshot.netlify.app/documentation) for more information.
+Here are the settings to use:
 
-You can integrate Netlify with your GitHub account, which will allow it to deploy each branch and pull request to their own environment, and the master branch in production.
+- Build Command: `yarn generate`
+- Output Directory: `src/dist`
+  Keep the other default values.
 
-## Configuration
-
-See the [documentation](https://website-screenshot.netlify.app/documentation)
+The environment variable `BASE_URL` is also used for the website url in the meta tags. If you deploy it and would like to have proper meta tags, you may want to set this environment variable on your platform. Beware that if you have multiple url pointing to the same environment, as it is the case on Vercel, and you have defined the `BASE_URL`, you will have CORS policy issues with the urls different from `BASE_URL`. This is why I define this variable only on my production environment and use only the production url.
 
 ## License
-
-Although you don't _have_ to, if you reuse this template for your projects I would appreciate it if you would credit me and provide a link to my GitHub profile in the footer. Thanks !
 
 Released under the [MIT](https://github.com/jsulpis/website-screenshot/blob/master/LICENSE) license.

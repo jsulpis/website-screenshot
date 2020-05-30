@@ -146,7 +146,7 @@ export default {
         this.loading = true;
 
         fetch(this.fullApiUrl)
-          .then(res => res.text())
+          .then(res => (res.ok ? res.text() : Promise.reject()))
           .then(res => (this.screenshotSrc = "data:image/png;base64," + res))
           .catch(() => {
             this.displayRequestError = true;

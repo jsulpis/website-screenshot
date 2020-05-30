@@ -22,6 +22,9 @@ describe("getHtml", () => {
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
     }
+    .container {
+      border: 1px solid #ddd;
+    }
     img {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
     }</style>
@@ -58,6 +61,9 @@ describe("getHtml", () => {
     .container, .container > div {
       height: ${OUTPUT_IMAGE_HEIGHT}px;
     }
+    .container {
+      border: 1px solid #ddd;
+    }
     img {
       height: ${OUTPUT_IMAGE_HEIGHT - WINDOW_TOP_BAR_HEIGHT}px;
     }
@@ -72,7 +78,7 @@ describe("getHtml", () => {
       .macos-window {
         display: flex;
         height: 24px;
-        background-image: linear-gradient(#fff, #eee);
+        background-image: linear-gradient(#f8f8f8, #ddd);
       }
 
       .macos-buttons {

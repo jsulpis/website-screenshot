@@ -57,7 +57,7 @@ module.exports = {
     "@nuxtjs/pwa"
   ],
   purgeCSS: {
-    whitelist: ["__nuxt", "__layout", "dark-mode"],
+    whitelist: ["__nuxt", "__layout", "dark-mode", "font-semibold"],
     whitelistPatterns: [/page-(enter|leave)/, /svg.*/, /fa.*/] // Keep Fontawesome classes
   },
   pwa: {
