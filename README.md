@@ -1,7 +1,7 @@
 <span align="center">
   
 <h1>Website Screenshot</h1>
-<h3>Pretty website screenshots for READMEs and og:image</h3>
+<h3>Preview generator for your online pages.</h3>
 
 <p>
   

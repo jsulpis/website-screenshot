@@ -12,7 +12,7 @@
   },
   "index": {
     "title": "Capture d'écran web",
-    "description": "Capture d'écran web pour les READMEs et og:image.",
+    "description": "Générateur d'aperçu pour vos pages en ligne.",
     "url": {
       "placeholder": "Entrez votre url...",
       "error": "URL invalide"

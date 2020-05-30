@@ -12,7 +12,7 @@
   },
   "index": {
     "title": "Website screenshot",
-    "description": "Website screenshot for READMEs and og:image.",
+    "description": "Preview generator for your online pages.",
     "url": {
       "placeholder": "Enter your url...",
       "error": "Invalid URL"

@@ -1,7 +1,7 @@
 {
   "name": "website-screenshot",
   "version": "1.0.0",
-  "description": "Website screenshot for READMEs and og:image.",
+  "description": "Preview generator for your online pages.",
   "author": "Julien Sulpis",
   "license": "MIT",
   "scripts": {
