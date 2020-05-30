@@ -1,7 +1,7 @@
 <span align="center">
   
 <h1>Website Screenshot</h1>
-<h3>Small and pretty website screenshots for READMEs and og:image</h3>
+<h3>Pretty website screenshots for READMEs and og:image</h3>
 
 <p>
   
@@ -72,7 +72,7 @@ Here are the settings to use:
 - Output Directory: `src/dist`
   Keep the other default values.
 
-The environment variable `BASE_URL` is also used for the website url in the meta tags. If you deploy it and would like to have proper meta tags, you may want to set this environment variable on your platform. Beware that if you have multiple url pointing to the same environment, as it is the case on Vercel, and you have defined the `BASE_URL`, you will have CORS policy issues with the urls different from `BASE_URL`. This is why I define this variable only on my production environment and use only the production url.
+The environment variable `BASE_URL` is also used for the website url in the meta tags. If you deploy it and would like to have proper meta tags, you may want to set this environment variable on your platform.
 
 ## License
 
