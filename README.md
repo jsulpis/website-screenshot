@@ -17,13 +17,12 @@
 
 <p>Picture generated with this application.</p>
 
-</span>
-
 **Deploy your own copy of this project on Vercel in just a few clicks:**
 
 [![Deploy](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/jsulpis/website-screenshot)
 
 See the `Deployment` section for more information.
+</span>
 
 ## Installation
 
@@ -33,7 +32,7 @@ Clone the repository and install the dependencies:
 git clone https://github.com/jsulpis/website-screenshot.git && cd website-screenshot && yarn
 ```
 
-The API url is made from the base url of the application, which is defined in the environment variable `BASE_URL`. For local development, I use my dev environment, which is on Vercel: `https://website-screenshot.juliensulpis.now.sh`. You can (and are encouraged to!) deploy your own copy of the project and change the variable in the `.env` file (in the `src` directory).
+The API url is made from the base url of the application, which is either defined in the environment variable `BASE_URL`, or `window.location` if the variable is not defined. For local development, I use the API already deployed on my dev environment, so I have `BASE_URL=https://website-screenshot.juliensulpis.now.sh` in a `.env` file in the `src` folder. You can (and are encouraged to!) deploy your own copy of the project and use your API instead.
 
 ## Usage
 
@@ -72,7 +71,7 @@ Here are the settings to use:
 - Output Directory: `src/dist`
   Keep the other default values.
 
-The environment variable `BASE_URL` is also used for the website url in the meta tags. If you deploy it and would like to have proper meta tags, you may want to set this environment variable on your platform.
+The environment variable `BASE_URL` is also used for the website url in the meta tags. If you deploy it and would like to have proper meta tags, you may want to set this environment variable on your platform. Beware that if you have multiple url pointing to the same environment, as it is the case on Vercel, and you have defined the `BASE_URL`, you will have CORS policy issues with the urls different from `BASE_URL`. This is why I define this variable only on my production environment and use only the production url.
 
 ## License
 
