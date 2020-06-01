@@ -13,7 +13,13 @@
     "
   >
     <component :is="src || !window ? 'window-none' : 'window-' + window">
-      <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
+      <img
+        v-show="!!src"
+        :src="src"
+        class="mx-auto"
+        alt="Screenshot preview"
+        :style="src ? { height: screenshotHeight + 'px' } : {}"
+      />
     </component>
   </div>
 </template>

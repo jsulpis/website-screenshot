@@ -12,6 +12,7 @@ describe("screenshot API", () => {
   const SHADOW = "medium";
   const RADIUS = 8;
   const WINDOW = "mac-os";
+  const OUTPUT_HEIGHT = 600;
   let res: Partial<ServerResponse>;
 
   beforeEach(() => {
@@ -27,7 +28,7 @@ describe("screenshot API", () => {
 
     await screenshotApi(req, res);
 
-    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW);
+    expect(getScreenshot).toHaveBeenCalledWith(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW, OUTPUT_HEIGHT);
     expect(res.statusCode).toBe(200);
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
     expect(res.end).toHaveBeenCalled();
@@ -85,14 +86,22 @@ describe("screenshot API", () => {
     expect(res.statusCode).toBe(400);
   });
 
+  it("should reject requests with invalid output size parameter", async () => {
+    // @ts-ignore
+    const req = buildRequest(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW, 8000);
+    await screenshotApi(req, res);
+    expect(res.statusCode).toBe(400);
+  });
+
   const buildRequest = (
     url = URL,
     width = WIDTH,
     height = HEIGHT,
     shadow = SHADOW,
     radius = RADIUS,
-    window = WINDOW
+    window = WINDOW,
+    outputHeight = OUTPUT_HEIGHT
   ): Partial<IncomingMessage> => ({
-    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}&radius=${radius}&window=${window}`
+    url: `https://api-url.com?url=${url}&width=${width}&height=${height}&shadow=${shadow}&radius=${radius}&window=${window}&outputHeight=${outputHeight}`
   });
 });

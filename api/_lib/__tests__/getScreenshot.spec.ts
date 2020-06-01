@@ -1,4 +1,4 @@
-import getScreenshot, { ShadowOption, WindowOption } from "../getScreenshot";
+import getScreenshot, { ShadowOption, WindowOption, SHADOW_SIZES, WINDOW_TOP_BAR_HEIGHT } from "../getScreenshot";
 import { puppeteer } from "chrome-aws-lambda";
 import getHtml from "../getHtml";
 
@@ -12,6 +12,7 @@ describe("getScreenshot", () => {
   const SHADOW: ShadowOption = "medium";
   const RADIUS = 8;
   const WINDOW: WindowOption = "none";
+  const OUTPUT_HEIGHT = 600;
 
   let mockedBrowser: any;
   let mockedPage: any;
@@ -32,7 +33,7 @@ describe("getScreenshot", () => {
   });
 
   it("should take a first screenshot with the dimensions provided in the arguments if no window option", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW);
+    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW, OUTPUT_HEIGHT);
 
     expect(mockedPage.setViewport).toHaveBeenNthCalledWith(1, {
       width: WIDTH,
@@ -43,12 +44,13 @@ describe("getScreenshot", () => {
   });
 
   it("should reduce the height of the viewport for the first screenshot if there is a window option", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, "mac-os");
+    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, "mac-os", OUTPUT_HEIGHT);
 
     // The height of the window bar on the final image is 24px.
-    // The height of the final image is 500px;
-    // For a viewport of height h, I substract h*24/500 px on the first screenshot
-    const topBarHeight = Math.ceil((HEIGHT * 24) / 500);
+    // The height of the viewport on the second screenshot is (outputHeight - shadowSize)
+    // For a viewport of height h, I substract h*24/(outputHeight - shadowSize) px on the first screenshot
+    const secondScreenshotHeight = OUTPUT_HEIGHT - SHADOW_SIZES[SHADOW];
+    const topBarHeight = Math.ceil((HEIGHT * WINDOW_TOP_BAR_HEIGHT) / secondScreenshotHeight);
 
     expect(mockedPage.setViewport).toHaveBeenNthCalledWith(1, {
       width: WIDTH,
@@ -58,20 +60,23 @@ describe("getScreenshot", () => {
     expect(mockedPage.screenshot).toHaveBeenCalled();
   });
 
-  it("should open a second page and take a screenshot of height 500 (plus shadow size)", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT, "none", RADIUS, WINDOW);
+  it("should open a second page and take a screenshot of the height in arguments", async () => {
+    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW, OUTPUT_HEIGHT);
 
     expect(mockedPage.setViewport).toHaveBeenNthCalledWith(2, {
       width: expect.any(Number),
-      height: 500,
+      height: OUTPUT_HEIGHT,
       deviceScaleFactor: 1
     });
     expect(mockedPage.screenshot).toHaveBeenCalledTimes(2);
   });
 
   it("should get the HTML using the provided arguments", async () => {
-    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW);
+    await getScreenshot(URL, WIDTH, HEIGHT, SHADOW, RADIUS, WINDOW, OUTPUT_HEIGHT);
 
-    expect(getHtml).toHaveBeenCalledWith(expect.any(String), SHADOW, RADIUS, WINDOW);
+    // The height of the container div in the second screenshot is reduced due to the shadows
+    const secondScreenshotContainerHeight = OUTPUT_HEIGHT - SHADOW_SIZES[SHADOW];
+
+    expect(getHtml).toHaveBeenCalledWith(expect.any(String), secondScreenshotContainerHeight, SHADOW, RADIUS, WINDOW);
   });
 });

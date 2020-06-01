@@ -1,10 +1,12 @@
 import getHtml from "../getHtml";
-import { OUTPUT_IMAGE_HEIGHT, WINDOW_TOP_BAR_HEIGHT } from "../getScreenshot";
+import { WINDOW_TOP_BAR_HEIGHT } from "../getScreenshot";
 
 describe("getHtml", () => {
+  const imgSrc = "SOURCEBASE64";
+  const outputHeight = 500;
+
   it("should return a page with only the image if no option", () => {
-    const imgSrc = "SOURCEBASE64";
-    const html = getHtml(imgSrc);
+    const html = getHtml(imgSrc, outputHeight);
 
     expect(html).toBe(`
 <!DOCTYPE html>
@@ -20,13 +22,13 @@ describe("getHtml", () => {
       margin: 0;
     }
     .container, .container > div {
-      height: ${OUTPUT_IMAGE_HEIGHT}px;
+      height: ${outputHeight}px;
     }
     .container {
       border: 1px solid #ddd;
     }
     img {
-      height: ${OUTPUT_IMAGE_HEIGHT}px;
+      height: ${outputHeight}px;
     }</style>
     <body>
       <div class="container">
@@ -43,7 +45,7 @@ describe("getHtml", () => {
     const radius = 8;
     const shadow = "small";
     const window = "mac-os";
-    const html = getHtml(imgSrc, shadow, radius, window);
+    const html = getHtml(imgSrc, outputHeight, shadow, radius, window);
 
     expect(html).toBe(`
 <!DOCTYPE html>
@@ -59,13 +61,13 @@ describe("getHtml", () => {
       margin: 0;
     }
     .container, .container > div {
-      height: ${OUTPUT_IMAGE_HEIGHT}px;
+      height: ${outputHeight}px;
     }
     .container {
       border: 1px solid #ddd;
     }
     img {
-      height: ${OUTPUT_IMAGE_HEIGHT - WINDOW_TOP_BAR_HEIGHT}px;
+      height: ${outputHeight - WINDOW_TOP_BAR_HEIGHT}px;
     }
       .container {
         margin-top: 5px;
@@ -77,7 +79,7 @@ describe("getHtml", () => {
     }
       .macos-window {
         display: flex;
-        height: 24px;
+        height: ${WINDOW_TOP_BAR_HEIGHT}px;
         background-image: linear-gradient(#f8f8f8, #ddd);
       }
 
