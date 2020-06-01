@@ -1,26 +1,29 @@
 <template>
-  <div
-    class="mx-auto mb-8 overflow-hidden preview"
-    :class="!src ? 'preview--empty shadow-' + shadow : ''"
-    :style="
-      !src
-        ? {
-            width: (screenshotHeight * resolution.width) / resolution.height + 'px',
-            height: screenshotHeight + 'px',
-            borderRadius: radius + 'px'
-          }
-        : {}
-    "
-  >
-    <component :is="src || !window ? 'window-none' : 'window-' + window">
-      <img
-        v-show="!!src"
-        :src="src"
-        class="mx-auto"
-        alt="Screenshot preview"
-        :style="src ? { height: screenshotHeight + 'px' } : {}"
-      />
-    </component>
+  <div>
+    <div
+      class="mx-auto mb-8 overflow-hidden preview"
+      :class="!src ? 'preview--empty shadow-' + shadow : ''"
+      :style="
+        !src
+          ? {
+              width: (screenshotHeight * resolution.width) / resolution.height + 'px',
+              height: screenshotHeight + 'px',
+              borderRadius: radius + 'px'
+            }
+          : {}
+      "
+    >
+      <component :is="src || !window ? 'window-none' : 'window-' + window">
+        <img
+          v-show="!!src"
+          :src="src"
+          class="mx-auto"
+          alt="Screenshot preview"
+          :style="src ? { height: screenshotHeight + 'px' } : {}"
+        />
+      </component>
+    </div>
+    <p class="mb-8 text-sm text-center opacity-75 preview-info" v-show="!src">{{ $t("index.preview-info") }}</p>
   </div>
 </template>
 

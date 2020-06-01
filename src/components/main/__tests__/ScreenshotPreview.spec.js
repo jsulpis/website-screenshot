@@ -13,6 +13,22 @@ describe("ScreenshotPreview", () => {
     expect(src).toBe(url);
   });
 
+  it("should display an information note when no source is provided in props (preview mode)", async () => {
+    const wrapper = mount(ScreenshotPreview);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find(".preview-info").isVisible()).toBe(true);
+  });
+
+  it("should hide the information note when a source is provided in props", async () => {
+    const wrapper = mount(ScreenshotPreview);
+    const url = "https://come-url.com/image.png";
+    wrapper.setProps({ src: url });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find(".preview-info").isVisible()).toBe(false);
+  });
+
   it("should have a height of 500 on large screens", () => {
     global.innerWidth = 1280;
 
