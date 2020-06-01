@@ -17,7 +17,7 @@
         <ScreenshotShadowInput @change="shadow = $event" />
       </section>
       <section>
-        <h2>{{ $t("index.border-radius") }}</h2>
+        <h2>{{ $t("index.corners") }}</h2>
         <ScreenshotBorderRadiusInput @change="radius = $event" />
       </section>
       <section>
@@ -91,7 +91,7 @@ export default {
         },
         {
           icon: "square",
-          text: this.$t("index.border-radius")
+          text: this.$t("index.corners")
         },
         {
           icon: "window-maximize",

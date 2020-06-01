@@ -3,7 +3,7 @@ import getHtml from "./getHtml";
 import chrome from "chrome-aws-lambda";
 import puppeteer from "puppeteer-core";
 
-const shadowSize = {
+export const SHADOW_SIZES = {
   none: 0,
   small: 25,
   medium: 40,
@@ -11,8 +11,8 @@ const shadowSize = {
 };
 export type ShadowOption = "none" | "small" | "medium" | "large";
 export type WindowOption = "none" | "mac-os";
-export const OUTPUT_IMAGE_HEIGHT = 500;
-export const WINDOW_TOP_BAR_HEIGHT = 24;
+
+export const WINDOW_TOP_BAR_HEIGHT = 28;
 
 /**
  * Take a screenshot of a website and add style to it
@@ -27,7 +27,8 @@ export default async function getScreenshot(
   height: number,
   shadow: ShadowOption,
   radius: number,
-  window: WindowOption
+  window: WindowOption,
+  outputHeight: number
 ): Promise<string> {
   const browser = await puppeteer.launch({
     args: chrome.args,
@@ -35,15 +36,25 @@ export default async function getScreenshot(
     headless: chrome.headless
   });
 
-  const websiteScreenshotBase64 = await takeFirstScreenshot(browser, width, height, url, window);
+  // Height of the div containing the image in the second screenshot. Use here to compute the height of the top bar proportionally
+  const secondScreenshotContainerHeight = outputHeight - SHADOW_SIZES[shadow];
+  let firstScreenshotHeight = height;
+  if (window && window !== "none") {
+    const topBarHeight = Math.ceil((height * WINDOW_TOP_BAR_HEIGHT) / secondScreenshotContainerHeight);
+    firstScreenshotHeight = height - topBarHeight;
+  }
+  const websiteScreenshotBase64 = await takeFirstScreenshot(url, width, firstScreenshotHeight, browser);
+
+  const aspectRatio = width / height;
   const outputBase64 = await takeSecondScreenshot(
     browser,
     websiteScreenshotBase64,
     shadow,
     radius,
-    width,
-    height,
-    window
+    aspectRatio,
+    window,
+    secondScreenshotContainerHeight,
+    outputHeight
   );
 
   await browser.close();
@@ -54,32 +65,17 @@ export default async function getScreenshot(
 /**
  * Take a screenshot of the website at the requested resolution
  */
-async function takeFirstScreenshot(
-  browser: puppeteer.Browser,
-  width: number,
-  height: number,
-  url: string,
-  window: WindowOption
-) {
+async function takeFirstScreenshot(url: string, width: number, height: number, browser: puppeteer.Browser) {
   const page1 = await browser.newPage();
-
-  // Viewport size
-  let firstScreenshotHeight = height;
-  if (window && window !== "none") {
-    const topBarHeight = Math.ceil((height * WINDOW_TOP_BAR_HEIGHT) / OUTPUT_IMAGE_HEIGHT);
-    firstScreenshotHeight = height - topBarHeight;
-  }
 
   await page1.setViewport({
     width,
-    height: firstScreenshotHeight,
+    height: height,
     deviceScaleFactor: 1
   });
 
-  // Content
   await page1.goto(url);
 
-  // Screenshot
   return await page1.screenshot({ encoding: "base64" });
 }
 
@@ -91,24 +87,22 @@ async function takeSecondScreenshot(
   websiteScreenshotBase64: string,
   shadow: ShadowOption,
   radius: number,
-  width: number,
-  height: number,
-  window: WindowOption
+  aspectRatio: number,
+  window: WindowOption,
+  secondScreenshotContainerHeight: number,
+  outputHeight: number
 ) {
   const page2 = await browser.newPage();
 
   // Viewport size
-  const aspectRatio = width / height;
-  const secondScreenshotHeight = OUTPUT_IMAGE_HEIGHT + shadowSize[shadow];
-  const secondScreenshotWidth = Math.floor(secondScreenshotHeight * aspectRatio);
   await page2.setViewport({
-    width: secondScreenshotWidth,
-    height: secondScreenshotHeight,
+    width: Math.floor(outputHeight * aspectRatio),
+    height: outputHeight,
     deviceScaleFactor: 1
   });
 
   // Content
-  const html = getHtml(websiteScreenshotBase64, shadow, radius, window);
+  const html = getHtml(websiteScreenshotBase64, secondScreenshotContainerHeight, shadow, radius, window);
   await page2.setContent(html);
 
   // Screenshot

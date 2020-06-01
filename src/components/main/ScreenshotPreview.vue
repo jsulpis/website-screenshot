@@ -1,20 +1,37 @@
 <template>
-  <div
-    class="mx-auto mb-8 overflow-hidden preview"
-    :class="!src ? 'preview--empty shadow-' + shadow : ''"
-    :style="
-      !src
-        ? {
-            width: (screenshotHeight * resolution.width) / resolution.height + 'px',
-            height: screenshotHeight + 'px',
-            borderRadius: radius + 'px'
-          }
-        : {}
-    "
-  >
-    <component :is="src || !window ? 'window-none' : 'window-' + window">
-      <img v-show="!!src" :src="src" class="mx-auto" alt="Screenshot preview" />
-    </component>
+  <div>
+    <div
+      class="mx-auto mb-3 overflow-hidden preview"
+      :class="!src ? 'preview--empty shadow-' + shadow : ''"
+      :style="
+        !src
+          ? {
+              width: (screenshotHeight * resolution.width) / resolution.height + 'px',
+              height: screenshotHeight + 'px',
+              borderRadius: radius + 'px'
+            }
+          : {}
+      "
+    >
+      <component :is="src || !window ? 'window-none' : 'window-' + window">
+        <img
+          v-show="!!src"
+          :src="src"
+          class="mx-auto"
+          alt="Screenshot preview"
+          :style="src ? { height: screenshotHeight + 'px' } : {}"
+        />
+      </component>
+    </div>
+    <div class="mb-8 text-center">
+      <template v-if="src">
+        <a download="preview.png" :href="src" class="inline-block text-white btn bg-primary-700">
+          <FontAwesomeIcon icon="download" class="mr-1" /> {{ $t("index.download.button") }}
+        </a>
+        <p class="mt-2 preview-hint">{{ $t("index.download.hint") }}</p>
+      </template>
+      <p class="preview-hint preview-info" v-else>{{ $t("index.preview-info") }}</p>
+    </div>
   </div>
 </template>
 
@@ -76,6 +93,10 @@ export default {
   &--empty {
     border: 1px solid #ddd;
     @apply mt-5 bg-surface;
+  }
+
+  &-hint {
+    @apply text-sm opacity-75;
   }
 }
 

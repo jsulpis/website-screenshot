@@ -1,7 +1,13 @@
-import { ShadowOption, WindowOption, OUTPUT_IMAGE_HEIGHT, WINDOW_TOP_BAR_HEIGHT } from "./getScreenshot";
+import { ShadowOption, WindowOption, WINDOW_TOP_BAR_HEIGHT } from "./getScreenshot";
 import HtmlPage from "./HtmlPage";
 
-export default function getHtml(imageBase64: string, shadow?: ShadowOption, radius?: number, window?: WindowOption) {
+export default function getHtml(
+  imageBase64: string,
+  containerHeight: number,
+  shadow?: ShadowOption,
+  radius?: number,
+  window?: WindowOption
+) {
   const page = new HtmlPage();
 
   page.addGlobalStyle(`
@@ -12,13 +18,13 @@ export default function getHtml(imageBase64: string, shadow?: ShadowOption, radi
       margin: 0;
     }
     .container, .container > div {
-      height: ${OUTPUT_IMAGE_HEIGHT}px;
+      height: ${containerHeight}px;
     }
     .container {
       border: 1px solid #ddd;
     }
     img {
-      height: ${window && window !== "none" ? OUTPUT_IMAGE_HEIGHT - WINDOW_TOP_BAR_HEIGHT : OUTPUT_IMAGE_HEIGHT}px;
+      height: ${window && window !== "none" ? containerHeight - WINDOW_TOP_BAR_HEIGHT : containerHeight}px;
     }`);
 
   page.addImageSrc(`data:image/png;base64,${imageBase64}`);

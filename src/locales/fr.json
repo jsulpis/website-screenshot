@@ -25,13 +25,18 @@
       "height": "Hauteur",
       "input-error": "Veuillez entrer un nombre compris entre {0} et {1}"
     },
-    "request-error": "Une erreur est survenue. Veuillez réessayer plus tard.",
-    "send": "Envoyer",
     "shadow": {
       "title": "Ombre",
       "info": "L'ombre apparaîtra moins prononcée sur l'image finale à cause de l'échelle de la prévisualisation."
     },
-    "border-radius": "Coins",
-    "window": "Fenêtre"
+    "corners": "Coins",
+    "window": "Fenêtre",
+    "request-error": "Une erreur est survenue. Veuillez réessayer plus tard.",
+    "send": "Envoyer",
+    "preview-info": "L'image finale peut être différente de cet aperçu à cause de l'échelle.",
+    "download": {
+      "hint": "Vous pouvez aussi enregistrer votre image avec un clic droit.",
+      "button": "Télécharger"
+    }
   }
 }

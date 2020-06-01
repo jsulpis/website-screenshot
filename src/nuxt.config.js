@@ -37,7 +37,8 @@ module.exports = {
             "faExpand",
             "faLayerGroup",
             "faSquare",
-            "faWindowMaximize"
+            "faWindowMaximize",
+            "faDownload"
           ],
           regular: ["faSun"]
         }

@@ -25,13 +25,18 @@
       "height": "Height",
       "input-error": "Please enter a number between {0} and {1}"
     },
-    "request-error": "An error has occurred. Please try again later.",
-    "send": "Send",
     "shadow": {
       "title": "Shadow",
       "info": "The shadow will be less pronounced on the final image due to the scale of the preview."
     },
-    "border-radius": "Corners",
-    "window": "Window"
+    "corners": "Corners",
+    "window": "Window",
+    "request-error": "An error has occurred. Please try again later.",
+    "send": "Send",
+    "preview-info": "The final image might look different from this preview due to scaling.",
+    "download": {
+      "hint": "You can also save your image with a right clic.",
+      "button": "Download"
+    }
   }
 }

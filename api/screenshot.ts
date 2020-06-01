@@ -20,20 +20,23 @@ module.exports = async function (req: IncomingMessage, res: ServerResponse) {
     height = DEFAULT_HEIGHT,
     shadow = DEFAULT_SHADOW,
     radius = DEFAULT_RADIUS,
-    window = DEFAULT_WINDOW
+    window = DEFAULT_WINDOW,
+    outputHeight
   } = query;
 
-  const { statusCode, errorMessage } = checkArguments(url, width, height, shadow, radius, window);
+  outputHeight = outputHeight || height;
+
+  const { statusCode, errorMessage } = checkArguments(url, width, height, shadow, radius, window, outputHeight);
   if (!!errorMessage) {
     res.statusCode = statusCode;
     res.end(errorMessage);
     return;
   }
 
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // Allow to use deployed APIs during local development
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-  const screenshot = await getScreenshot(url, +width, +height, shadow, +radius, window);
+  const screenshot = await getScreenshot(url, +width, +height, shadow, +radius, window, +outputHeight);
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain");
@@ -46,7 +49,8 @@ function checkArguments(
   height: number,
   shadow: string,
   radius: number,
-  window: string
+  window: string,
+  outputHeight: number
 ): { statusCode: number; errorMessage?: string } {
   if (!url) {
     return {
@@ -69,10 +73,10 @@ function checkArguments(
     };
   }
 
-  if (!(height >= MIN_VIEWPORT_HEIGHT && height <= MAX_VIEWPORT_HEIGHT)) {
+  if (height < MIN_VIEWPORT_HEIGHT || height > MAX_VIEWPORT_HEIGHT) {
     return {
       statusCode: 400,
-      errorMessage: `Invalid height: ${height}. Please provide a height between 360 and 1920`
+      errorMessage: `Invalid height: ${height}. Please provide a height between ${MIN_VIEWPORT_HEIGHT} and ${MAX_VIEWPORT_HEIGHT}`
     };
   }
 
@@ -94,6 +98,13 @@ function checkArguments(
     return {
       statusCode: 400,
       errorMessage: `Invalid window: ${window}.  The accepted values are: none, mac-os, mac-os-dark`
+    };
+  }
+
+  if (outputHeight < MIN_VIEWPORT_HEIGHT || outputHeight > MAX_VIEWPORT_HEIGHT) {
+    return {
+      statusCode: 400,
+      errorMessage: `Invalid output height: ${outputHeight}. Please provide a height between ${MIN_VIEWPORT_HEIGHT} and ${MAX_VIEWPORT_HEIGHT}`
     };
   }
 
