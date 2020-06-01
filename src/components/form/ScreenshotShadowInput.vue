@@ -12,13 +12,11 @@
 </template>
 
 <script>
-import InfoBox from "@/components/form/InfoBox.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 
 // purgecss whitelist: shadow-small shadow-medium shadow-large
 export default {
   components: {
-    InfoBox,
     CheckBox
   },
   data() {
