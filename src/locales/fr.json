@@ -33,6 +33,10 @@
     "window": "Fenêtre",
     "request-error": "Une erreur est survenue. Veuillez réessayer plus tard.",
     "send": "Envoyer",
-    "preview-info": "L'image finale peut être différente de cet aperçu à cause de l'échelle."
+    "preview-info": "L'image finale peut être différente de cet aperçu à cause de l'échelle.",
+    "download": {
+      "hint": "Vous pouvez aussi enregistrer votre image avec un clic droit.",
+      "button": "Télécharger"
+    }
   }
 }

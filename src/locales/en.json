@@ -33,6 +33,10 @@
     "window": "Window",
     "request-error": "An error has occurred. Please try again later.",
     "send": "Send",
-    "preview-info": "The final image might look different from this preview due to scaling."
+    "preview-info": "The final image might look different from this preview due to scaling.",
+    "download": {
+      "hint": "You can also save your image with a right clic.",
+      "button": "Download"
+    }
   }
 }
