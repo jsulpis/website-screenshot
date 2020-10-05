@@ -19,7 +19,7 @@ describe("ScreenshotResolutionInput", () => {
     wrapper = mount(ScreenshotResolutionInput, {
       localVue
     });
-    wrapper.find(ScreenshotResolutionPresets).vm.$emit("change", "1440x900");
+    wrapper.findComponent(ScreenshotResolutionPresets).vm.$emit("change", "1440x900");
   });
 
   it("should send the default resolution to the parent when mounted", () => {
@@ -42,7 +42,7 @@ describe("ScreenshotResolutionInput", () => {
   });
 
   it("should switch the aspect ratio when clicking on the arrows icon", async () => {
-    wrapper.find(FontAwesomeIcon).trigger("click");
+    wrapper.findComponent(FontAwesomeIcon).trigger("click");
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted("input")[2]).toEqual([{ width: 900, height: 1440 }]);

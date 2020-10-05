@@ -31,35 +31,35 @@ describe("IndexPage", () => {
 
   describe("url", () => {
     it("should not be in error if the url is valid", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(WebsiteUrlInput).props("error")).toBe(false);
+      expect(wrapper.findComponent(WebsiteUrlInput).props("error")).toBe(false);
     });
 
     it("should be in error if the url is empty", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", "");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", "");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(WebsiteUrlInput).props("error")).toBe(true);
+      expect(wrapper.findComponent(WebsiteUrlInput).props("error")).toBe(true);
     });
 
     it("should be in error if the url is invalid", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", "notAnUrl");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", "notAnUrl");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(WebsiteUrlInput).props("error")).toBe(true);
+      expect(wrapper.findComponent(WebsiteUrlInput).props("error")).toBe(true);
     });
   });
 
   describe("resolution", () => {
     describe("should be in error if the width", () => {
       const testWithInput = value => async () => {
-        wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: value, height: VALID_HEIGHT });
+        wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: value, height: VALID_HEIGHT });
 
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find(ScreenshotResolutionInput).props("widthError")).toBe(true);
+        expect(wrapper.findComponent(ScreenshotResolutionInput).props("widthError")).toBe(true);
       };
 
       it("is not defined", testWithInput(""));
@@ -70,11 +70,11 @@ describe("IndexPage", () => {
 
     describe("should be in error if the height", () => {
       const testWithInput = value => async () => {
-        wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: value });
+        wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: value });
 
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.find(ScreenshotResolutionInput).props("heightError")).toBe(true);
+        expect(wrapper.findComponent(ScreenshotResolutionInput).props("heightError")).toBe(true);
       };
 
       it("is not defined", testWithInput(""));
@@ -84,48 +84,48 @@ describe("IndexPage", () => {
     });
 
     it("should not be in error if width and height are valid", async () => {
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
 
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(ScreenshotResolutionInput).props("widthError")).toBe(false);
-      expect(wrapper.find(ScreenshotResolutionInput).props("heightError")).toBe(false);
+      expect(wrapper.findComponent(ScreenshotResolutionInput).props("widthError")).toBe(false);
+      expect(wrapper.findComponent(ScreenshotResolutionInput).props("heightError")).toBe(false);
     });
   });
 
   describe("shadow", () => {
     it("should be forwarded to the screenshot preview", async () => {
       const shadow = "small";
-      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("change", shadow);
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(ScreenshotPreview).props("shadow")).toBe(shadow);
+      expect(wrapper.findComponent(ScreenshotPreview).props("shadow")).toBe(shadow);
     });
   });
 
   describe("radius", () => {
     it("should be forwarded to the screenshot preview", async () => {
       const radius = 8;
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(ScreenshotPreview).props("radius")).toBe(radius);
+      expect(wrapper.findComponent(ScreenshotPreview).props("radius")).toBe(radius);
     });
   });
 
   describe("window", () => {
     it("should be forwarded to the screenshot preview", async () => {
       const window = "mac-os";
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", window);
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", window);
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(ScreenshotPreview).props("window")).toBe(window);
+      expect(wrapper.findComponent(ScreenshotPreview).props("window")).toBe(window);
     });
   });
 
   describe("screenshot", () => {
     it("should have no source when mounted", () => {
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
       expect(src).toBeFalsy();
@@ -133,17 +133,17 @@ describe("IndexPage", () => {
 
     it("should reset the source when the resolution changes", async () => {
       // Given a resolution and form submitted
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the resolution changes
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
       expect(src).toBeFalsy();
@@ -151,54 +151,54 @@ describe("IndexPage", () => {
 
     it("should reset the source when the shadow changes", async () => {
       // Given a resolution and form submitted
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotShadowInput).vm.$emit("input", "small");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("input", "small");
       await wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the shadow changes
-      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("change", "medium");
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
       expect(src).toBeFalsy();
     });
 
     it("should reset the source when the radius changes", async () => {
       // Given a resolution and form submitted
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
       await wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the shadow changes
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
       expect(src).toBeFalsy();
     });
 
     it("should reset the source when the window changes", async () => {
       // Given a resolution and form submitted
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "mac-os");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", "mac-os");
       await wrapper.find("form").trigger("submit");
       await flushPromises();
 
       // When the shadow changes
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "none");
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", "none");
       await wrapper.vm.$nextTick();
 
       // Then the source should be empty
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
       expect(src).toBeFalsy();
     });
@@ -212,11 +212,11 @@ describe("IndexPage", () => {
       const shadow = "small";
       const radius = 8;
       const window = "mac-os";
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
-      wrapper.find(ScreenshotShadowInput).vm.$emit("change", shadow);
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", window);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", resolution);
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("change", shadow);
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", radius);
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", window);
 
       // Given mock API defined in beforeEach
 
@@ -233,7 +233,7 @@ describe("IndexPage", () => {
       expect(actualFetchArgument).toContain(`radius=${radius}`);
       expect(actualFetchArgument).toContain(`window=${window}`);
 
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
       expect(src).toBe("data:image/png;base64," + apiResponse);
     });
@@ -242,7 +242,7 @@ describe("IndexPage", () => {
       wrapper.find("form").trigger("submit"); // missing URL
       await wrapper.vm.$nextTick();
 
-      const screenshotComponent = wrapper.find(ScreenshotPreview);
+      const screenshotComponent = wrapper.findComponent(ScreenshotPreview);
       const src = screenshotComponent.props("src");
 
       expect(src).toBeFalsy();
@@ -252,8 +252,8 @@ describe("IndexPage", () => {
       // Given form data
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", resolution);
 
       // Given failing request
       fetch.mockResolvedValue({ ok: false });
@@ -263,7 +263,7 @@ describe("IndexPage", () => {
       await flushPromises();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
       expect(wrapper.find("#request-error").isVisible()).toBe(true);
     });
 
@@ -274,8 +274,8 @@ describe("IndexPage", () => {
       // Given form data
       const url = VALID_URL;
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", url);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", url);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", resolution);
 
       // When submitting
       await wrapper.find("form").trigger("submit");
@@ -290,111 +290,111 @@ describe("IndexPage", () => {
     it("should be disabled after submitting", async () => {
       // Given
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", resolution);
       await wrapper.vm.$nextTick();
 
       // When
       await wrapper.find("form").trigger("submit");
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
     });
 
     it("should be (re)enabled when the resolution changes", async () => {
       // Given
       const resolution = { width: VALID_WIDTH, height: VALID_HEIGHT };
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", resolution);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", resolution);
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: 1440, height: 900 });
       await wrapper.vm.$nextTick();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be (re)enabled when the url changes", async () => {
       // Given
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", "https://other-valid-url.com");
       await wrapper.vm.$nextTick();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be (re)enabled when the shadow changes", async () => {
       // Given
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "small");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("change", "small");
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ScreenshotShadowInput).vm.$emit("change", "medium");
+      wrapper.findComponent(ScreenshotShadowInput).vm.$emit("change", "medium");
       await wrapper.vm.$nextTick();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be (re)enabled when the radius changes", async () => {
       // Given
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", 4);
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
+      wrapper.findComponent(ScreenshotBorderRadiusInput).vm.$emit("change", 8);
       await wrapper.vm.$nextTick();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be (re)enabled when the window changes", async () => {
       // Given
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", VALID_URL);
-      wrapper.find(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "mac-os");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", VALID_URL);
+      wrapper.findComponent(ScreenshotResolutionInput).vm.$emit("input", { width: VALID_WIDTH, height: VALID_HEIGHT });
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", "mac-os");
       await wrapper.vm.$nextTick();
 
       await wrapper.find("form").trigger("submit"); // should disable the button
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
 
       // When
-      wrapper.find(ScreenshotWindowInput).vm.$emit("change", "none");
+      wrapper.findComponent(ScreenshotWindowInput).vm.$emit("change", "none");
       await wrapper.vm.$nextTick();
 
       // Then
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(false);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(false);
     });
 
     it("should be disabled if dirty and any error", async () => {
-      wrapper.find(WebsiteUrlInput).vm.$emit("input", "invalidUrl");
+      wrapper.findComponent(WebsiteUrlInput).vm.$emit("input", "invalidUrl");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find(SubmitButton).props("disabled")).toBe(true);
+      expect(wrapper.findComponent(SubmitButton).props("disabled")).toBe(true);
     });
   });
 });
