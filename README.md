@@ -11,7 +11,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 </p>
 
-<a href="https://website-screenshot.now.sh">
+<a href="https://website-screenshot.vercel.app">
   <img class="repo-preview" src="https://raw.githubusercontent.com/jsulpis/website-screenshot/master/preview.png" alt="Screenshot image"/>
 </a>
 

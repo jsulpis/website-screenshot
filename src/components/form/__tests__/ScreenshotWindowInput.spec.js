@@ -16,15 +16,15 @@ describe("ScreenshotWindowInput", () => {
   });
 
   it("should emit the value of the selected window", async () => {
-    await wrapper.find(WindowMacOs).trigger("click");
+    await wrapper.findComponent(WindowMacOs).trigger("click");
     expect(wrapper.emitted("change")[1]).toEqual(["mac-os"]);
 
-    await wrapper.find(WindowNone).trigger("click");
+    await wrapper.findComponent(WindowNone).trigger("click");
     expect(wrapper.emitted("change")[2]).toEqual(["none"]);
   });
 
   it("should have a visual indicator of the selected value", async () => {
-    await wrapper.find(WindowNone).trigger("click");
-    expect(wrapper.find(WindowNone).find(CheckBox).isVisible()).toBe(true);
+    await wrapper.findComponent(WindowNone).trigger("click");
+    expect(wrapper.findComponent(WindowNone).findComponent(CheckBox).isVisible()).toBe(true);
   });
 });
